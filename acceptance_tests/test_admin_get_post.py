@@ -22,12 +22,16 @@ class TestTracker(TestCase):
     def test_admin_home(self):
         response1 = self.client.post('/adminHome/', {'goto': 'createUser'})
         self.assertEqual(response1.url, '/createUser/')
+
         response2 = self.client.post('/adminHome/', {'goto': 'editUser'})
         self.assertEqual(response2.url, '/editUser1/')
+
         response3 = self.client.post('/adminHome/', {'goto': 'createCourse'})
         self.assertEqual(response3.url, '/createCourse1/')
+
         response4 = self.client.post('/adminHome/', {'goto': 'editCourse'})
         self.assertEqual(response4.url, '/editCourse1/')
+
         response5 = self.client.post('/adminHome/', {'goto': 'logOut'})
         self.assertEqual(response5.url, '/')
 
@@ -35,15 +39,19 @@ class TestTracker(TestCase):
         response1 = self.client.post('/createUser/', {'name': '', 'username': '', 'password': '', 'role': '', 'office': '',
                                                     'phoneNum': '', 'email': '', 'officeHours': '', 'course': ''})
         self.assertEqual(response1.context['error'], 'fill in all mandatory information')
+
         response2 = self.client.post('/createUser/', {'name': 'John Doe', 'username': 'jdoe', 'password': 'password123',
                                                      'role': 'instructor', 'office': 'EMS 100',
                                                      'phoneNum': '(123)456-7890', 'email': 'jdoe@uwm.edu',
                                                      'officeHours': 'MW 3:00-5:00', 'course': self.course1})
         self.assertEqual(response2.url, '/adminHome/')
+
         response3 = self.client.post('/createUser/', {'goto': 'back'})
         self.assertEqual(response3.url, '/adminHome/')
+
         response4 = self.client.post('/createUser/', {'goto': 'logOut'})
         self.assertEqual(response4.url, '/')
+
         response5 = self.client.get('/createUser/')
         courses = list(response5.context['courses'])
         print(courses)
@@ -58,7 +66,8 @@ class TestTracker(TestCase):
         for user in users:
             self.assertEqual(user.username, self.user1__name.name)
             self.assertEqual(user.name, self.user1.name)
-        response2 = self.client.post('')
+        response2 = self.client.post('/editUser1/', {'username': 'admin123'})
+        self.assertEqual(response2.url, '/editUser2/')
 
     def test_edit_user_page2(self):
         response = self.client.get()
