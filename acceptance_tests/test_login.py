@@ -6,21 +6,17 @@ class TestLogin(TestCase):
     def setUp(self):
         self.client = Client()
         self.login_admin = Login.objects.create(name="admin", password="test1")
-        self.access_admin = Access.objects.create(accessLevel="a")
-        self.admin = credentials.objects.create(name="admin", login =self.login_admin, access = self.access_admin)
+        self.admin = credentials.objects.create(name="admin", login =self.login_admin, access = "a")
 
         self.login_admin2 = Login.objects.create(name="admin2", password="test1.2")
-        self.access_admin2 = Access.objects.create(accessLevel="a")
-        self.admin2 = credentials.objects.create(name="admin2", login =self.login_admin2, access = self.access_admin2)
+        self.admin2 = credentials.objects.create(name="admin2", login =self.login_admin2, access = "a")
 
         # below is not needed for sprint 1, but being created to help when we add instructor and TA log in potential, as well as ensuring that log in goes to the right location.
         self.login_instructor = Login.objects.create(name="instructor", password="test2")
-        self.access_instructor = Access.objects.create(accessLevel="b")
-        self.instructor = credentials.objects.create(name="instructor", login =self.login_instructor, access = self.access_instructor)
+        self.instructor = credentials.objects.create(name="instructor", login =self.login_instructor, access = "b")
 
         self.login_ta = Login.objects.create(name="ta", password="test3")
-        self.access_ta = Access.objects.create(accessLevel="c")
-        self.ta = credentials.objects.create(name="ta", login =self.login_ta, access = self.access_ta)
+        self.ta = credentials.objects.create(name="ta", login =self.login_ta, access = "c")
 
     # test invalid password and name
     def test_invalid_login_wrong_name_and_password(self):
