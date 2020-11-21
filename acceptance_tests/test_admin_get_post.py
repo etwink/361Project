@@ -40,7 +40,11 @@ class TestTracker(TestCase):
                                                      'phoneNum': '(123)456-7890', 'email': 'jdoe@uwm.edu',
                                                      'officeHours': 'MW 3:00-5:00', 'course': self.course1})
         self.assertEqual(response2.url, '/adminHome/')
-        #response3 = self.client.get('/createUser/')
+        response3 = self.client.get('/createUser/')
+        courses = list(response3.context['courses'])
+        print(courses)
+        for course in courses:
+            self.assertEqual(course.name, self.course1.name)
 
 
     def test_edit_user_page1(self):
