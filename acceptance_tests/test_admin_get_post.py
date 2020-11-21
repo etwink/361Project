@@ -17,10 +17,27 @@ class TestTracker(TestCase):
     def test_valid_login(self):
         response = self.client.post('/', {'name': 'admin', 'password': 'admin'})
         self.assertEqual(response.url, '/adminHome/')
-        response2 = self.client.get('/adminHome/')
-        sections = list(response2.context['sections'])
-        print(sections)
-        for section in sections:
-            self.assertEqual(section.name, self.section1.name)
-            self.assertEqual(section.course, self.section1.course)
-            self.assertEqual(section.teachingAssistant, self.section1.teachingAssistant)
+
+    def test_create_new_user(self):
+        response = self.client.get()
+
+    def test_edit_user_page1(self):
+        response = self.client.get()
+
+    def test_edit_user_page2(self):
+        response = self.client.get()
+
+    def test_create_course_page(self):
+        response = self.client.get()
+
+    def test_create_add_course_sections_page(self):
+        response = self.client.get()
+
+    def test_edit_course_page1(self):
+        resposne = self.clent.get()
+
+    def test_edit_course_page2(self):
+        response = self.client.get()
+
+    def test_edit_add_course_sections_page(self):
+        response = self.client.get()
