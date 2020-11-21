@@ -23,11 +23,11 @@ class TestTracker(TestCase):
         response1 = self.client.post('/adminHome/', {'goto': 'createUser'})
         self.assertEqual(response1.url, '/createUser/')
         response2 = self.client.post('/adminHome/', {'goto': 'editUser'})
-        self.assertEqual(response2.url, '/editUser/')
+        self.assertEqual(response2.url, '/editUser1/')
         response3 = self.client.post('/adminHome/', {'goto': 'createCourse'})
-        self.assertEqual(response3.url, '/createCourse/')
+        self.assertEqual(response3.url, '/createCourse1/')
         response4 = self.client.post('/adminHome/', {'goto': 'editCourse'})
-        self.assertEqual(response4.url, '/editCourse/')
+        self.assertEqual(response4.url, '/editCourse1/')
         response5 = self.client.post('/adminHome/', {'goto': 'logOut'})
         self.assertEqual(response5.url, '/')
 
@@ -48,7 +48,7 @@ class TestTracker(TestCase):
 
 
     def test_edit_user_page1(self):
-        response = self.client.get()
+        response = self.client.get('/editUser1/')
 
     def test_edit_user_page2(self):
         response = self.client.get()
