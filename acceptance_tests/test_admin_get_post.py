@@ -40,15 +40,25 @@ class TestTracker(TestCase):
                                                      'phoneNum': '(123)456-7890', 'email': 'jdoe@uwm.edu',
                                                      'officeHours': 'MW 3:00-5:00', 'course': self.course1})
         self.assertEqual(response2.url, '/adminHome/')
-        response3 = self.client.get('/createUser/')
-        courses = list(response3.context['courses'])
+        response3 = self.client.post('/createUser/', {'goto': 'back'})
+        self.assertEqual(response3.url, '/adminHome/')
+        response4 = self.client.post('/createUser/', {'goto': 'logOut'})
+        self.assertEqual(response4.url, '/')
+        response5 = self.client.get('/createUser/')
+        courses = list(response5.context['courses'])
         print(courses)
         for course in courses:
             self.assertEqual(course.name, self.course1.name)
 
 
     def test_edit_user_page1(self):
-        response = self.client.get('/editUser1/')
+        response1 = self.client.get('/editUser1/')
+        users = list(response1.context['users'])
+        print(users)
+        for user in users:
+            self.assertEqual(user.username, self.user1__name.name)
+            self.assertEqual(user.name, self.user1.name)
+        response2 = self.client.post('')
 
     def test_edit_user_page2(self):
         response = self.client.get()
