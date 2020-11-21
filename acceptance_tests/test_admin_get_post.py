@@ -18,6 +18,18 @@ class TestTracker(TestCase):
         response = self.client.post('/', {'name': 'admin', 'password': 'admin'})
         self.assertEqual(response.url, '/adminHome/')
 
+    def test_admin_home(self):
+        response = self.client.post('/adminHome/', {'goto': 'createUser'})
+        self.assertEqual(response.url, '/createUser/')
+        response = self.client.post('/adminHome/', {'goto': 'editUser'})
+        self.assertEqual(response.url, '/editUser/')
+        response = self.client.post('/adminHome/', {'goto': 'createCourse'})
+        self.assertEqual(response.url, '/createCourse/')
+        response = self.client.post('/adminHome/', {'goto': 'editCourse'})
+        self.assertEqual(response.url, '/editCourse/')
+        response = self.client.post('/adminHome/', {'goto': 'logOut'})
+        self.assertEqual(response.url, '/')
+
     def test_create_new_user(self):
         response = self.client.get()
 
