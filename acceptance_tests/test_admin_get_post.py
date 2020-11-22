@@ -6,7 +6,10 @@ class TestTracker(TestCase):
     def setUp(self):
         self.client = Client()
         self.admin1 = Login.objects.create(name = 'admin', password = 'admin')
+        self.login1 = Login.objects.create(name = 'jsmith', password = 'password012')
         self.user1 = User.objects.create(name = 'admin', access = 3, login = self.admin1)
+        self.user2 = User.objects.create(name = 'John Smith', access = 2, login = self.login1, office = 'PHYS 200',
+                                         phone = '5555555555', email = 'jsmith@uwm.edu', officeHours = 'MW 3-4', courses = None)
         self.course1 = Course.objects.create(name = 'test_course', user = self.user1)
         self.section1 = Section.objects.create(name = 'test_section', course = self.course1, teachingAssistant = None)
 
@@ -76,6 +79,11 @@ class TestTracker(TestCase):
         self.assertEqual(user.access, self.user1.access)
         self.assertEqual(user.login__name, self.admin1.name)
         self.assertEqual(user.login__password, self.admin1.password)
+
+        response2 = self.client.post('/editUser2/', {'name': 'John Doe', 'username': 'jdoe', 'password': 'password123',
+                                                     'role': 'instructor', 'office': 'EMS 100',
+                                                     'phoneNum': '(123)456-7890', 'email': 'jdoe@uwm.edu',
+                                                     'officeHours': 'MW 3:00-5:00', 'course': self.course1})
 
 
     def test_create_course_page(self):
