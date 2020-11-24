@@ -1,18 +1,10 @@
 from django.db import models
 
-
-# Create your models here.
-
-# Login Username and Password
-class Login(models.Model):
-    name = models.CharField(max_length=20)
-    password = models.CharField(max_length=20)
-
-
 # For Users
 class MyUser(models.Model):
     name = models.CharField(max_length=20)
-    login = models.ForeignKey(Login, on_delete=models.CASCADE)
+    username = models.CharField(max_length=20)
+    password = models.CharField(max_length=20)
     # access level
     access = models.CharField(max_length=1)
     office = models.CharField(max_length=20)

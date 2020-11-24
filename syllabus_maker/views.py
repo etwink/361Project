@@ -8,12 +8,13 @@ class home(View):
         return render(request,"home.html",{})
 
     def post(self,request):
+        print(request.POST['Uname'] + request.POST['Pass'])
         m = None
         try:
-            m = MyUser.objects.get(name=request.POST['Uname'])
+            m = MyUser.objects.get(username=request.POST['Uname'])
         except:
             pass
-        if m is not None and m.login.password == request.POST['Pass']:
+        if m is not None and m.password == request.POST['Pass']:
             request.session["Uname"] = request.POST["Uname"]
             if m.access == 'a':
                 return redirect("/home_Admin/")

@@ -5,18 +5,14 @@ from syllabus_maker.models import *
 class TestLogin(TestCase):
     def setUp(self):
         self.client = Client()
-        self.login_admin = Login.objects.create(name="admin", password="test1")
-        self.admin = MyUser.objects.create(name="admin", login =self.login_admin, access = "a")
+        self.admin = MyUser.objects.create(name="admin", username="admin", password="test1",  access = "a")
 
-        self.login_admin2 = Login.objects.create(name="admin2", password="test1.2")
-        self.admin2 = MyUser.objects.create(name="admin2", login =self.login_admin2, access = "a")
+        self.admin2 = MyUser.objects.create(name="admin2", username="admin2", password="test1.2", access = "a")
 
         # below is not needed for sprint 1, but being created to help when we add instructor and TA log in potential, as well as ensuring that log in goes to the right location.
-        self.login_instructor = Login.objects.create(name="instructor", password="test2")
-        self.instructor = MyUser.objects.create(name="instructor", login =self.login_instructor, access = "b")
+        self.instructor = MyUser.objects.create(name="instructor", username="instructor", password="test2", access = "b")
 
-        self.login_ta = Login.objects.create(name="ta", password="test3")
-        self.ta = MyUser.objects.create(name="ta", login =self.login_ta, access = "c")
+        self.ta = MyUser.objects.create(name="ta", username="ta", password="test3", access = "c")
 
     # test invalid password and name
     def test_invalid_login_wrong_name_and_password(self):
