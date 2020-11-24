@@ -11,7 +11,8 @@
     <img class="resize" src="UWM-logo.jpg" alt="UWM Logo">
     <br><br>
     <div class="login">
-        <form id="login" method="get">
+        <form method="post">
+            {% csrf_token %}
             <label class="fontsize"><b>User Name:
             </b>
             </label>
