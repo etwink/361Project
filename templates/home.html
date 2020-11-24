@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Home Page</title>
+    <link href="stylesheet.css" rel="stylesheet" type="text/css" />
+</head>
+
+<div class="container">
+    <body class="center">
+    <img class="resize" src="UWM-logo.jpg" alt="UWM Logo">
+    <br><br>
+    <div class="login">
+        <form method="post">
+            {% csrf_token %}
+            <label class="fontsize"><b>User Name:
+            </b>
+            </label>
+            <input type="text" name="Uname" id="Uname" placeholder="Username">
+            <br><br>
+            <label class="fontsize"><b>Password:
+            </b>
+            </label>
+            <input type="Password" name="Pass" id="Pass" placeholder="Password">
+            <br><br>
+            <input type="submit" name="log" id="log" value="Log In">
+            <br><br>
+
+        </form>
+    </div>
+    </body>
+</div>
+
+
+</html>
+

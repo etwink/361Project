@@ -16,6 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from syllabus_maker.views import home, home_Admin, home_Instructor, home_TA
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', home.as_view()),
+    path('home_Admin/', home_Admin.as_view()),
+    path('InstructorPage/', home_Instructor.as_view()),
+    path('TAPage/', home_TA.as_view()),
 ]
