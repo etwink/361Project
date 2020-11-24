@@ -12,7 +12,7 @@ class Login(models.Model):
 # For Users
 class MyUser(models.Model):
     name = models.CharField(max_length=20)
-    login = models.ForeignKeyLogin(Login, on_delete=models.CASCADE)
+    login = models.ForeignKey(Login, on_delete=models.CASCADE)
     # access level
     access = models.CharField(max_length=1)
     office = models.CharField(max_length=20)
@@ -26,7 +26,7 @@ class MyUser(models.Model):
 
 class Course(models.Model):
     name = models.CharField(max_length=20)
-    number = models.IntegerField(max_length=20)
+    number = models.IntegerField()
     # For holding course info
     info = models.CharField(max_length=300)
     # Each course has one instructor, but instructors can have multiple courses.
@@ -37,7 +37,7 @@ class Course(models.Model):
 
 
 class Section(models.Model):
-    number = models.IntegerField(max_length=3, unique=True, min_value=0, max_value=999)
+    number = models.IntegerField(unique=True)
     # Each section has one course, but courses can have multiple sections.
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     # Each section has one TA, but TA's can have multiple sections.
