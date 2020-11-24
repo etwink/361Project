@@ -112,7 +112,17 @@ class TestTracker(TestCase):
         self.assertEqual(response4.url, '/')
 
     def test_create_add_course_sections_page(self):
-        response = self.client.get()
+        response1 = self.client.post('/addSection/', {'number': ''})
+        self.assertEqual(response1.url, '/addSection/')
+
+        response2 = self.client.post('/addSection/', {'number': 804})
+        self.assertEqual(response2.url, '/addSection/')
+
+        response3 = self.client.post('/addSection/', {'goto': 'back'})
+        self.assertEqual(response3.url, '/createCourse/')
+
+        response4 = self.client.post('/addSection/', {'goto': 'logOut'})
+        self.assertEqual(response4.url, '/')
 
     def test_edit_course_page1(self):
         resposne = self.clent.get()
