@@ -1,41 +1,42 @@
 from django.test import TestCase
 from django.test import Client
-from syllabus_maker.models import Login, User, Course, Section
+from syllabus_maker.models import MyUser, Course, Section
 
 class TestTracker(TestCase):
     def setUp(self):
         self.client = Client()
-        self.admin1 = Login.objects.create(name = 'admin', password = 'admin')
-        self.login1 = Login.objects.create(name = 'jsmith', password = 'password012')
-        self.user1 = User.objects.create(name = 'admin', access = 3, login = self.admin1)
-        self.user2 = User.objects.create(name = 'John Smith', access = 2, login = self.login1, office = 'PHYS 200',
-                                         phone = '5555555555', email = 'jsmith@uwm.edu', officeHours = 'MW 3-4', courses = None)
+        self.admin1 = MyUser.objects.create(name = 'admin', username = 'admin', password = 'admin', access = 'a',
+                                            office = '', phoneNum = '', email = '', officeHours = '')
+        self.user1 = MyUser.objects.create(name = 'John Doe', username = 'jdoe', password = 'password123', access = 'b',
+                                            office = 'EMS 500', phoneNum = '1234567890', email = 'jdoe@uwm.edu', officeHours = 'MW 2-4')
+        self.user2 = MyUser.objects.create(name = 'Jane Smith', username = 'jsmith', password = 'password', access = 'c',
+                                            office = 'EMS 232', phoneNum = '5555555555', email = 'jsmith@uwm.edu', officeHours = 'TR 11AM-1PM')
         self.course1 = Course.objects.create(name = 'test_course', user = self.user1)
-        self.section1 = Section.objects.create(name = 'test_section', course = self.course1, teachingAssistant = None)
+        self.section1 = Section.objects.create(name = 'test_section', course = self.course1, teachingAssistant = self.user2)
 
     def test_invalid_login(self):
         response = self.client.post('/', {'name': 'admin', 'password': 'admin123'})
-        self.assertEqual(response.context['error'], 'username/passoword incorrect')
+        self.assertEqual(response.url, '/')
 
     def test_valid_login(self):
         #response1 = self.client.get('/adminHome/')
         response2 = self.client.post('/', {'name': 'admin', 'password': 'admin'})
-        self.assertEqual(response2.url, '/adminHome/')
+        self.assertEqual(response2.url, 'home_Admin/')
 
     def test_admin_home(self):
-        response1 = self.client.post('/adminHome/', {'goto': 'createUser'})
+        response1 = self.client.post('home_Admin/', {'goto': 'createUser'})
         self.assertEqual(response1.url, '/createUser/')
 
-        response2 = self.client.post('/adminHome/', {'goto': 'editUser'})
+        response2 = self.client.post('home_Admin/', {'goto': 'editUser'})
         self.assertEqual(response2.url, '/editUser1/')
 
-        response3 = self.client.post('/adminHome/', {'goto': 'createCourse'})
+        response3 = self.client.post('home_Admin/', {'goto': 'createCourse'})
         self.assertEqual(response3.url, '/createCourse1/')
 
-        response4 = self.client.post('/adminHome/', {'goto': 'editCourse'})
+        response4 = self.client.post('home_Admin/', {'goto': 'editCourse'})
         self.assertEqual(response4.url, '/editCourse1/')
 
-        response5 = self.client.post('/adminHome/', {'goto': 'logOut'})
+        response5 = self.client.post('home_Admin/', {'goto': 'logOut'})
         self.assertEqual(response5.url, '/')
 
     def test_create_new_user(self):
