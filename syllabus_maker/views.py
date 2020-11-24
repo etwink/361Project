@@ -65,3 +65,51 @@ class home_TA(View):
     def post(self,request):
 
         return render(request, "home_TA.html", {"home_TA": home_TA})
+
+class admin_CreateNewUser(View):
+    def get(self, request):
+        if not request.session.get("Uname"):
+            return redirect('/')
+        return render(request, "admin_CreateNewUser.html", {"admin_CreateNewUser": admin_CreateNewUser})
+
+    def post(self,request):
+
+        return render(request, "home_Admin", {"home_Admin": home_Admin})
+
+
+class admin_EditUser1(View):
+    def get(self, request):
+        if not request.session.get("Uname"):
+            return redirect('/')
+        return render(request, "admin_EditUser1.html", {"admin_EditUser1": admin_EditUser1})
+
+    def post(self,request):
+        return render(request, "home_Admin", {"home_Admin": home_Admin})
+
+class admin_EditUser2(View):
+    def get(self, request):
+        if not request.session.get("Uname"):
+            return redirect('/')
+        return render(request, "admin_EditUser2.html", {"admin_EditUser2": admin_EditUser2})
+
+    def post(self,request):
+        return render(request, "home_Admin", {"home_Admin": home_Admin})
+
+
+class admin_CreateCourse(View):
+    def get(self, request):
+        if not request.session.get("Uname"):
+            return redirect('/')
+        return render(request, "admin_CreateCourse.html", {"admin_CreateCourse": admin_CreateCourse})
+
+    def post(self,request):
+        return render(request, "home_Admin", {"home_Admin": home_Admin})
+
+class admin_EditCourse1(View):
+    def get(self, request):
+        if not request.session.get("Uname"):
+            return redirect('/')
+        return render(request, "admin_EditCourse1.html", {"admin_EditCourse1": admin_EditCourse1})
+
+    def post(self,request):
+        return render(request, "home_Admin", {"home_Admin": home_Admin})
