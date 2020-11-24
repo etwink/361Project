@@ -19,9 +19,9 @@ class home(View):
             if m.access == 'a':
                 return redirect("/home_Admin/")
             if m.access == 'b':
-                return redirect("/home_Instructor/")
+                return redirect('/InstructorPage')
             if m.access == 'c':
-                return redirect("/home_TA/")
+                return redirect("/TAPage/")
         return render(request,"home.html",{'error': 'Invalid name/password'})
 
 
