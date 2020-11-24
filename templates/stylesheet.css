@@ -1,0 +1,131 @@
+img.resize {
+  max-width:90%;
+  max-height:90%;
+}
+
+.container {
+  height: 250px;
+  position: relative;
+}
+
+.center {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+.fontsize{
+    font-size: 25px;
+    font-weight: bold;
+    font-family: "Arial";
+}
+
+
+.welcomeMessage{
+  font-size: 30px;
+  font-family: Arial;
+  font-weight: bold;
+}
+
+.nameDisplay{
+  margin: 0;
+  position: absolute;
+  top: 40px;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  font-size: 30px;
+  font-family: Arial;
+  font-weight: bold;
+}
+
+.uwmLogo{
+  position: absolute;
+  max-width:15%;
+  max-height:15%;
+  top: 0px;
+  right: 0px;
+}
+.uwmLogoBottom{
+  position: absolute;
+  max-width:15%;
+  max-height:15%;
+  bottom: 5px;
+  right: 0px;
+}
+
+.adminButton{
+  width: 400px;
+  height: 80px;
+  display: block;
+  font-size: 30px;
+  font-family: "Arial";
+  font-weight: bold;
+  margin: 10px;
+  text-decoration: none;
+}
+.logoutButton{
+  position: fixed;
+  bottom: 40px;
+  left: 40px;
+  width: 150px;
+  height: 50px;
+  font-size: 30px;
+  font-family: "Arial";
+  font-weight: bold;
+}
+
+.backButton{
+  position: fixed;
+  bottom: 100px;
+  left: 40px;
+  width: 150px;
+  height: 50px;
+  font-size: 30px;
+  font-family: "Arial";
+  font-weight: bold;
+}
+
+.goButton{
+  position: fixed;
+  bottom: 220px;
+  right: 250px;
+  width: 150px;
+  height: 50px;
+  font-size: 30px;
+  font-family: "Arial";
+  font-weight: bold;
+}
+
+.infoBoxes{
+  position: fixed;
+  left: 100px;
+  top: 110px;
+  font-size: 30px;
+  font-family: "Arial";
+  font-weight: bold;
+  size: 1700px;
+  display: inline-block;
+}
+.saveButton{
+  position: fixed;
+  width: 300px;
+  height: 50px;
+  margin: 0;
+  position: absolute;
+  top: 80%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  font-size: 30px;
+  font-family: "Arial";
+  font-weight: bold;
+}
+
+.wideDropDown{
+  width: 400px;
+  font-size: 25px;
+  font-family: Arial;
+}
