@@ -73,7 +73,6 @@ class admin_CreateNewUser(View):
         return render(request, "admin_CreateNewUser.html", {"admin_CreateNewUser": admin_CreateNewUser})
 
     def post(self,request):
-
         return render(request, "home_Admin", {"home_Admin": home_Admin})
 
 
