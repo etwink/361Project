@@ -34,11 +34,6 @@ class TestLogin(TestCase):
     def test_valid_login_admin(self):
         response = self.client.post('/', {'Uname': 'admin', 'Pass': 'test1'})
         self.assertEqual(response.url, '/home_Admin/')
-        response2 = self.client.get('/home_Admin/')
-        print(response2.context['home_Admin'])
-        things = list(response2.context['home_Admin'])
-        for project in things:
-            self.assertEqual(project.name, self.admin.name)
 
     # test to see if a valid login doesn't take to admin home page, for sprint one will just go to the login page
     # NEEDS UPDATING FOR SPRINT 2
@@ -58,17 +53,22 @@ class TestLogin(TestCase):
         self.assertEquals(response.url, '/')
 
     # test that different logins result in different sessions
+    # TODO need help on this part, can't figure out how to compare.
     def test_different_sessions_different_logins(self):
         response = self.client.post('/', {'Uname': 'admin', 'Pass': 'test1'})
-        response2 = self.client.get('/home_Admin/')
-        print(response2.context['home_Admin'])
-        things = list(response2.context['home_Admin'])
-        for project in things:
-            self.assertNotEquals(project.name, self.admin2.name)
+        self.assertEqual(response.url, '/home_Admin/')
+        name1 = self.client.get("/home_Admin/", {"Username"})
+
+        response = self.client.post('/', {'Uname': 'admin2', 'Pass': 'test1.2'})
+        self.assertEqual(response.url, '/home_Admin/')
+        name2 = self.client.get("/home_Admin/", {"Username"})
+        #How to test if false?
+        self.assertFalse(name1, name2)
+
 
     def test_logout(self):
         response = self.client.post('/', {'Uname': 'admin', 'Pass': 'test1'})
-        response2 = self.client.get('/home_Admin/')
-        things = list(response2.context['home_Admin'])
-        for project in things:
-            self.assertNotEquals(project.name, self.admin2.name)
+        self.assertEqual(response.url, '/home_Admin/')
+        response = self.client.get('/')
+        self.assertEqual(response.status_code, 200)
+
