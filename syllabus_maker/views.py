@@ -12,6 +12,7 @@ class home(View):
         m = None
         try:
             m = MyUser.objects.get(username=request.POST['Uname'])
+            request.session["name"] = m.name
         except:
             pass
         if m is not None and m.password == request.POST['Pass']:
@@ -29,7 +30,8 @@ class home_Admin(View):
     def get(self,request):
         if not request.session.get("Uname"):
             return redirect('/')
-        return render(request, "home_Admin.html", {"home_Admin": home_Admin})
+        Username = request.session.get("name")
+        return render(request, "home_Admin.html", {"home_Admin": home_Admin, "Username": Username})
 
     def post(self,request):
         position = request.POST.get('position')
