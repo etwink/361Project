@@ -6,31 +6,42 @@
     <link href="/static/stylesheet.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-<label class="nameDisplay"> Pick a course to edit
+<label class="nameDisplay"> Enter New User Information
 </label>
 
 <div>
     <img class="uwmLogoBottom" src="/static/UWM-logo.jpg" alt="UWM Logo">
 </div>
 
-<form>
+<!-- <form>
     <div class="center">
         <label for="Courses" class=fontsize>Pick A Course:</label>
-        <select class="wideDropDown">
+        <select class="wideDropDown"> -->
 
+<div class="center">
+<form action="" method="post">
+    {% csrf_token %}
+    Enter Name <input type="text" name="name"/><br/>
+    Enter Password <input type="password" name="password"/><br/>
 
-        </select>
+    <label for="role">Select role</label>
 
-    </div>
-    <input type="submit" value="Go" class="goButton">
+    <select name="role" id="role">
+        <option value="Instructor">Instructor</option>
+        <option value="TA">TA</option>
+    </select>
+    <input type="submit"/>
 </form>
+</div>
 
 <a href="home_Admin.html">
     <button class="backButton">Back</button>
 </a>
+
 <a href="home.html">
     <button class="logoutButton">Logout</button>
 </a>
+
 </body>
 </html>
 
