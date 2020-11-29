@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views import View
-from .models import MyUser
+from .models import MyUser, Course
 
 
 class home(View):
@@ -74,4 +74,19 @@ class admin_CreateNewUser(View):
             password = request.POST["password"]
             newTA = MyUser(name=name, username=name, password=password, access='c')
             newTA.save()
+        return render(request, "home_Admin.html", {"home_Admin": home_Admin})
+
+class admin_CreateCourse(View):
+    def get(self, request):
+        if not request.session.get("Uname"):
+            return redirect('/')
+        return render(request, "admin_CreateCourse.html", {"admin_CreateCourse": admin_CreateCourse})
+
+    def post(self, request):
+        name = request.POST["name"]
+        number = request.POST["number"]
+        blankUser = MyUser(name="admin", username="admin", password="admin", access='a')
+        blankUser.save()
+        newCourse = Course(name=name, number=number, instructor=blankUser)
+        newCourse.save()
         return render(request, "home_Admin.html", {"home_Admin": home_Admin})

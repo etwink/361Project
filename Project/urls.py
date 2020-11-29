@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from syllabus_maker.views import home, home_Admin, home_Instructor, home_TA, admin_CreateNewUser
+from syllabus_maker.views import home, home_Admin, home_Instructor, home_TA, admin_CreateNewUser, admin_CreateCourse
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,4 +25,5 @@ urlpatterns = [
     path('home_Instructor/', home_Instructor.as_view()),
     path('home_TA/', home_TA.as_view()),
     path('admin_CreateNewUser/', admin_CreateNewUser.as_view()),
+    path('admin_CreateCourse/', admin_CreateCourse.as_view()),
 ]

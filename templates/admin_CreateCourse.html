@@ -13,17 +13,14 @@
     <img class="uwmLogoBottom" src="/static/UWM-logo.jpg" alt="UWM Logo">
 </div>
 
-<form>
-    <div class="center">
-        <label for="Courses" class=fontsize>Pick A Course:</label>
-        <select class="wideDropDown">
-
-
-        </select>
-
-    </div>
-    <input type="submit" value="Go" class="goButton">
+<div class="center">
+<form action="" method="post">
+    {% csrf_token %}
+    Enter Course Name <input type="text" name="name"/><br/>
+    Enter Course Number <input type="number" name="number"/><br/>
+    <input type="submit"/>
 </form>
+</div>
 
 <a href="home_Admin.html">
     <button class="backButton">Back</button>
