@@ -12,7 +12,6 @@ class home(View):
         m = None
         try:
             m = MyUser.objects.get(username=request.POST['Uname'])
-            request.session["name"] = m.name
         except:
             pass
         if m is not None and m.password == request.POST['Pass']:
@@ -20,9 +19,9 @@ class home(View):
             if m.access == 'a':
                 return redirect("/home_Admin/")
             if m.access == 'b':
-                return redirect('/InstructorPage')
+                return redirect("/home_Instructor/")
             if m.access == 'c':
-                return redirect("/TAPage/")
+                return redirect("/home_TA/")
         return render(request,"home.html",{'error': 'Invalid name/password'})
 
 
@@ -30,8 +29,7 @@ class home_Admin(View):
     def get(self,request):
         if not request.session.get("Uname"):
             return redirect('/')
-        Username = request.session.get("name")
-        return render(request, "home_Admin.html", {"home_Admin": home_Admin, "Username": Username})
+        return render(request, "home_Admin.html", {"home_Admin": home_Admin})
 
     def post(self,request):
         position = request.POST.get('position')
@@ -67,59 +65,3 @@ class home_TA(View):
     def post(self,request):
 
         return render(request, "home_TA.html", {"home_TA": home_TA})
-
-class admin_CreateNewUser(View):
-    def get(self, request):
-        if not request.session.get("Uname"):
-            return redirect('/')
-        return render(request, "admin_CreateNewUser.html", {"admin_CreateNewUser": admin_CreateNewUser})
-
-    def post(self,request):
-        print(request.POST['Name'] + request.POST['Username'] + request.POST['Password'] + request.POST['Instructor']
-              + request.POST['Ta']
-              + request.POST['Admin']
-              + request.POST['Office']
-              + request.POST['Phone Number']
-              + request.POST['Email']
-              + request.POST['Office Hours']
-              )
-        new = MyUser(request.POST['Name'], )
-        return render(request, "admin_CreateNewUser.html", {"admin_CreateNewUser": admin_CreateNewUser})
-
-
-class admin_EditUser1(View):
-    def get(self, request):
-        if not request.session.get("Uname"):
-            return redirect('/')
-        return render(request, "admin_EditUser1.html", {"admin_EditUser1": admin_EditUser1})
-
-    def post(self,request):
-        return render(request, "home_Admin", {"home_Admin": home_Admin})
-
-class admin_EditUser2(View):
-    def get(self, request):
-        if not request.session.get("Uname"):
-            return redirect('/')
-        return render(request, "admin_EditUser2.html", {"admin_EditUser2": admin_EditUser2})
-
-    def post(self,request):
-        return render(request, "home_Admin", {"home_Admin": home_Admin})
-
-
-class admin_CreateCourse(View):
-    def get(self, request):
-        if not request.session.get("Uname"):
-            return redirect('/')
-        return render(request, "admin_CreateCourse.html", {"admin_CreateCourse": admin_CreateCourse})
-
-    def post(self,request):
-        return render(request, "home_Admin", {"home_Admin": home_Admin})
-
-class admin_EditCourse1(View):
-    def get(self, request):
-        if not request.session.get("Uname"):
-            return redirect('/')
-        return render(request, "admin_EditCourse1.html", {"admin_EditCourse1": admin_EditCourse1})
-
-    def post(self,request):
-        return render(request, "home_Admin", {"home_Admin": home_Admin})
