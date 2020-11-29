@@ -142,3 +142,17 @@ img.resize {
   size: 1700px;
   display: inline-block;
 }
+
+.mandatoryInfo{
+  position: fixed;
+  width: 300px;
+  height: 50px;
+  margin: 0;
+  top: 80%;
+  left: 20%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  font-size: 30px;
+  font-family: "Arial";
+  font-weight: bold;
+}
