@@ -15,16 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-
-from syllabus_maker.views import home, home_Admin, home_Instructor, home_TA
 from syllabus_maker import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', home.as_view()),
-    path('home_Admin/', home_Admin.as_view()),
-    path('InstructorPage/', home_Instructor.as_view()),
-    path('TAPage/', home_TA.as_view()),
+    path('', views.home.as_view()),
+    path('home_Admin/', views.home_Admin.as_view()),
+    path('InstructorPage/', views.home_Instructor.as_view()),
+    path('TAPage/', views.home_TA.as_view()),
 
     path("home_Admin/admin_CreateNewUser.html", views.admin_CreateNewUser.as_view()),
     path("home_Admin/admin_EditUser1.html", views.admin_EditUser1.as_view()),
