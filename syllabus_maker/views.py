@@ -73,7 +73,16 @@ class admin_CreateNewUser(View):
         return render(request, "admin_CreateNewUser.html", {"admin_CreateNewUser": admin_CreateNewUser})
 
     def post(self,request):
-        return render(request, "home_Admin", {"home_Admin": home_Admin})
+        print(request.POST['Name'] + request.POST['Username'] + request.POST['Password'] + request.POST['Instructor']
+              + request.POST['Ta']
+              + request.POST['Admin']
+              + request.POST['Office']
+              + request.POST['Phone Number']
+              + request.POST['Email']
+              + request.POST['Office Hours']
+              )
+        new = MyUser(request.POST['Name'], )
+        return render(request, "admin_CreateNewUser.html", {"admin_CreateNewUser": admin_CreateNewUser})
 
 
 class admin_EditUser1(View):

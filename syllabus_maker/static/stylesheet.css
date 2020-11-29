@@ -145,13 +145,10 @@ img.resize {
 
 .mandatoryInfo{
   position: fixed;
-  width: 300px;
-  height: 50px;
-  margin: 0;
-  top: 80%;
-  left: 20%;
-  -ms-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
+
+  top: 60%;
+  left: 100px;
+  color: red;
   font-size: 30px;
   font-family: "Arial";
   font-weight: bold;
