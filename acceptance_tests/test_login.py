@@ -52,20 +52,6 @@ class TestLogin(TestCase):
         response = self.client.get('/home_Admin/')
         self.assertEquals(response.url, '/')
 
-    # test that different logins result in different sessions
-    # TODO need help on this part, can't figure out how to compare.
-    def test_different_sessions_different_logins(self):
-        response = self.client.post('/', {'Uname': 'admin', 'Pass': 'test1'})
-        self.assertEqual(response.url, '/home_Admin/')
-        name1 = self.client.get("/home_Admin/", {"Username"})
-
-        response = self.client.post('/', {'Uname': 'admin2', 'Pass': 'test1.2'})
-        self.assertEqual(response.url, '/home_Admin/')
-        name2 = self.client.get("/home_Admin/", {"Username"})
-        #How to test if false?
-        self.assertFalse(name1, name2)
-
-
     def test_logout(self):
         response = self.client.post('/', {'Uname': 'admin', 'Pass': 'test1'})
         self.assertEqual(response.url, '/home_Admin/')

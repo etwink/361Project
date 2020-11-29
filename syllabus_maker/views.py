@@ -4,13 +4,6 @@ from .models import MyUser, Course, Section
 from typing import Dict, Type
 from django.http import QueryDict, HttpRequest, HttpResponse
 
-from typing import Dict, Type
-
-from django.http import QueryDict, HttpRequest, HttpResponse
-from django.shortcuts import render, redirect
-from django.views import View
-
-from .models import MyUser, Course, Section
 
 class home(View):
     def get(self,request):
