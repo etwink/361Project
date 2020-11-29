@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path
 
 from syllabus_maker.views import home, home_Admin, home_Instructor, home_TA
+from syllabus_maker import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -24,4 +25,12 @@ urlpatterns = [
     path('home_Admin/', home_Admin.as_view()),
     path('InstructorPage/', home_Instructor.as_view()),
     path('TAPage/', home_TA.as_view()),
+
+    path("home_Admin/admin_CreateNewUser.html", views.admin_CreateNewUser.as_view()),
+    path("home_Admin/admin_EditUser1.html", views.admin_EditUser1.as_view()),
+    path("home_Admin/admin_EditUser2.html", views.admin_EditUser2.as_view()),
+    path("home_Admin/admin_CreateCourse.html", views.admin_CreateCourse.as_view()),
+    path("home_Admin/admin_AddCourseSection.html", views.admin_AddCourseSection.as_view()),
+    path("home_Admin/admin_EditCourse1.html", views.admin_EditCourse1.as_view()),
+    path("home_Admin/admin_EditCourse2.html", views.admin_EditCourse2.as_view()),
 ]
