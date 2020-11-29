@@ -85,8 +85,15 @@ class admin_CreateCourse(View):
     def post(self, request):
         name = request.POST["name"]
         number = request.POST["number"]
-        blankUser = MyUser(name="admin", username="admin", password="admin", access='a')
-        blankUser.save()
-        newCourse = Course(name=name, number=number, instructor=blankUser)
+        newCourse = Course(name=name, number=number, instructor=MyUser.objects.get(access='a'))
         newCourse.save()
         return render(request, "home_Admin.html", {"home_Admin": home_Admin})
+
+class admin_AddCourseSection(View):
+    def get(self, request):
+        if not request.session.get("Uname"):
+            return redirect('/')
+        return render(request, "admin_AddCourseSection.html", {"admin_AddCourseSection": admin_AddCourseSection})
+
+    def post(self, request):
+        return render(request, "admin_AddCourseSection.html", {"admin_AddCourseSection": admin_AddCourseSection})
