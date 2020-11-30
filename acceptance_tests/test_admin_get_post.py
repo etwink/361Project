@@ -79,21 +79,22 @@ class TestTracker(TestCase):
         self.assertEqual(response4.url, '/')
 
     def test_edit_user_page2(self):
-        response1 = self.client.get('/admin_EditUser2/')
+        response1 = self.client.get('/home_Admin/admin_EditUser2.html')
         user = MyUser(response1.context['user']) #passes a user object to edit user page 2
         self.assertEqual(user.name, self.user1.name) #checking to see if the user object passed in is the user in the database
         self.assertEqual(user.username, self.user1.username)
         self.assertEqual(user.access, self.user1.access)
 
-        response2 = self.client.post('/admin_EditUser2/', {'name': 'John Doe', 'username': 'jdoe', 'password': 'password123',
+        response2 = self.client.post('/home_Admin/admin_EditUser2.html', {'name': 'John Doe', 'username': 'jdoe', 'password': 'password123',
                                                      'role': 'instructor', 'office': 'EMS 100',
                                                      'phoneNum': '(123)456-7890', 'email': 'jdoe@uwm.edu',
                                                      'officeHours': 'MW 3:00-5:00', 'course': self.course1})
         self.assertEqual(response2.url, '/home_Admin/')
-        response3 = self.client.post('/admin_EditUser2/', {'goto': 'back'})
-        self.assertEqual(response3.url, '/admin_EditUser1/')
 
-        response4 = self.client.post('/admin_EditUser2/', {'goto': 'logOut'})
+        response3 = self.client.post('/home_Admin/admin_EditUser2.html', {'backButton': 'Back'})
+        self.assertEqual(response3.url, '/home_Admin/admin_EditUser1.html')
+
+        response4 = self.client.post('/home_Admin/admin_EditUser2.html', {'logoutButton': 'Logout'})
         self.assertEqual(response4.url, '/')
 
 
