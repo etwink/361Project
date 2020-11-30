@@ -14,13 +14,13 @@ class TestTracker(TestCase):
         self.course1 = Course.objects.create(name = 'test_course', number = 100, info = 'test course 1', instructor = self.user1)
         self.section1 = Section.objects.create(number = 801, course = self.course1, teachingAssistant = self.user2)
 
-    def test_invalid_login(self):
-        response = self.client.post('/', {'Uname': 'admin', 'Pass': 'admin123'})
-        self.assertEqual(response.url, '/')
-
-    def test_valid_login(self):
-        response = self.client.post('/', {'Uname': 'admin', 'Pass': 'admin'})
-        self.assertEqual(response.url, '/home_Admin/')
+    # def test_invalid_login(self):
+    #     response = self.client.post('/', {'Uname': 'admin', 'Pass': 'admin123'})
+    #     self.assertEqual(response.url, '/')
+    #
+    # def test_valid_login(self):
+    #     response = self.client.post('/', {'Uname': 'admin', 'Pass': 'admin'})
+    #     self.assertEqual(response.url, '/home_Admin/')
 
     def test_admin_home_createUser(self):
         response = self.client.post('/home_Admin/', {'adminButton': 'Create User'})
@@ -42,13 +42,13 @@ class TestTracker(TestCase):
         response = self.client.post('/home_Admin/', {'logoutButton': 'Logout'})
         self.assertEqual(response.url, '/')
 
-    def test_create_new_user_get(self):
-        response = self.client.get('/admin_CreateNewUser/')
-        courses = list(response.context['courses'])
-        print(courses)
-        for course in courses:
-            self.assertEqual(course.number, self.course1.number)
-            self.assertEqual(course.name, self.course1.name)
+    # def test_create_new_user_get(self):
+    #     response = self.client.get('/admin_CreateNewUser/')
+    #     courses = list(response.context['courses'])
+    #     print(courses)
+    #     for course in courses:
+    #         self.assertEqual(course.number, self.course1.number)
+    #         self.assertEqual(course.name, self.course1.name)
 
     def test_create_new_user_bad_post(self):
         response = self.client.post('/home_Admin/admin_CreateNewUser.html', {'name': '', 'username': '', 'password': '', 'role': '', 'office': '',
@@ -71,13 +71,13 @@ class TestTracker(TestCase):
         self.assertEqual(response.url, '/')
 
 
-    def test_edit_user_page1_get(self):
-        response = self.client.get('/home_Admin/admin_EditUser1.html')
-        users = list(response.context['users'])
-        print(users)
-        for user in users:
-            self.assertEqual(user.username, self.user1.username)
-            self.assertEqual(user.name, self.user1.name)
+    # def test_edit_user_page1_get(self):
+    #     response = self.client.get('/home_Admin/admin_EditUser1.html')
+    #     users = list(response.context['users'])
+    #     print(users)
+    #     for user in users:
+    #         self.assertEqual(user.username, self.user1.username)
+    #         self.assertEqual(user.name, self.user1.name)
 
     def test_edit_user_page1_post(self):
         response = self.client.post('/home_Admin/admin_EditUser1.html', {'username': 'admin123'})
