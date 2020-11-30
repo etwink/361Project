@@ -19,7 +19,6 @@ class TestTracker(TestCase):
         self.assertEqual(response.url, '/')
 
     def test_valid_login(self):
-        #response1 = self.client.get('/adminHome/')
         response2 = self.client.post('/', {'Uname': 'admin', 'Pass': 'admin'})
         self.assertEqual(response2.url, '/home_Admin/')
 
