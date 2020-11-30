@@ -6,29 +6,36 @@
     <link href="/static/stylesheet.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-<label class="nameDisplay"> Pick a course to edit
+<label class="nameDisplay"> Create A Course
 </label>
 
 <div>
     <img class="uwmLogoBottom" src="/static/UWM-logo.jpg" alt="UWM Logo">
 </div>
 
-<form>
-    <div class="center">
-        <label for="Courses" class=fontsize>Pick A Course:</label>
-        <select class="wideDropDown">
 
+<form action="" method="post">
+    {% csrf_token %}
+    <div class="infoBoxes">
+        Course Name<span style="color: red">*</span>: <input type="text" name="name"/><br><br/>
+        Course Number<span style="color: red">*</span>: <input type="number" name="number"/><br><br/>
+        Department<span style="color: red">*</span>: <input type = "text" name="department"/><br><br/>
+        <label for="info">Info:</label>
+        <input type="text" id="info" name="info" size="100"><br><br/>
+        <span style="color: red">Mandatory Information*</span><br><br/>
+        <a href='admin_AddCourseSection.html'>
+        <button class="saveButton">Add Section(s)</button>
+        </a><br><br/><br><br/><br><br/>
 
-        </select>
-
+        <input type="submit" value="Create" class="saveButton">
     </div>
-    <input type="submit" value="Go" class="goButton">
 </form>
 
-<a href="home_Admin.html">
+
+<a href="/home_Admin/">
     <button class="backButton">Back</button>
 </a>
-<a href="home.html">
+<a href="/">
     <button class="logoutButton">Logout</button>
 </a>
 </body>

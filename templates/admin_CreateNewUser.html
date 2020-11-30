@@ -6,29 +6,70 @@
     <link href="/static/stylesheet.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-<label class="nameDisplay"> Pick a course to edit
+<label class="nameDisplay"> Create New User
 </label>
 
 <div>
     <img class="uwmLogoBottom" src="/static/UWM-logo.jpg" alt="UWM Logo">
 </div>
 
-<form>
-    <div class="center">
-        <label for="Courses" class=fontsize>Pick A Course:</label>
+<form method="post">
+    {% csrf_token %}
+    <div class="infoBoxes">
+        <label for="User's Name">User's Name<span style="color: red">*</span>:</label>
+        <input type="text" name="Name" id="Name">
+        <br>
+
+        <label for="Username">Username<span style="color: red">*</span>:</label>
+        <input type="text" name="Username" id="Username">
+        <br>
+
+        <label for="Password">Password<span style="color: red">*</span>:</label>
+        <input type="text" name="Password" id="Password">
+        <br>
+
+        <label for="User's Role">User's Role:<span style="color: red">*</span>:</label>
+        <input type="checkbox" name="Instructor" id="Instructor" value="Instructor">
+        <label for="Instructor"><span style="font-size: 12px">Instructor</span></label>
+        <input type="checkbox" name="Ta" id="Ta" value="TA">
+        <label for="TA"><span style="font-size: 12px">TA</span></label>
+        <input type="checkbox" name="Admin" id="Admin" value="Admin">
+        <label for="Admin"><span style="font-size: 12px">Admin</span></label>
+        <br>
+
+        <label for="Office">Office:</label>
+        <input type="text" name="Office" id="Office">
+        <br>
+
+        <label for="Phone Number">Phone Number:</label>
+        <input type="text" name="Phone Number" id="Phone Number">
+        <br>
+
+        <label for="Email">Email:</label>
+        <input type="text" name="Email" id="Email">
+        <br>
+
+
+        <label for="Office Hours">Office Hours:</label>
+        <input type="text" name="Office Hours" id="Office Hours">
+        <br>
+
+        <label for="Assign Course">Assign A Course:</label>
         <select class="wideDropDown">
-
-
         </select>
 
     </div>
-    <input type="submit" value="Go" class="goButton">
+
+    <input type="submit" value="Create" class="saveButton">
 </form>
 
-<a href="home_Admin.html">
+<p class="mandatoryInfo">* Mandatory information
+</p>
+
+<a href="/home_Admin/">
     <button class="backButton">Back</button>
 </a>
-<a href="home.html">
+<a href="/">
     <button class="logoutButton">Logout</button>
 </a>
 </body>

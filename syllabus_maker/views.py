@@ -1,22 +1,21 @@
-from typing import Dict, Type
-
-from django.http import QueryDict, HttpRequest, HttpResponse
 from django.shortcuts import render, redirect
 from django.views import View
-
 from .models import MyUser, Course, Section
+from typing import Dict, Type
+from django.http import QueryDict, HttpRequest, HttpResponse
 
 
 class home(View):
-    def get(self, request):
+    def get(self,request):
         request.session.pop("Uname", None)
-        return render(request, "home.html", {})
+        return render(request,"home.html",{})
 
-    def post(self, request):
+    def post(self,request):
         print(request.POST['Uname'] + request.POST['Pass'])
         m = None
         try:
             m = MyUser.objects.get(username=request.POST['Uname'])
+            request.session["name"] = m.name
         except:
             pass
         if m is not None and m.password == request.POST['Pass']:
@@ -27,16 +26,17 @@ class home(View):
                 return redirect("/home_Instructor/")
             if m.access == 'c':
                 return redirect("/home_TA/")
-        return render(request, "home.html", {'error': 'Invalid name/password'})
+        return render(request,"home.html",{'error': 'Invalid name/password'})
 
 
 class home_Admin(View):
-    def get(self, request):
+    def get(self,request):
         if not request.session.get("Uname"):
             return redirect('/')
-        return render(request, "home_Admin.html", {"home_Admin": home_Admin})
+        Username = request.session.get("name")
+        return render(request, "home_Admin.html", {"home_Admin": home_Admin, "Username": Username})
 
-    def post(self, request):
+    def post(self,request):
         position = request.POST.get('position')
         name = request.POST.get('name')
         if name != '':
@@ -51,24 +51,25 @@ class home_Admin(View):
 
 
 class home_Instructor(View):
-    def get(self, request):
+    def get(self,request):
         if not request.session.get("Uname"):
             return redirect('/')
         return render(request, "home_Instructor.html", {"home_Instructor": home_Instructor})
 
-    def post(self, request):
+    def post(self,request):
+
         return render(request, "home_Instructor.html", {"home_Instructor": home_Instructor})
 
 
 class home_TA(View):
-    def get(self, request):
+    def get(self,request):
         if not request.session.get("Uname"):
             return redirect('/')
         return render(request, "home_TA.html", {"home_TA": home_TA})
 
-    def post(self, request):
-        return render(request, "home_TA.html", {"home_TA": home_TA})
+    def post(self,request):
 
+        return render(request, "home_TA.html", {"home_TA": home_TA})
 
 class admin_CreateNewUser(View):
 

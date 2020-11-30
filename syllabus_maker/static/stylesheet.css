@@ -17,9 +17,9 @@ img.resize {
   transform: translate(-50%, -50%);
 }
 .fontsize{
-    font-size: 25px;
-    font-weight: bold;
-    font-family: "Arial";
+  font-size: 25px;
+  font-weight: bold;
+  font-family: "Arial";
 }
 
 
@@ -109,6 +109,7 @@ img.resize {
   size: 1700px;
   display: inline-block;
 }
+
 .saveButton{
   position: fixed;
   width: 300px;
@@ -128,4 +129,27 @@ img.resize {
   width: 400px;
   font-size: 25px;
   font-family: Arial;
+}
+
+.createNewUser{
+
+  position: fixed;
+  left: 100px;
+  top: 110px;
+  font-size: 30px;
+  font-family: "Arial";
+  font-weight: bold;
+  size: 1700px;
+  display: inline-block;
+}
+
+.mandatoryInfo{
+  position: fixed;
+
+  top: 60%;
+  left: 100px;
+  color: red;
+  font-size: 30px;
+  font-family: "Arial";
+  font-weight: bold;
 }
