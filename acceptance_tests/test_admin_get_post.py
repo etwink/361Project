@@ -59,23 +59,23 @@ class TestTracker(TestCase):
         response3 = self.client.post('/home_Admin/admin_CreateNewUser.html', {'backButton': 'Back'})
         self.assertEqual(response3.url, '/home_Admin/')
 
-        response4 = self.client.post('/home_Admin/admin_CreateNewUser.html', {'logoutButton': 'LogOut'})
+        response4 = self.client.post('/home_Admin/admin_CreateNewUser.html', {'logoutButton': 'Logout'})
         self.assertEqual(response4.url, '/')
 
 
     def test_edit_user_page1(self):
-        response1 = self.client.get('/admin_EditUser1/')
+        response1 = self.client.get('/home_Admin/admin_EditUser1.html')
         users = list(response1.context['users'])
         print(users)
         for user in users:
-            self.assertEqual(user.username, self.user1__name.name)
+            self.assertEqual(user.username, self.user1.username)
             self.assertEqual(user.name, self.user1.name)
-        response2 = self.client.post('/admin_EditUser1/', {'username': 'admin123'})
-        self.assertEqual(response2.url, '/admin_EditUser2/')
-        response3 = self.client.post('/admin_EditUser1/', {'goto': 'back'})
+        response2 = self.client.post('/home_Admin/admin_EditUser1.html', {'username': 'admin123'})
+        self.assertEqual(response2.url, '/home_Admin/admin_EditUser2.html')
+        response3 = self.client.post('/home_Admin/admin_EditUser1.html', {'backButton': 'Back'})
         self.assertEqual(response3.url, '/home_Admin/')
 
-        response4 = self.client.post('/admin_EditUser1/', {'goto': 'logOut'})
+        response4 = self.client.post('/home_Admin/admin_EditUser1.html', {'logoutButton': 'Logout'})
         self.assertEqual(response4.url, '/')
 
     def test_edit_user_page2(self):
