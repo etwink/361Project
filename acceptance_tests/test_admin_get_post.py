@@ -24,19 +24,19 @@ class TestTracker(TestCase):
         self.assertEqual(response2.url, '/home_Admin/')
 
     def test_admin_home(self):
-        response1 = self.client.post('/home_Admin/', {'goto': 'createUser'})
+        response1 = self.client.post('/home_Admin/', {'adminButton': 'Create User'})
         self.assertEqual(response1.url, '/createUser/')
 
-        response2 = self.client.post('/home_Admin/', {'goto': 'editUser'})
+        response2 = self.client.post('/home_Admin/', {'adminButton': 'Edit User'})
         self.assertEqual(response2.url, '/editUser1/')
 
-        response3 = self.client.post('/home_Admin/', {'goto': 'createCourse'})
+        response3 = self.client.post('/home_Admin/', {'adminButton': 'Create Course'})
         self.assertEqual(response3.url, '/createCourse1/')
 
-        response4 = self.client.post('/home_Admin/', {'goto': 'editCourse'})
+        response4 = self.client.post('/home_Admin/', {'adminButton': 'Edit Course'})
         self.assertEqual(response4.url, '/editCourse1/')
 
-        response5 = self.client.post('/home_Admin/', {'goto': 'logOut'})
+        response5 = self.client.post('/home_Admin/', {'logoutButton': 'Logout'})
         self.assertEqual(response5.url, '/')
 
     def test_create_new_user(self):
