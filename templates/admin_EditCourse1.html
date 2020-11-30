@@ -13,11 +13,19 @@
     <img class="uwmLogoBottom" src="/static/UWM-logo.jpg" alt="UWM Logo">
 </div>
 
-<form>
+<form method="post">
+    {% csrf_token %}
+    <p style="color:red">{{ error }}</p>
     <div class="center">
         <label for="Courses" class=fontsize>Pick A Course:</label>
-        <select class="wideDropDown">
+        <select name="course_id" class="wideDropDown">
+            <option value="">-- SELECT --</option>
 
+            {% for course in courses %}
+
+                <option value="{{ course.id }}">{{ course.name }} {{ course.number }}</option>
+
+            {% endfor %}
 
         </select>
 

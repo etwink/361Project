@@ -97,10 +97,11 @@ class admin_CreateNewUser(View):
         (validUser, error, user) = validate_user(request.POST)
         if (validUser):
             user.save()
-            ret = redirect("home_Admin.html")
+            ret = redirect("/home_Admin")
         else:
             ctx["error"] = error
             ctx["user"] = user
+            print(ctx)
             ret = render(request, "admin_CreateNewUser.html", ctx)
 
         return ret
@@ -109,18 +110,7 @@ class admin_CreateNewUser(View):
 class admin_EditUser1(View):
 
     def get_base_ctx(self) -> Dict[str, any]:
-
-        ctx = {}
-
-        all_users = MyUser.objects.all()
-
-        user_names = map(lambda user: (user.id, user.name), all_users)
-        usernames = map(lambda user: (user.id, user.username), all_users)
-
-        ctx["user_names"] = list(user_names)
-        ctx["usernames"] = list(usernames)
-
-        return ctx
+        return {"users": MyUser.objects.all(), "error": ""}
 
     def get(self, request: HttpRequest) -> HttpResponse:
 
@@ -152,7 +142,7 @@ class admin_EditUser1(View):
             ret = render(request, "admin_EditUser1.html", ctx)
         else:
             request.session["selectedUser"] = user_id
-            ret = redirect("admin_EditUser2.html")
+            ret = redirect("/admin_EditUser2.html")
 
         return ret
 
@@ -170,9 +160,9 @@ class admin_EditUser2(View):
 
         ctx = self.get_base_ctx()
 
-        user_id = request.session.get("user_id", None)
+        user_id = request.session.get("selectedUser", None)
         if (user_id is None):
-            ret = redirect("admin_EditUser1.html")
+            ret = redirect("/home_Admin/admin_EditUser1.html")
         else:
             ctx["user"] = MyUser.objects.get(id=user_id)
             ret = render(request, "admin_EditUser2.html", ctx)
@@ -187,14 +177,15 @@ class admin_EditUser2(View):
 
         ctx = self.get_base_ctx()
 
-        user_id = request.session.get("user_id", None)
+        user_id = request.session.get("selectedUser", None)
         if (user_id is None):
-            ret = redirect("admin_EditUser1.html")
+            ret = redirect("/home_Admin/admin_EditUser1.html")
         else:
             (validUser, error, user) = validate_user(request.POST)
             if (validUser):
+                user.id = user_id
                 user.save()
-                ret = redirect("home_Admin.html")
+                ret = redirect("/home_Admin")
             else:
                 ctx["error"] = error
                 ctx["user"] = user
@@ -229,7 +220,7 @@ class admin_CreateCourse(View):
         (validCourse, error, course) = validate_course(request.POST)
         if (validCourse):
             course.save()
-            ret = redirect("home_Admin.html")
+            ret = redirect("/home_Admin")
         else:
             ctx["error"] = error
             ctx["course"] = course
@@ -262,15 +253,7 @@ class admin_AddCourseSection(View):
 class admin_EditCourse1(View):
 
     def get_base_ctx(self) -> Dict[str, any]:
-        ctx = {}
-
-        all_courses = Course.objects.all()
-
-        course_names = map(lambda course: (course.id, course.name), all_courses)
-
-        ctx["course_names"] = list(course_names)
-
-        return ctx
+        return {"courses": Course.objects.all(), "error": ""}
 
     def get(self, request: HttpRequest) -> HttpResponse:
 
@@ -297,7 +280,7 @@ class admin_EditCourse1(View):
             ret = render(request, "admin_EditCourse1.html", ctx)
         else:
             request.session["selectedCourse"] = course_id
-            ret = redirect("admin_EditUser2.html")
+            ret = redirect("/home_Admin/admin_EditCourse2.html")
 
         return ret
 
@@ -315,9 +298,9 @@ class admin_EditCourse2(View):
 
         ctx = self.get_base_ctx()
 
-        course_id = request.session.get("course_id", None)
+        course_id = request.session.get("selectedCourse", None)
         if (course_id is None):
-            ret = redirect("admin_EditCourse1.html")
+            ret = redirect("/home_Admin/admin_EditCourse1.html")
         else:
             ctx["course"] = Course.objects.get(id=course_id)
             ret = render(request, "admin_EditCourse2.html", ctx)
@@ -332,14 +315,14 @@ class admin_EditCourse2(View):
 
         ctx = self.get_base_ctx()
 
-        course_id = request.session.get("course_id", None)
+        course_id = request.session.get("selectedCourse", None)
         if (course_id is None):
-            ret = redirect("admin_EditCourse1.html")
+            ret = redirect("/admin_EditCourse1.html")
         else:
             (validCourse, error, course) = validate_course(request.POST)
             if (validCourse):
                 course.save()
-                ret = redirect("home_Admin.html")
+                ret = redirect("/home_Admin")
             else:
                 ctx["error"] = error
                 ctx["course"] = course
@@ -380,34 +363,34 @@ def home_page(access: str) -> str:
 
 
 def validate_user(post: Type[QueryDict]) -> (bool, str, MyUser):
-    fields = {"name": None, "username": None, "password": None, "access": None, "office": None, "phoneNum": None,
-              "email": None, "officeHours": None, "course": None}
+    fields = {"Name": None, "Username": None, "Password": None, "Access": None, "Office": None, "Phone Number": None,
+              "Email": None, "Office Hours": None, "Course": None}
 
     for field_key in fields.keys():
         fields[field_key] = post.get(field_key, '').strip()
 
-    if ('' in fields.values()):
-        return (False, "all fields are required", None)
-
-    if (fields["role"] not in ["a", "b", "c"]):
-        return (False, "invalid role", None)
-
     u = MyUser(
-        name=fields["name"],
-        username=fields["username"],
-        password=fields["password"],
-        access=fields["access"],
-        office=fields["office"],
-        phoneNum=fields["phoneNum"],
-        email=fields["email"],
-        officeHours=fields["officeHours"],
+        name=fields["Name"],
+        username=fields["Username"],
+        password=fields["Password"],
+        access=fields["Access"],
+        office=fields["Office"],
+        phoneNum=fields["Phone Number"],
+        email=fields["Email"],
+        officeHours=fields["Office Hours"]
     )
+
+    if ('' in fields.values()):
+        return (False, "all fields are required", u)
+
+    if (fields["Access"] not in ["a", "b", "c"]):
+        return (False, "invalid role", u)
 
     return (True, None, u)
 
 
 def validate_course(post: Type[QueryDict]) -> (bool, str, Course):
-    fields = {"name": None, "number": None, "department": None, "info": None, "instructor_id": None}
+    fields = {"name": None, "number": None, "department": None, "info": None}
 
     for field_key in fields.keys():
         fields[field_key] = post.get(field_key, '').strip()
@@ -418,9 +401,8 @@ def validate_course(post: Type[QueryDict]) -> (bool, str, Course):
     c = Course(
         name=fields["name"],
         number=fields["number"],
-        # department?
+        #department=fields["department"],
         info=fields["info"],
-        instructor_id=fields["instructor_id"]
     )
 
     return (True, None, c)

@@ -15,47 +15,59 @@
 
 <form method="post">
     {% csrf_token %}
+
+    <p style="color:red">{{ error }}</p>
+
     <div class="infoBoxes">
         <label for="User's Name">User's Name<span style="color: red">*</span>:</label>
-        <input type="text" name="Name" id="Name">
+        <input type="text" value="{{ user.name }}" name="Name" id="Name">
         <br>
 
         <label for="Username">Username<span style="color: red">*</span>:</label>
-        <input type="text" name="Username" id="Username">
+        <input type="text" value="{{ user.username }}" name="Username" id="Username">
         <br>
 
         <label for="Password">Password<span style="color: red">*</span>:</label>
-        <input type="text" name="Password" id="Password">
+        <input type="text" value="{{ user.password }}" name="Password" id="Password">
         <br>
 
+
+
         <label for="User's Role">User's Role:<span style="color: red">*</span>:</label>
-        <input type="checkbox" name="Instructor" id="Instructor" value="Instructor">
+        <input type="radio" name="Access" id="Instructor" value="b">
         <label for="Instructor"><span style="font-size: 12px">Instructor</span></label>
-        <input type="checkbox" name="Ta" id="Ta" value="TA">
+        <input type="radio" name="Access" id="Ta" value="c">
         <label for="TA"><span style="font-size: 12px">TA</span></label>
-        <input type="checkbox" name="Admin" id="Admin" value="Admin">
+        <input type="radio" name="Access" id="Admin" value="a">
         <label for="Admin"><span style="font-size: 12px">Admin</span></label>
         <br>
 
         <label for="Office">Office:</label>
-        <input type="text" name="Office" id="Office">
+        <input type="text" value="{{ user.office }}" name="Office" id="Office">
         <br>
 
         <label for="Phone Number">Phone Number:</label>
-        <input type="text" name="Phone Number" id="Phone Number">
+        <input type="text" value="{{ user.phoneNum }}" name="Phone Number" id="Phone Number">
         <br>
 
         <label for="Email">Email:</label>
-        <input type="text" name="Email" id="Email">
+        <input type="text" value="{{ user.email }}" name="Email" id="Email">
         <br>
 
 
         <label for="Office Hours">Office Hours:</label>
-        <input type="text" name="Office Hours" id="Office Hours">
+        <input type="text" value="{{ user.officeHours }}" name="Office Hours" id="Office Hours">
         <br>
 
         <label for="Assign Course">Assign A Course:</label>
-        <select class="wideDropDown">
+        <select name="Course" class="wideDropDown">
+            <option value="">-- SELECT --</option>
+
+            {% for course in courses %}
+
+                <option value="{{ course.id }}">{{ course.name }} {{ course.number }}</option>
+
+            {% endfor %}
         </select>
 
     </div>
