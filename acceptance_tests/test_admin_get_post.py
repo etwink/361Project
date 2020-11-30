@@ -25,16 +25,16 @@ class TestTracker(TestCase):
 
     def test_admin_home(self):
         response1 = self.client.post('/home_Admin/', {'adminButton': 'Create User'})
-        self.assertEqual(response1.url, '/createUser/')
+        self.assertEqual(response1.url, '/home_Admin/admin_CreateNewUser.html')
 
         response2 = self.client.post('/home_Admin/', {'adminButton': 'Edit User'})
-        self.assertEqual(response2.url, '/editUser1/')
+        self.assertEqual(response2.url, '/home_Admin/admin_EditUser1.html')
 
         response3 = self.client.post('/home_Admin/', {'adminButton': 'Create Course'})
-        self.assertEqual(response3.url, '/createCourse1/')
+        self.assertEqual(response3.url, '/home_Admin/admin_CreateCourse.html')
 
         response4 = self.client.post('/home_Admin/', {'adminButton': 'Edit Course'})
-        self.assertEqual(response4.url, '/editCourse1/')
+        self.assertEqual(response4.url, '/home_Admin/admin_EditCourse1.html')
 
         response5 = self.client.post('/home_Admin/', {'logoutButton': 'Logout'})
         self.assertEqual(response5.url, '/')
@@ -46,20 +46,20 @@ class TestTracker(TestCase):
         for course in courses:
             self.assertEqual(course.number, self.course1.number)
             self.assertEqual(course.name, self.course1.name)
-        response1 = self.client.post('/admin_CreateNewUser/', {'name': '', 'username': '', 'password': '', 'role': '', 'office': '',
+        response1 = self.client.post('/home_Admin/admin_CreateNewUser.html', {'name': '', 'username': '', 'password': '', 'role': '', 'office': '',
                                                     'phoneNum': '', 'email': '', 'officeHours': '', 'course': ''})
-        self.assertEqual(response1.context['error'], 'fill in all mandatory information')
+        self.assertEqual(response1.url, '/home_Admin/admin_CreateNewUser.html')
 
-        response2 = self.client.post('/admin_CreateNewUser/', {'name': 'Carl Weezer', 'username': 'cweezer', 'password': 'llamas',
+        response2 = self.client.post('/home_Admin/admin_CreateNewUser.html', {'name': 'Carl Weezer', 'username': 'cweezer', 'password': 'llamas',
                                                      'role': 'b', 'office': 'EMS 100',
                                                      'phoneNum': '1111111111', 'email': 'cweezer@uwm.edu',
                                                      'officeHours': 'MW 3:00-5:00', 'course': self.course1})
         self.assertEqual(response2.url, '/home_Admin/')
 
-        response3 = self.client.post('/admin_CreateNewUser/', {'goto': 'back'})
+        response3 = self.client.post('/home_Admin/admin_CreateNewUser.html', {'backButton': 'Back'})
         self.assertEqual(response3.url, '/home_Admin/')
 
-        response4 = self.client.post('/admin_CreateNewUser/', {'goto': 'logOut'})
+        response4 = self.client.post('/home_Admin/admin_CreateNewUser.html', {'logoutButton': 'LogOut'})
         self.assertEqual(response4.url, '/')
 
 
