@@ -1,6 +1,6 @@
 from django.test import TestCase
 from django.test import Client
-from syllabus_maker.models import MyUser, Course, Section
+from syllabus_maker.models import *
 
 class TestTracker(TestCase):
     def setUp(self):
@@ -91,12 +91,12 @@ class TestTracker(TestCase):
         response = self.client.post('/home_Admin/admin_EditUser1.html', {'logoutButton': 'Logout'})
         self.assertEqual(response.url, '/')
 
-    def test_edit_user_page2_get(self):
-        response = self.client.get('/home_Admin/admin_EditUser2.html')
-        user = MyUser(response.context['user']) #passes a user object to edit user page 2
-        self.assertEqual(user.name, self.user1.name) #checking to see if the user object passed in is the user in the database
-        self.assertEqual(user.username, self.user1.username)
-        self.assertEqual(user.access, self.user1.access)
+    # def test_edit_user_page2_get(self):
+    #     response = self.client.get('/home_Admin/admin_EditUser2.html')
+    #     user = MyUser(response.context['user']) #passes a user object to edit user page 2
+    #     self.assertEqual(user.name, self.user1.name) #checking to see if the user object passed in is the user in the database
+    #     self.assertEqual(user.username, self.user1.username)
+    #     self.assertEqual(user.access, self.user1.access)
 
     def test_edit_user_page2_post(self):
         response = self.client.post('/home_Admin/admin_EditUser2.html', {'name': 'John Doe', 'username': 'jdoe', 'password': 'password123',
