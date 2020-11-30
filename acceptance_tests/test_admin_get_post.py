@@ -19,77 +19,77 @@ class TestTracker(TestCase):
         self.assertEqual(response.url, '/')
 
     def test_valid_login(self):
-        response2 = self.client.post('/', {'Uname': 'admin', 'Pass': 'admin'})
-        self.assertEqual(response2.url, '/home_Admin/')
+        response = self.client.post('/', {'Uname': 'admin', 'Pass': 'admin'})
+        self.assertEqual(response.url, '/home_Admin/')
 
     def test_admin_home_createUser(self):
-        response1 = self.client.post('/home_Admin/', {'adminButton': 'Create User'})
-        self.assertEqual(response1.url, '/home_Admin/admin_CreateNewUser.html')
+        response = self.client.post('/home_Admin/', {'adminButton': 'Create User'})
+        self.assertEqual(response.url, '/home_Admin/admin_CreateNewUser.html')
 
     def test_admin_home_editUser(self):
-        response2 = self.client.post('/home_Admin/', {'adminButton': 'Edit User'})
-        self.assertEqual(response2.url, '/home_Admin/admin_EditUser1.html')
+        response = self.client.post('/home_Admin/', {'adminButton': 'Edit User'})
+        self.assertEqual(response.url, '/home_Admin/admin_EditUser1.html')
 
     def test_admin_home_createCourse(self):
-        response3 = self.client.post('/home_Admin/', {'adminButton': 'Create Course'})
-        self.assertEqual(response3.url, '/home_Admin/admin_CreateCourse.html')
+        response = self.client.post('/home_Admin/', {'adminButton': 'Create Course'})
+        self.assertEqual(response.url, '/home_Admin/admin_CreateCourse.html')
 
     def test_admin_home_editCourse(self):
-        response4 = self.client.post('/home_Admin/', {'adminButton': 'Edit Course'})
-        self.assertEqual(response4.url, '/home_Admin/admin_EditCourse1.html')
+        response = self.client.post('/home_Admin/', {'adminButton': 'Edit Course'})
+        self.assertEqual(response.url, '/home_Admin/admin_EditCourse1.html')
 
     def test_admin_home_logout(self):
-        response5 = self.client.post('/home_Admin/', {'logoutButton': 'Logout'})
-        self.assertEqual(response5.url, '/')
+        response = self.client.post('/home_Admin/', {'logoutButton': 'Logout'})
+        self.assertEqual(response.url, '/')
 
     def test_create_new_user_get(self):
-        response5 = self.client.get('/admin_CreateNewUser/')
-        courses = list(response5.context['courses'])
+        response = self.client.get('/admin_CreateNewUser/')
+        courses = list(response.context['courses'])
         print(courses)
         for course in courses:
             self.assertEqual(course.number, self.course1.number)
             self.assertEqual(course.name, self.course1.name)
 
     def test_create_new_user_bad_post(self):
-        response1 = self.client.post('/home_Admin/admin_CreateNewUser.html', {'name': '', 'username': '', 'password': '', 'role': '', 'office': '',
+        response = self.client.post('/home_Admin/admin_CreateNewUser.html', {'name': '', 'username': '', 'password': '', 'role': '', 'office': '',
                                                     'phoneNum': '', 'email': '', 'officeHours': '', 'course': ''})
-        self.assertEqual(response1.url, '/home_Admin/admin_CreateNewUser.html')
+        self.assertEqual(response.url, '/home_Admin/admin_CreateNewUser.html')
 
     def test_create_new_user_good_post(self):
-        response2 = self.client.post('/home_Admin/admin_CreateNewUser.html', {'name': 'Carl Weezer', 'username': 'cweezer', 'password': 'llamas',
+        response = self.client.post('/home_Admin/admin_CreateNewUser.html', {'name': 'Carl Weezer', 'username': 'cweezer', 'password': 'llamas',
                                                      'role': 'b', 'office': 'EMS 100',
                                                      'phoneNum': '1111111111', 'email': 'cweezer@uwm.edu',
                                                      'officeHours': 'MW 3:00-5:00', 'course': self.course1})
-        self.assertEqual(response2.url, '/home_Admin/')
+        self.assertEqual(response.url, '/home_Admin/')
 
     def test_create_new_user_back(self):
-        response3 = self.client.post('/home_Admin/admin_CreateNewUser.html', {'backButton': 'Back'})
-        self.assertEqual(response3.url, '/home_Admin/')
+        response = self.client.post('/home_Admin/admin_CreateNewUser.html', {'backButton': 'Back'})
+        self.assertEqual(response.url, '/home_Admin/')
 
     def test_create_new_user_logout(self):
-        response4 = self.client.post('/home_Admin/admin_CreateNewUser.html', {'logoutButton': 'Logout'})
-        self.assertEqual(response4.url, '/')
+        response = self.client.post('/home_Admin/admin_CreateNewUser.html', {'logoutButton': 'Logout'})
+        self.assertEqual(response.url, '/')
 
 
     def test_edit_user_page1_get(self):
-        response1 = self.client.get('/home_Admin/admin_EditUser1.html')
-        users = list(response1.context['users'])
+        response = self.client.get('/home_Admin/admin_EditUser1.html')
+        users = list(response.context['users'])
         print(users)
         for user in users:
             self.assertEqual(user.username, self.user1.username)
             self.assertEqual(user.name, self.user1.name)
 
     def test_edit_user_page1_post(self):
-        response2 = self.client.post('/home_Admin/admin_EditUser1.html', {'username': 'admin123'})
-        self.assertEqual(response2.url, '/home_Admin/admin_EditUser2.html')
+        response = self.client.post('/home_Admin/admin_EditUser1.html', {'username': 'admin123'})
+        self.assertEqual(response.url, '/home_Admin/admin_EditUser2.html')
 
     def test_edit_user_page1_back(self):
-        response3 = self.client.post('/home_Admin/admin_EditUser1.html', {'backButton': 'Back'})
-        self.assertEqual(response3.url, '/home_Admin/')
+        response = self.client.post('/home_Admin/admin_EditUser1.html', {'backButton': 'Back'})
+        self.assertEqual(response.url, '/home_Admin/')
 
     def test_edit_user_page1_logout(self):
-        response4 = self.client.post('/home_Admin/admin_EditUser1.html', {'logoutButton': 'Logout'})
-        self.assertEqual(response4.url, '/')
+        response = self.client.post('/home_Admin/admin_EditUser1.html', {'logoutButton': 'Logout'})
+        self.assertEqual(response.url, '/')
 
     def test_edit_user_page2(self):
         response1 = self.client.get('/home_Admin/admin_EditUser2.html')
