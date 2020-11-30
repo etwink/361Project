@@ -113,16 +113,16 @@ class TestTracker(TestCase):
         self.assertEqual(response4.url, '/')
 
     def test_create_add_course_sections_page(self):
-        response1 = self.client.post('/addSection/', {'number': ''})
-        self.assertEqual(response1.url, '/addSection/')
+        response1 = self.client.post('/home_Admin/admin_AddCourseSection.html', {'number': ''})
+        self.assertEqual(response1.url, '/home_Admin/admin_AddCourseSection.html')
 
-        response2 = self.client.post('/addSection/', {'number': 804})
-        self.assertEqual(response2.url, '/addSection/')
+        response2 = self.client.post('/home_Admin/admin_AddCourseSection.html', {'number': 804})
+        self.assertEqual(response2.url, '/home_Admin/admin_AddCourseSection.html')
 
-        response3 = self.client.post('/addSection/', {'goto': 'back'})
-        self.assertEqual(response3.url, '/admin_CreateCourse/')
+        response3 = self.client.post('/home_Admin/admin_AddCourseSection.html', {'backButton': 'Back'})
+        self.assertEqual(response3.url, '/home_Admin/admin_CreateCourse.html')
 
-        response4 = self.client.post('/addSection/', {'goto': 'logOut'})
+        response4 = self.client.post('/home_Admin/admin_AddCourseSection.html', {'logoutButton': 'Logout'})
         self.assertEqual(response4.url, '/')
 
     def test_edit_course_page1(self):
