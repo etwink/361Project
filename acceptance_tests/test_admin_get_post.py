@@ -11,7 +11,7 @@ class TestTracker(TestCase):
                                             office = 'EMS 500', phoneNum = '1234567890', email = 'jdoe@uwm.edu', officeHours = 'MW 2-4')
         self.user2 = MyUser.objects.create(name = 'Jane Smith', username = 'jsmith', password = 'password', access = 'c',
                                             office = 'EMS 232', phoneNum = '5555555555', email = 'jsmith@uwm.edu', officeHours = 'TR 11AM-1PM')
-        self.course1 = Course.objects.create(name = 'test_course', number = 100, info = 'test course 1', user = self.user1)
+        self.course1 = Course.objects.create(name = 'test_course', number = 100, info = 'test course 1', instructor = self.user1)
         self.section1 = Section.objects.create(number = 801, course = self.course1, teachingAssistant = self.user2)
 
     def test_invalid_login(self):
