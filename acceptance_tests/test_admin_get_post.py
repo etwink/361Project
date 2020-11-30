@@ -99,17 +99,17 @@ class TestTracker(TestCase):
 
 
     def test_create_course_page(self):
-        response1 = self.client.post('/admin_CreateCourse/', {'name': '', 'number': '', 'department': '', 'info': ''})
-        self.assertEqual(response1.url, '/admin_CreateCourse/')
+        response1 = self.client.post('/home_Admin/admin_CreateCourse.html', {'name': '', 'number': '', 'department': '', 'info': ''})
+        self.assertEqual(response1.url, '/home_Admin/admin_CreateCourse.html')
 
-        response2 = self.client.post('/admin_CreateCourse/', {'name': 'History of Llamas', 'number': '720',
+        response2 = self.client.post('/home_Admin/admin_CreateCourse.html', {'name': 'History of Llamas', 'number': '720',
                                                         'department': 'History', 'info': 'Brief history of llamas'})
-        self.assertEqual(response2.url, '/admin_AddSection/') #This url will probably be changed
+        self.assertEqual(response2.url, '/home_Admin/admin_AddCourseSection.html')
 
-        response3 = self.client.post('/admin_CreateCourse/', {'goto': 'back'})
+        response3 = self.client.post('/home_Admin/admin_CreateCourse.html', {'backButton': 'Back'})
         self.assertEqual(response3.url, '/home_Admin/')
 
-        response4 = self.client.post('/admin_CreateCourse/', {'goto': 'logOut'})
+        response4 = self.client.post('/home_Admin/admin_CreateCourse.html', {'logoutButton': 'Logout'})
         self.assertEqual(response4.url, '/')
 
     def test_create_add_course_sections_page(self):
