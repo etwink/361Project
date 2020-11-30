@@ -127,10 +127,6 @@ class admin_EditUser1(View):
         if (not validReq):
             return redirectAction
 
-        all_users = MyUser.objects.all()
-        user_names = map(lambda user: (user.id, user.name), all_users)
-        usernames = map(lambda user: (user.id, user.username), all_users)
-
         ctx = self.get_base_ctx()
 
         return render(request, "admin_EditUser1.html", ctx)
@@ -179,6 +175,7 @@ class admin_EditUser2(View):
         else:
             ctx["user"] = MyUser.objects.get(id=user_id)
             ret = render(request, "admin_EditUser2.html", ctx)
+
         return ret
 
     def post(self, request: HttpRequest) -> HttpResponse:
@@ -241,7 +238,7 @@ class admin_CreateCourse(View):
 
 class admin_AddCourseSection(View):
 
-    def get_base_ctx(self) -> Dict[str, str]:
+    def get_base_ctx(self) -> Dict[str, any]:
         return {"error": ""}
 
     def get(self, request: HttpRequest) -> HttpResponse:
@@ -263,8 +260,16 @@ class admin_AddCourseSection(View):
 
 class admin_EditCourse1(View):
 
-    def get_base_ctx(self) -> Dict[str, str]:
-        return {"error": ""}
+    def get_base_ctx(self) -> Dict[str, any]:
+        ctx = {}
+
+        all_courses = Course.objects.all()
+
+        course_names = map(lambda course: (course.id, course.name), all_courses)
+
+        ctx["course_names"] = list(course_names)
+
+        return ctx
 
     def get(self, request: HttpRequest) -> HttpResponse:
 
@@ -272,7 +277,9 @@ class admin_EditCourse1(View):
         if (not validReq):
             return redirectAction
 
-        pass
+        ctx = self.get_base_ctx()
+
+        return render(request, "admin_EditCourse1.html", ctx)
 
     def post(self, request: HttpRequest) -> HttpResponse:
 
@@ -280,12 +287,23 @@ class admin_EditCourse1(View):
         if (not validReq):
             return redirectAction
 
-        pass
+        course_id = request.POST["course_id"]
+
+        ctx = self.get_base_ctx()
+
+        if (course_id == ''):
+            ctx["error"] = "please select a course"
+            ret = render(request, "admin_EditCourse1.html", ctx)
+        else:
+            request.session["selectedCourse"] = course_id
+            ret = redirect("admin_EditUser2.html")
+
+        return ret
 
 
 class admin_EditCourse2(View):
 
-    def get_base_ctx(self) -> Dict[str, str]:
+    def get_base_ctx(self) -> Dict[str, any]:
         return {"error": ""}
 
     def get(self, request: HttpRequest) -> HttpResponse:
@@ -294,7 +312,16 @@ class admin_EditCourse2(View):
         if (not validReq):
             return redirectAction
 
-        pass
+        ctx = self.get_base_ctx()
+
+        course_id = request.session.get("course_id", None)
+        if (course_id is None):
+            ret = redirect("admin_EditCourse1.html")
+        else:
+            ctx["course"] = Course.objects.get(id=course_id)
+            ret = render(request, "admin_EditCourse2.html", ctx)
+
+        return ret
 
     def post(self, request: HttpRequest) -> HttpResponse:
 
@@ -302,7 +329,22 @@ class admin_EditCourse2(View):
         if (not validReq):
             return redirectAction
 
-        pass
+        ctx = self.get_base_ctx()
+
+        course_id = request.session.get("course_id", None)
+        if (course_id is None):
+            ret = redirect("admin_EditCourse1.html")
+        else:
+            (validCourse, error, course) = validate_course(request.POST)
+            if (validCourse):
+                course.save()
+                ret = redirect("home_Admin.html")
+            else:
+                ctx["error"] = error
+                ctx["course"] = course
+                ret = render(request, "admin_EditCourse2.html", ctx)
+
+        return ret
 
 
 # --- HELPER METHODS ---
