@@ -27,7 +27,6 @@ class TestTracker(TestCase):
         session['Uname'] = self.admin1.username
         session.save()
         response = self.client.post('/home_Admin/', {'adminButton': 'Create User'})
-        print(response)
         self.assertEqual(response.status_code, 200)
 
     def test_admin_home_editUser(self):
@@ -35,7 +34,6 @@ class TestTracker(TestCase):
         session['Uname'] = self.admin1.username
         session.save()
         response = self.client.post('/home_Admin/', {'adminButton': 'Edit User'})
-        print(response)
         self.assertEqual(response.status_code, 200)
 
     def test_admin_home_createCourse(self):
@@ -43,7 +41,6 @@ class TestTracker(TestCase):
         session['Uname'] = self.admin1.username
         session.save()
         response = self.client.post('/home_Admin/', {'adminButton': 'Create Course'})
-        print(response)
         self.assertEqual(response.status_code, 200)
 
     def test_admin_home_editCourse(self):
@@ -51,7 +48,6 @@ class TestTracker(TestCase):
         session['Uname'] = self.admin1.username
         session.save()
         response = self.client.post('/home_Admin/', {'adminButton': 'Edit Course'})
-        print(response)
         self.assertEqual(response.status_code, 200)
 
     def test_admin_home_logout(self):
@@ -218,7 +214,6 @@ class TestTracker(TestCase):
         session['Uname'] = self.admin1.username
         session.save()
         response = self.client.post('/home_Admin/admin_AddCourseSection.html', {'logoutButton': 'Logout'})
-        print(response)
         self.assertEqual(response.status_code, 200)
 
     def test_edit_course_page1(self):
