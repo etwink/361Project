@@ -197,7 +197,7 @@ class admin_EditUser2(View):
 class admin_CreateCourse(View):
 
     def get_base_ctx(self) -> Dict[str, any]:
-        return {"error": "", "course": Course()}
+        return {"error": "", "course": Course(), "instructors": MyUser.objects.all()}
 
     def get(self, request: HttpRequest) -> HttpResponse:
 
