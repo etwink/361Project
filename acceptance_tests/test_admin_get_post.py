@@ -175,7 +175,7 @@ class TestTracker(TestCase):
         session['Uname'] = self.admin1.username
         session.save()
         response = self.client.post('/home_Admin/admin_CreateCourse.html', {'name': 'History of Llamas', 'number': '720',
-                                                        'department': 'History', 'info': 'Brief history of llamas', 'instructor'})
+                                                        'department': 'History', 'info': 'Brief history of llamas'})
         self.assertEqual(response.status_code, 200)
 
     def test_create_course_back(self):
