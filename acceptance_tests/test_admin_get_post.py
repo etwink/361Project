@@ -93,16 +93,16 @@ class TestTracker(TestCase):
         self.assertEqual(response.status_code, 200)
 
 
-    def test_edit_user_page1_get(self):
-        session = self.client.session
-        session['Uname'] = self.admin1.username
-        session.save()
-        response = self.client.get('/home_Admin/admin_EditUser1.html')
-        users = list(response.context['users'])
-        print(users)
-        for user in users:
-            self.assertEqual(user.username, self.user1.username)
-            self.assertEqual(user.name, self.user1.name)
+    # def test_edit_user_page1_get(self):  #need to rethink how to implement this test as it will always fail with more than one user
+    #     session = self.client.session
+    #     session['Uname'] = self.admin1.username
+    #     session.save()
+    #     response = self.client.get('/home_Admin/admin_EditUser1.html')
+    #     users = list(response.context['users'])
+    #     print(users)
+    #     for user in users:
+    #         self.assertEqual(user.username, self.user1.username)
+    #         self.assertEqual(user.name, self.user1.name)
 
     def test_edit_user_page1_post(self):
         session = self.client.session
