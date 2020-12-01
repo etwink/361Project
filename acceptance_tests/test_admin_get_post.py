@@ -72,10 +72,10 @@ class TestTracker(TestCase):
         session = self.client.session
         session['Uname'] = self.admin1.username
         session.save()
-        response = self.client.post('/home_Admin/admin_CreateNewUser.html', {'name': 'Carl Weezer', 'username': 'cweezer', 'password': 'llamas',
-                                                     'role': 'b', 'office': 'EMS 100',
-                                                     'phoneNum': '1111111111', 'email': 'cweezer@uwm.edu',
-                                                     'officeHours': 'MW 3:00-5:00', 'course': self.course1})
+        response = self.client.post('/home_Admin/admin_CreateNewUser.html', {"User's Name": 'Carl Weezer', "Username": 'cweezer', "Password": 'llamas',
+                                                     "User's Role": 'Admin', "Office": 'EMS 100',
+                                                     "Phone Number": '1111111111', "Email": 'cweezer@uwm.edu',
+                                                     "Office Hours": 'MW 3:00-5:00', "Course": self.course1})
         self.assertEqual(response.status_code, 200)
 
     def test_create_new_user_back(self):
