@@ -330,6 +330,23 @@ class admin_EditCourse2(View):
 
         return ret
 
+class edit_information(View):
+    def get_base_ctx(self) -> Dict[str, any]:
+        return {"courses": Course.objects.all(), "error": "", "user": MyUser()}
+
+    def get(self, request: HttpRequest) -> HttpResponse:
+
+        (validReq, _, redirectAction) = verify_request(request, "a")
+        if (not validReq):
+            return redirectAction
+
+        ctx = self.get_base_ctx()
+
+        return render(request,"edit_information.html", ctx)
+
+    def post(self,request):
+        return render(request,"edit_information.html",{})
+
 
 # --- HELPER METHODS ---
 # *** NEED UNIT TESTS ***

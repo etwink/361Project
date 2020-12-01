@@ -31,4 +31,5 @@ urlpatterns = [
     path("home_Admin/admin_AddCourseSection.html", views.admin_AddCourseSection.as_view()),
     path("home_Admin/admin_EditCourse1.html", views.admin_EditCourse1.as_view()),
     path("home_Admin/admin_EditCourse2.html", views.admin_EditCourse2.as_view()),
+    path("home_Admin/edit_information.html", views.edit_information.as_view()),
 ]
