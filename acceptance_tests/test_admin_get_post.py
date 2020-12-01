@@ -14,14 +14,6 @@ class TestTracker(TestCase):
         self.course1 = Course.objects.create(name = 'test_course', number = 100, info = 'test course 1', instructor = self.user1)
         self.section1 = Section.objects.create(number = 801, course = self.course1, teachingAssistant = self.user2)
 
-    # def test_invalid_login(self):
-    #     response = self.client.post('/', {'Uname': 'admin', 'Pass': 'admin123'})
-    #     self.assertEqual(response.url, '/')
-    #
-    # def test_valid_login(self):
-    #     response = self.client.post('/', {'Uname': 'admin', 'Pass': 'admin'})
-    #     self.assertEqual(response.url, '/home_Admin/')
-
     def test_admin_home_createUser(self):
         session = self.client.session
         session['Uname'] = self.admin1.username
