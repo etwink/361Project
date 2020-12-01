@@ -53,7 +53,7 @@ class TestTracker(TestCase):
         session = self.client.session
         session['Uname'] = self.admin1.username
         session.save()
-        response = self.client.get('/admin_CreateNewUser/')
+        response = self.client.get('/home_Admin/admin_CreateNewUser.html')
         courses = list(response.context['courses'])
         print(courses)
         for course in courses:
