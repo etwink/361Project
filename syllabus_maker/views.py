@@ -336,11 +336,13 @@ class edit_information(View):
 
     def get(self, request: HttpRequest) -> HttpResponse:
 
-        (validReq, _, redirectAction) = verify_request(request, "a")
+        (validReq, user, redirectAction) = verify_request(request, "a")
         if (not validReq):
             return redirectAction
 
         ctx = self.get_base_ctx()
+
+        ctx["user"] = user
 
         return render(request,"edit_information.html", ctx)
 
