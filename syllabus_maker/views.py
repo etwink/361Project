@@ -330,6 +330,13 @@ class admin_EditCourse2(View):
 
         return ret
 
+class edit_information(View):
+    def get(self,request):
+        return render(request,"edit_information.html",{})
+
+    def post(self,request):
+        return render(request,"edit_information.html",{})
+
 
 # --- HELPER METHODS ---
 # *** NEED UNIT TESTS ***
