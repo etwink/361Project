@@ -346,8 +346,25 @@ class edit_information(View):
 
         return render(request,"edit_information.html", ctx)
 
-    def post(self,request):
-        return render(request,"edit_information.html",{})
+    def post(self, request: HttpRequest) -> HttpResponse:
+
+        (validReq, _, redirectAction) = verify_request(request, "a")
+        if (not validReq):
+            return redirectAction
+
+        ctx = self.get_base_ctx()
+
+        (validUser, error, user) = validate_edit_user(request.POST)
+        if (validUser):
+            user.save()
+            ret = render(request, "edit_Information.html", ctx)
+        else:
+            ctx["error"] = error
+            ctx["user"] = user
+            print(ctx)
+            ret = render(request, "edit_Information.html", ctx)
+
+        return ret
 
 
 # --- HELPER METHODS ---
@@ -380,6 +397,28 @@ def home_page(access: str) -> str:
 
     return ret
 
+def validate_edit_user(post: Type[QueryDict]) -> (bool, str, MyUser):
+    fields = {"name": None, "username": None, "password": None, "access": None, "office": None, "phoneNum": None,
+              "email": None, "officeHours": None, "course": None}
+
+    for field_key in fields.keys():
+        fields[field_key] = post.get(field_key, '').strip()
+
+    if ('' in fields.values()):
+        return (False, "all fields are required", None)
+
+    u = MyUser(
+        name=fields["name"],
+        username=fields["username"],
+        password=fields["password"],
+        access=fields["access"],
+        office=fields["office"],
+        phoneNum=fields["phoneNum"],
+        email=fields["email"],
+        officeHours=fields["officeHours"],
+    )
+
+    return (True, None, u)
 
 def validate_user(post: Type[QueryDict]) -> (bool, str, MyUser):
     fields = {"Name": None, "Username": None, "Password": None, "Access": None, "Office": None, "Phone Number": None,
