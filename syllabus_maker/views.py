@@ -197,7 +197,7 @@ class admin_EditUser2(View):
 class admin_CreateCourse(View):
 
     def get_base_ctx(self) -> Dict[str, any]:
-        return {"error": "", "course": Course()}
+        return {"error": "", "course": Course(), "instructors": MyUser.objects.all() }
 
     def get(self, request: HttpRequest) -> HttpResponse:
 
@@ -390,7 +390,7 @@ def validate_user(post: Type[QueryDict]) -> (bool, str, MyUser):
 
 
 def validate_course(post: Type[QueryDict]) -> (bool, str, Course):
-    fields = {"name": None, "number": None, "department": None, "info": None}
+    fields = {"name": None, "number": None, "department": None, "info": None, "Instructor": None}
 
     for field_key in fields.keys():
         fields[field_key] = post.get(field_key, '').strip()
@@ -401,7 +401,7 @@ def validate_course(post: Type[QueryDict]) -> (bool, str, Course):
     c = Course(
         name=fields["name"],
         number=fields["number"],
-        #department=fields["department"],
+        instructor_id=fields["Instructor"],
         info=fields["info"],
     )
 
