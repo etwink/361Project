@@ -336,7 +336,7 @@ class edit_information(View):
 
     def get(self, request: HttpRequest) -> HttpResponse:
 
-        (validReq, user, redirectAction) = verify_request(request, "a")
+        (validReq, user, redirectAction) = verify_request(request, "abc")
         if (not validReq):
             return redirectAction
 
@@ -362,7 +362,7 @@ def verify_request(req: HttpRequest, access: str) -> (bool, MyUser, HttpResponse
 
     user = MyUser.objects.get(username=uname)
 
-    if (user.access == access):
+    if (user.access in access):
         return (True, user, None)
 
     return (False, None, redirect(home_page(user.access)))
