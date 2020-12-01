@@ -336,7 +336,7 @@ class edit_information(View):
 
     def get(self, request: HttpRequest) -> HttpResponse:
 
-        (validReq, user, redirectAction) = verify_request(request, "abc")
+        (validReq, user, redirectAction) = verify_request(request, "a")
         if (not validReq):
             return redirectAction
 
