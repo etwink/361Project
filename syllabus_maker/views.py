@@ -348,7 +348,7 @@ class edit_information(View):
 
     def post(self, request: HttpRequest) -> HttpResponse:
 
-        (validReq, _, redirectAction) = verify_request(request, "a")
+        (validReq, c, redirectAction) = verify_request(request, "a")
         if (not validReq):
             return redirectAction
 
@@ -356,7 +356,9 @@ class edit_information(View):
 
         (validUser, error, user) = validate_edit_user(request.POST)
         if (validUser):
+            user.id = c.id
             user.save()
+            ctx["user"] = user
             ret = render(request, "edit_Information.html", ctx)
         else:
             ctx["error"] = error
@@ -398,31 +400,32 @@ def home_page(access: str) -> str:
     return ret
 
 def validate_edit_user(post: Type[QueryDict]) -> (bool, str, MyUser):
-    fields = {"name": None, "username": None, "password": None, "access": None, "office": None, "phoneNum": None,
-              "email": None, "officeHours": None, "course": None}
+    fields = {"Name": None, "Username": None, "Password": None, "Office": None, "Phone Number": None,
+              "Email": None, "Office Hours": None,}
 
     for field_key in fields.keys():
         fields[field_key] = post.get(field_key, '').strip()
 
-    if ('' in fields.values()):
-        return (False, "all fields are required", None)
+
 
     u = MyUser(
-        name=fields["name"],
-        username=fields["username"],
-        password=fields["password"],
-        access=fields["access"],
-        office=fields["office"],
-        phoneNum=fields["phoneNum"],
-        email=fields["email"],
-        officeHours=fields["officeHours"],
+        name=fields["Name"],
+        username=fields["Username"],
+        password=fields["Password"],
+        office=fields["Office"],
+        phoneNum=fields["Phone Number"],
+        email=fields["Email"],
+        officeHours=fields["Office Hours"],
     )
+
+    if ('' in fields.values()):
+        return (False, "all fields are required", u)
 
     return (True, None, u)
 
 def validate_user(post: Type[QueryDict]) -> (bool, str, MyUser):
     fields = {"Name": None, "Username": None, "Password": None, "Access": None, "Office": None, "Phone Number": None,
-              "Email": None, "Office Hours": None, "Course": None}
+              "Email": None, "Office Hours": None,}
 
     for field_key in fields.keys():
         fields[field_key] = post.get(field_key, '').strip()
