@@ -49,13 +49,16 @@ class TestTracker(TestCase):
         response = self.client.post('/home_Admin/', {'logoutButton': 'Logout'})
         self.assertEqual(response.status_code, 200)
 
-    # def test_create_new_user_get(self):
-    #     response = self.client.get('/admin_CreateNewUser/')
-    #     courses = list(response.context['courses'])
-    #     print(courses)
-    #     for course in courses:
-    #         self.assertEqual(course.number, self.course1.number)
-    #         self.assertEqual(course.name, self.course1.name)
+    def test_create_new_user_get(self):
+        session = self.client.session
+        session['Uname'] = self.admin1.username
+        session.save()
+        response = self.client.get('/admin_CreateNewUser/')
+        courses = list(response.context['courses'])
+        print(courses)
+        for course in courses:
+            self.assertEqual(course.number, self.course1.number)
+            self.assertEqual(course.name, self.course1.name)
 
     def test_create_new_user_bad_post(self):
         session = self.client.session
@@ -90,13 +93,16 @@ class TestTracker(TestCase):
         self.assertEqual(response.status_code, 200)
 
 
-    # def test_edit_user_page1_get(self):
-    #     response = self.client.get('/home_Admin/admin_EditUser1.html')
-    #     users = list(response.context['users'])
-    #     print(users)
-    #     for user in users:
-    #         self.assertEqual(user.username, self.user1.username)
-    #         self.assertEqual(user.name, self.user1.name)
+    def test_edit_user_page1_get(self):
+        session = self.client.session
+        session['Uname'] = self.admin1.username
+        session.save()
+        response = self.client.get('/home_Admin/admin_EditUser1.html')
+        users = list(response.context['users'])
+        print(users)
+        for user in users:
+            self.assertEqual(user.username, self.user1.username)
+            self.assertEqual(user.name, self.user1.name)
 
     def test_edit_user_page1_post(self):
         session = self.client.session
@@ -119,12 +125,15 @@ class TestTracker(TestCase):
         response = self.client.post('/home_Admin/admin_EditUser1.html', {'logoutButton': 'Logout'})
         self.assertEqual(response.status_code, 200)
 
-    # def test_edit_user_page2_get(self):
-    #     response = self.client.get('/home_Admin/admin_EditUser2.html')
-    #     user = MyUser(response.context['user']) #passes a user object to edit user page 2
-    #     self.assertEqual(user.name, self.user1.name) #checking to see if the user object passed in is the user in the database
-    #     self.assertEqual(user.username, self.user1.username)
-    #     self.assertEqual(user.access, self.user1.access)
+    def test_edit_user_page2_get(self):
+        session = self.client.session
+        session['Uname'] = self.admin1.username
+        session.save()
+        response = self.client.get('/home_Admin/admin_EditUser2.html')
+        user = MyUser(response.context['user']) #passes a user object to edit user page 2
+        self.assertEqual(user.name, self.user1.name) #checking to see if the user object passed in is the user in the database
+        self.assertEqual(user.username, self.user1.username)
+        self.assertEqual(user.access, self.user1.access)
 
     def test_edit_user_page2_post(self):
         session = self.client.session
