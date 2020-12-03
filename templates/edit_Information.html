@@ -14,7 +14,8 @@
 </div>
 
 
-<form class="infoBoxes">
+<form class="infoBoxes" method="post">
+    {% csrf_token %}
         <label for="User's Name">User's Name:</label>
         <input type="text" value="{{ user.name }}" name="Name" id="Name">
         <br>
