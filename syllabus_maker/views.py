@@ -54,7 +54,8 @@ class home_Instructor(View):
     def get(self,request):
         if not request.session.get("Uname"):
             return redirect('/')
-        return render(request, "home_Instructor.html", {"home_Instructor": home_Instructor})
+        Username = request.session.get("name")
+        return render(request, "home_Instructor.html", {"home_Instructor": home_Instructor, "Username": Username})
 
     def post(self,request):
 
@@ -65,7 +66,8 @@ class home_TA(View):
     def get(self,request):
         if not request.session.get("Uname"):
             return redirect('/')
-        return render(request, "home_TA.html", {"home_TA": home_TA})
+        Username = request.session.get("name")
+        return render(request, "home_TA.html", {"home_TA": home_TA, "Username": Username})
 
     def post(self,request):
 
