@@ -210,7 +210,7 @@ class TestTracker(TestCase):
         # session = self.client.session
         # session['Uname'] = self.admin1.username
         # session.save()
-        # response = self.client.post('/home_Admin/admin_AddCourseSection.html', {'number': ''})
+        # response = self.client.post('/home_Admin/admin_AddCourseSection2.html', {'number': ''})
         # self.assertEqual(response.status_code, 200)
 
     # unimplemented -- for sprint 2
@@ -219,7 +219,7 @@ class TestTracker(TestCase):
         # session = self.client.session
         # session['Uname'] = self.admin1.username
         # session.save()
-        # response = self.client.post('/home_Admin/admin_AddCourseSection.html', {'number': 804})
+        # response = self.client.post('/home_Admin/admin_AddCourseSection2.html', {'number': 804})
         # self.assertEqual(response.status_code, 200)
 
     # unimplemented -- for sprint 2
@@ -228,7 +228,7 @@ class TestTracker(TestCase):
         # session = self.client.session
         # session['Uname'] = self.admin1.username
         # session.save()
-        # response = self.client.post('/home_Admin/admin_AddCourseSection.html', {'backButton': 'Back'})
+        # response = self.client.post('/home_Admin/admin_AddCourseSection2.html', {'backButton': 'Back'})
         # self.assertEqual(response.status_code, 200)
 
     # unimplemented -- for sprint 2
@@ -237,7 +237,7 @@ class TestTracker(TestCase):
         # session = self.client.session
         # session['Uname'] = self.admin1.username
         # session.save()
-        # response = self.client.post('/home_Admin/admin_AddCourseSection.html', {'logoutButton': 'Logout'})
+        # response = self.client.post('/home_Admin/admin_AddCourseSection2.html', {'logoutButton': 'Logout'})
         # self.assertEqual(response.status_code, 200)
 
     def test_edit_course_page1(self):

@@ -228,10 +228,11 @@ class admin_CreateCourse(View):
 
         return ret
 
-class admin_AddCourseSection(View):
+
+class admin_AddCourseSection1(View):
 
     def get_base_ctx(self) -> Dict[str, any]:
-        return {"error": ""}
+        return {"courses": Course.objects.all(), "error": ""}
 
     def get(self, request: HttpRequest) -> HttpResponse:
 
@@ -239,7 +240,9 @@ class admin_AddCourseSection(View):
         if (not validReq):
             return redirectAction
 
-        pass
+        ctx = self.get_base_ctx()
+
+        return render(request, "admin_AddCourseSection1.html", ctx)
 
     def post(self, request: HttpRequest) -> HttpResponse:
 
@@ -247,7 +250,48 @@ class admin_AddCourseSection(View):
         if (not validReq):
             return redirectAction
 
-        pass
+        course_id = request.POST["course_id"]
+        ctx = self.get_base_ctx()
+        if (course_id == ''):
+            ctx["error"] = "please select a course"
+            ret = render(request, "admin_AddCourseSection1.html", ctx)
+        else:
+            request.session["selectedCourse"] = course_id
+            ret = redirect("/home_Admin/admin_AddCourseSection2.html")
+
+        return ret
+
+
+class admin_AddCourseSection2(View):
+
+    def get_base_ctx(self) -> Dict[str, any]:
+        return {"instructors": MyUser.objects.all(), "sections": Section.objects.all(), "error": "",}
+
+    def get(self, request: HttpRequest) -> HttpResponse:
+
+        (validReq, _, redirectAction) = verify_request(request, "a")
+        if (not validReq):
+            return redirectAction
+
+        ctx = self.get_base_ctx()
+
+        course_id = request.session.get("selectedCourse", None)
+        if (course_id is None):
+            ret = redirect("/home_Admin/admin_AddCourseSection1.html")
+        else:
+            ctx["course"] = Course.objects.get(id=course_id)
+            ret = render(request, "admin_AddCourseSection2.html", ctx)
+
+        return ret
+
+
+    def post(self, request: HttpRequest) -> HttpResponse:
+
+        (validReq, _, redirectAction) = verify_request(request, "a")
+        if (not validReq):
+            return redirectAction
+
+        return render(request, "admin_AddCourseSection2.html")
 
 
 class admin_EditCourse1(View):
