@@ -456,8 +456,8 @@ def validate_course(post: Type[QueryDict]) -> (bool, str, Course):
     for field_key in fields.keys():
         fields[field_key] = post.get(field_key, '').strip()
 
-    if ('' in fields.values()):
-        return (False, "all fields are required", None)
+    # if ('' in fields.values()):
+    #     return (False, "all fields are required", None)
 
     c = Course(
         name=fields["name"],

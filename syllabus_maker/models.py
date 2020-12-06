@@ -22,7 +22,7 @@ class Course(models.Model):
     # For holding course info
     info = models.CharField(max_length=300)
     # Each course has one instructor, but instructors can have multiple courses.
-    instructor = models.ForeignKey(MyUser, on_delete=models.CASCADE)
+    instructor = models.ForeignKey(MyUser, on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):
         return self.name
