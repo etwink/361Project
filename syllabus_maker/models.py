@@ -23,6 +23,9 @@ class Course(models.Model):
     info = models.CharField(max_length=300)
     # Each course has one instructor, but instructors can have multiple courses.
     instructor = models.ForeignKey(MyUser, on_delete=models.CASCADE, blank=True, null=True)
+    # Instructor should be assigned to sections not courses
+    #   (e.g. 361-401:Lecture:Instructor: Rock       361-803:Lab:Instructor: Apoorv)
+    # Sections should be assigned to Courses, (e.g. 337-401, 361-401)
 
     def __str__(self):
         return self.name
@@ -34,6 +37,8 @@ class Section(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     # Each section has one TA, but TA's can have multiple sections.
     teachingAssistant = models.ForeignKey(MyUser, on_delete=models.CASCADE)
+    # Rename teachingAssistant to Instructor as sections are both for labs and lectures
+    #   (e.g. 337-401:Lecture 333-801:Lab)
 
     def __str__(self):
         return self.name
