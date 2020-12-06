@@ -21,9 +21,13 @@
         <select name ="Section" class ="wideDropDown">
             <option value="">{{ course.name }} {{ course.number }}'s Sections:</option>
 
-            {% for s %}
+            {% for section in sections %}
 
-        </select>
+                <option value="{{ section.id }}">{{ section.course }}-{{ section.number }} Instructor/TA: {{ section.teachingAssistant }} </option>
+
+            {% endfor %}
+
+        </select><br><br/>
         <label for="SectionNumber" class=fontsize>Add a Course Section Number: </label>
         <input type="text" name="SectionNumber" id="SectionNumber" placeholder="(e.g. 803)"><br><br/>
         <label for="Assign Course">Assign an Instructor:<span style="color: red">*</span>:</label>

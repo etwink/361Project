@@ -197,7 +197,7 @@ class admin_EditUser2(View):
 class admin_CreateCourse(View):
 
     def get_base_ctx(self) -> Dict[str, any]:
-        return {"error": "", "course": Course(), "instructors": MyUser.objects.all() }
+        return {"error": "", "course": Course(), }
 
     def get(self, request: HttpRequest) -> HttpResponse:
 
@@ -265,7 +265,7 @@ class admin_AddCourseSection1(View):
 class admin_AddCourseSection2(View):
 
     def get_base_ctx(self) -> Dict[str, any]:
-        return {"instructors": MyUser.objects.all(), "sections": Section.objects.all(), "error": "",}
+        return {"instructors": MyUser.objects.filter(access="bc"), "sections": Section.objects.all(), "error": ""}
 
     def get(self, request: HttpRequest) -> HttpResponse:
 
@@ -495,7 +495,7 @@ def validate_user(post: Type[QueryDict]) -> (bool, str, MyUser):
 
 
 def validate_course(post: Type[QueryDict]) -> (bool, str, Course):
-    fields = {"name": None, "number": None, "department": None, "info": None, "Instructor": None}
+    fields = {"name": None, "number": None, "department": None, "info": None}
 
     for field_key in fields.keys():
         fields[field_key] = post.get(field_key, '').strip()
@@ -506,8 +506,8 @@ def validate_course(post: Type[QueryDict]) -> (bool, str, Course):
     c = Course(
         name=fields["name"],
         number=fields["number"],
-        instructor_id=fields["Instructor"],
         info=fields["info"],
+        section=None,
     )
 
     return (True, None, c)
