@@ -41,4 +41,4 @@ class Section(models.Model):
     #   (e.g. 337-401:Lecture 333-801:Lab)
 
     def __str__(self):
-        return self.name
+        return self.course.name

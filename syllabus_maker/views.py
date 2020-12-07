@@ -233,6 +233,9 @@ class admin_AddCourseSection1(View):
     def get_base_ctx(self) -> Dict[str, any]:
         return {"courses": Course.objects.all(), "error": ""}
 
+    def get_two_ctx(self, course_id) -> Dict[str, any]:
+        return {"course": Course.objects.get(id=course_id)}
+
     def get(self, request: HttpRequest) -> HttpResponse:
 
         (validReq, _, redirectAction) = verify_request(request, "a")
@@ -257,14 +260,17 @@ class admin_AddCourseSection1(View):
         else:
             request.session["selectedCourse"] = course_id
             ret = redirect("/home_Admin/admin_AddCourseSection2.html")
+            # ret = render(request, "admin_AddCourseSection2.html", {"course":course_id})
 
         return ret
 
 
 class admin_AddCourseSection2(View):
 
-    def get_base_ctx(self) -> Dict[str, any]:
-        return {"instructors": MyUser.objects.filter(access="bc"), "sections": Section.objects.all(), "error": ""}
+    def get_base_ctx(self, course_id) -> Dict[str, any]:
+        return {"course": "", "section": Section(), "teachingAssistants": MyUser.objects.filter(access="c"), "sections": Section.objects.filter(course=course_id), "error": ""}
+
+
 
     def get(self, request: HttpRequest) -> HttpResponse:
 
@@ -272,9 +278,11 @@ class admin_AddCourseSection2(View):
         if (not validReq):
             return redirectAction
 
-        ctx = self.get_base_ctx()
-
         course_id = request.session.get("selectedCourse", None)
+        # course_id = request.POST.get("course", None)
+        ctx = self.get_base_ctx(course_id)
+
+
         if (course_id is None):
             ret = redirect("/home_Admin/admin_AddCourseSection1.html")
         else:
@@ -290,7 +298,26 @@ class admin_AddCourseSection2(View):
         if (not validReq):
             return redirectAction
 
-        return render(request, "admin_AddCourseSection2.html")
+        course_id = request.session.get("selectedCourse", None)
+        ctx = self.get_base_ctx(course_id)
+        course = Course.objects.get(id=course_id)
+
+        (validSection, error, section) = validate_section(request.POST, course)
+        if (validSection):
+            section.save()
+            request.session["selectedCourse"] = course_id
+            ret = redirect("/home_Admin/admin_AddCourseSection2.html")
+            # ret = render(request, "admin_AddCourseSection2.html", {"course":course_id})
+        else:
+
+            ctx["error"] = error
+            # request = request.session["selectedCourse"] = course_id
+            ret = render(request, "admin_AddCourseSection2.html", ctx )
+            # ret = render(request, "admin_AddCourseSection2.html", ctx,)
+
+        return ret
+
+
 
 
 class admin_EditCourse1(View):
@@ -511,8 +538,8 @@ def validate_course(post: Type[QueryDict]) -> (bool, str, Course):
 
     return (True, None, c)
 
-def validate_section(post: Type[QueryDict]) -> (bool, str, Section):
-    fields = {"number": None}
+def validate_section(post: Type[QueryDict], course_id) -> (bool, str, Section):
+    fields = {"number": None, "teachingAssistant": None}
 
     for field_key in fields.keys():
         fields[field_key] = post.get(field_key, '').strip()
@@ -521,7 +548,9 @@ def validate_section(post: Type[QueryDict]) -> (bool, str, Section):
         return (False, "all fields are required", None)
 
     s = Section(
-        number=fields["number"]
+        number=fields["number"],
+        teachingAssistant_id=fields["teachingAssistant"],
+        course=course_id,
     )
 
     return (True, None, s)

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html
+<html>
 <head>
     <meta charset="UTF-8">
     <title>Add Course Section</title>
@@ -7,49 +7,70 @@
 </head>
 <body>
 
-
-<label class="nameDisplay">Add a Course Section
+<label class="nameDisplay">Add a Course Section for: {{ course.name }} {{ course.number }}
 </label>
 
 <div>
     <img class="uwmLogoBottom" src="/static/UWM-logo.jpg" alt="UWM Logo">
 </div>
-
-<form method="post">
+<form action="" method="post">
     {% csrf_token %}
-    <p style="color:red">{{ error }}</p>
-    <div class="center">
-{#        <label for="Courses" class=fontsize>Pick A Course:</label>#}
-{#        <select name="course_id" class="wideDropDown">#}
-{#            <option value="">-- SELECT --</option>#}
+    <p style="color: red">{{ error }}</p>
+    <div class="infoBoxes">
+        <label for="Sections" >Sections for this class:</label>
+        <ul>
+            {% for section in sections %}
+
+                <li class="fontsize">{{ course.name }} {{ course.number }}-{{ section.number }} Instructor/TA: {{ section.teachingAssistant }} </li>
+
+            {% endfor %}
+        </ul>
+
+{#        <select name ="Section" class ="wideDropDown">#}
+{#            <option value="">{{ course.name }} {{ course.number }}'s Sections:</option>#}
 {##}
-{#            {% for course in courses %}#}
+{#            {% for section in sections %}#}
 {##}
-{#                <option value="{{ course.id }}">{{ course.name }} {{ course.number }}</option>#}
+{#                <option value="{{ section.id }}">{{ section.course }}-{{ section.number }} Instructor/TA: {{ section.teachingAssistant }} </option>#}
 {##}
 {#            {% endfor %}#}
 {##}
-{#        </select>#}
-        <label for="Choose Course" class="fontsize">Pick a Course:</label>
-        <select name="course_id" class="wideDropDown">
+{#        </select><br><br/>#}
+        <label for="sectionNumber" >Add a Course Section Number<span style="color: red">*</span>: </label>
+        <input type="text" name="number" id="SectionNumber" placeholder="(e.g. 803)"><br><br/>
+        <label for="Assign Course">Assign an Instructor:<span style="color: red">*</span>:</label>
+        <label>
+        <select name="teachingAssistant" class="wideDropDown">
             <option value="">-- SELECT --</option>
 
-            {% for course in courses %}
+            {% for TA in teachingAssistants %}
 
-                <option value="{{ course.id }}">{{ course.name }} {{ course.number }}</option>
+                <option value="{{ TA.id }}">{{ TA.name }} {{ TA.number }}</option>
 
             {% endfor %}
         </select>
+        </label><br><br/>
+        <span style="color: red">Mandatory Information*</span><br><br/>
+        </a><br><br/><br><br/><br><br/>
 
+        <input type="submit" value="Add Course Section" class="saveButton">
     </div>
-    <input type="submit" value="Go" class="goButton">
 </form>
+{#<form>#}
+{#    <div class="center">#}
+{#        <label for="SectionNumber" class=fontsize>Course Section Number: </label>#}
+{#        <input type="text" name="SectionNumber" id="SectionNumber" placeholder="(e.g. 803)">#}
+{##}
+{#    </div>#}
+{#    <input type="submit" value="Add Course" class="saveButton">#}
+{#</form>#}
 
-<a href="/admin_AddCourseSection1.html">
+<a href="admin_AddCourseSection1.html">
     <button class="backButton">Back</button>
 </a>
-<a href="/">
+<a href="home.html">
     <button class="logoutButton">Logout</button>
 </a>
 </body>
 </html>
+
