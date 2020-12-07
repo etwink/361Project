@@ -25,6 +25,7 @@ class Course(models.Model):
     instructor = models.ForeignKey(MyUser, on_delete=models.CASCADE, blank=True, null=True)
     # Instructor should be assigned to sections not courses
     #   (e.g. 361-401:Lecture:Instructor: Rock       361-803:Lab:Instructor: Apoorv)
+
     # Sections should be assigned to Courses, (e.g. 337-401, 361-401)
 
     def __str__(self):
