@@ -3,6 +3,7 @@ from django.views import View
 from .models import MyUser, Course, Section
 from typing import Dict, Type
 from django.http import QueryDict, HttpRequest, HttpResponse
+from django.core.exceptions import ObjectDoesNotExist
 
 
 class home(View):
@@ -522,18 +523,27 @@ def validate_user(post: Type[QueryDict]) -> (bool, str, MyUser):
 
 
 def validate_course(post: Type[QueryDict]) -> (bool, str, Course):
-    fields = {"name": None, "number": None, "department": None, "info": None, "Instructor": None}
+    fields = {"name": None, "number": None, "department": None, "info": None,}
 
     for field_key in fields.keys():
         fields[field_key] = post.get(field_key, '').strip()
 
     # if ('' in fields.values()):
-    #     return (False, "all fields are required", None)
+    #      return (False, "all fields are required", None)
+    if ('' in fields.values()):
+         return (False, "all fields are required", None)
+    try:
+        Course.objects.get(name=fields["name"], number=fields["number"])
+        return (False, fields["name"] + " " + fields["number"] + " already exists", None)
+    except ObjectDoesNotExist:
+        pass
 
+    # if(fields["number"] == str(Course.objects.filter(name=fields["name"]).filter(number=int(fields["number"])).number)):
+    #     return (False, fields["name"] + fields["number"] + " already exists", None)
     c = Course(
         name=fields["name"],
         number=fields["number"],
-        instructor_id=fields["Instructor"],
+        # instructor_id=fields["Instructor"],
         info=fields["info"],
     )
 
