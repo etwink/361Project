@@ -44,7 +44,7 @@ class Course(models.Model):
     info = models.CharField(max_length=300)
     # Each course has one instructor, but instructors can have multiple courses.
     # instructor = models.ForeignKey(MyUser, on_delete=models.CASCADE)
-    section = models.ForeignKey(Section, on_delete=models.CASCADE, blank=True, null=True)
+    section = models.ForeignKey(Section, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
