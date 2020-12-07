@@ -3,7 +3,6 @@ from django.views import View
 from .models import MyUser, Course, Section
 from typing import Dict, Type
 from django.http import QueryDict, HttpRequest, HttpResponse
-from django.core.exceptions import ObjectDoesNotExist
 
 
 class home(View):
@@ -259,9 +258,11 @@ class admin_AddCourseSection1(View):
             ctx["error"] = "please select a course"
             ret = render(request, "admin_AddCourseSection1.html", ctx)
         else:
-            request.session["selectedCourse"] = course_id
-            ret = redirect("/home_Admin/admin_AddCourseSection2.html")
-            # ret = render(request, "admin_AddCourseSection2.html", {"course":course_id})
+            ctx2 = self.get_two_ctx(course_id)
+            # request.session["selectedCourse"] = course_id
+            # ret = redirect("/home_Admin/admin_AddCourseSection2.html")
+            ctx2["selectedCourse"] = course_id
+            ret = render(request, "admin_AddCourseSection2.html", ctx2)
 
         return ret
 
@@ -269,17 +270,19 @@ class admin_AddCourseSection1(View):
 class admin_AddCourseSection2(View):
 
     def get_base_ctx(self, course_id) -> Dict[str, any]:
-        return {"course": "", "section": Section(), "teachingAssistants": MyUser.objects.filter(access="c"), "instructors": MyUser.objects.filter(access="b"), "sections": Section.objects.filter(course=course_id), "error": ""}
+        return { "course": "", "section": Section(), "teachingAssistants": MyUser.objects.all(), "sections": Section.objects.filter(course=course_id), "error": ""}
 
-
+    def get_two_ctx(self) -> Dict[str, any]:
+        return {"selectedCourse": ""}
 
     def get(self, request: HttpRequest) -> HttpResponse:
 
         (validReq, _, redirectAction) = verify_request(request, "a")
         if (not validReq):
             return redirectAction
-
-        course_id = request.session.get("selectedCourse", None)
+        ctx2 = self.get_two_ctx()
+        course_id = ctx2["selectedCourse"]
+        # course_id = request.session.get("selectedCourse", None)
         # course_id = request.POST.get("course", None)
         ctx = self.get_base_ctx(course_id)
 
@@ -298,23 +301,26 @@ class admin_AddCourseSection2(View):
         (validReq, _, redirectAction) = verify_request(request, "a")
         if (not validReq):
             return redirectAction
-
-        course_id = request.session.get("selectedCourse", None)
+        ctx2 = self.get_two_ctx()
+        course_id = ctx2["selectedCourse"]
+        # course_id = request.session.get("selectedCourse", None)
         ctx = self.get_base_ctx(course_id)
         course = Course.objects.get(id=course_id)
 
         (validSection, error, section) = validate_section(request.POST, course)
         if (validSection):
             section.save()
-            request.session["selectedCourse"] = course_id
-            ret = redirect("/home_Admin/admin_AddCourseSection2.html")
-            # ret = render(request, "admin_AddCourseSection2.html", {"course":course_id})
+            # request.session["selectedCourse"] = course_id
+            ctx2 = self.get_two_ctx()
+            ctx2["selectedCourse"] = course_id
+            # ret = redirect("/home_Admin/admin_AddCourseSection2.html")
+            ret = render(request, "admin_AddCourseSection2.html", ctx2)
         else:
 
             ctx["error"] = error
-            ctx["course"] = course
             # request = request.session["selectedCourse"] = course_id
-            ret = render(request, "admin_AddCourseSection2.html", ctx)
+            ctx2["selectedCourse"] = course_id
+            ret = render(request, "admin_AddCourseSection2.html", ctx, ctx2 )
             # ret = render(request, "admin_AddCourseSection2.html", ctx,)
 
         return ret
@@ -523,27 +529,18 @@ def validate_user(post: Type[QueryDict]) -> (bool, str, MyUser):
 
 
 def validate_course(post: Type[QueryDict]) -> (bool, str, Course):
-    fields = {"name": None, "number": None, "department": None, "info": None,}
+    fields = {"name": None, "number": None, "department": None, "info": None, "Instructor": None}
 
     for field_key in fields.keys():
         fields[field_key] = post.get(field_key, '').strip()
 
     # if ('' in fields.values()):
-    #      return (False, "all fields are required", None)
-    if ('' in fields.values()):
-         return (False, "all fields are required", None)
-    try:
-        Course.objects.get(name=fields["name"], number=fields["number"])
-        return (False, fields["name"] + " " + fields["number"] + " already exists", None)
-    except ObjectDoesNotExist:
-        pass
+    #     return (False, "all fields are required", None)
 
-    # if(fields["number"] == str(Course.objects.filter(name=fields["name"]).filter(number=int(fields["number"])).number)):
-    #     return (False, fields["name"] + fields["number"] + " already exists", None)
     c = Course(
         name=fields["name"],
         number=fields["number"],
-        # instructor_id=fields["Instructor"],
+        instructor_id=fields["Instructor"],
         info=fields["info"],
     )
 
