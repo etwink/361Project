@@ -21,7 +21,11 @@
         <ul>
             {% for section in sections %}
 
-                <li class="fontsize">{{ course.name }} {{ course.number }}-{{ section.number }} Instructor/TA: {{ section.teachingAssistant }} </li>
+                <li class="fontsize">{{ course.name }} {{ course.number }}-{{ section.number }}
+                    {% if section.teachingAssistant.access == "b" %}&emsp;Instructor:
+                    {% else %}&emsp;TA:
+                    {% endif %}
+                    {{ section.teachingAssistant }} </li>
 
             {% endfor %}
         </ul>
@@ -45,9 +49,15 @@
 
             {% for TA in teachingAssistants %}
 
-                <option value="{{ TA.id }}">{{ TA.name }} {{ TA.number }}</option>
+                <option value="{{ TA.id }}">{{ TA.name }} {{ TA.number }} - TA </option>
 
             {% endfor %}
+            {% for instructor in instructors %}
+
+                <option value="{{ instructor.id }}">{{ instructor.name }} {{ instructor.number }} - Instructor </option>
+
+            {% endfor %}
+
         </select>
         </label><br><br/>
         <span style="color: red">Mandatory Information*</span><br><br/>

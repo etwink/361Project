@@ -268,7 +268,7 @@ class admin_AddCourseSection1(View):
 class admin_AddCourseSection2(View):
 
     def get_base_ctx(self, course_id) -> Dict[str, any]:
-        return {"course": "", "section": Section(), "teachingAssistants": MyUser.objects.filter(access="c"), "sections": Section.objects.filter(course=course_id), "error": ""}
+        return {"course": "", "section": Section(), "teachingAssistants": MyUser.objects.filter(access="c"), "instructors": MyUser.objects.filter(access="b"), "sections": Section.objects.filter(course=course_id), "error": ""}
 
 
 
@@ -311,8 +311,9 @@ class admin_AddCourseSection2(View):
         else:
 
             ctx["error"] = error
+            ctx["course"] = course
             # request = request.session["selectedCourse"] = course_id
-            ret = render(request, "admin_AddCourseSection2.html", ctx )
+            ret = render(request, "admin_AddCourseSection2.html", ctx)
             # ret = render(request, "admin_AddCourseSection2.html", ctx,)
 
         return ret
