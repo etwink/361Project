@@ -269,7 +269,8 @@ class admin_AddCourseSection1(View):
 class admin_AddCourseSection2(View):
 
     def get_base_ctx(self, course_id) -> Dict[str, any]:
-        return {"course": "", "section": Section(), "teachingAssistants": MyUser.objects.filter(access="c"), "instructors": MyUser.objects.filter(access="b"), "sections": Section.objects.filter(course=course_id), "error": ""}
+        return {"course": "", "section": Section(), "teachingAssistants": MyUser.objects.filter(access="c"),
+                "instructors": MyUser.objects.filter(access="b"), "sections": Section.objects.filter(course=course_id), "error": ""}
 
 
 
@@ -280,13 +281,11 @@ class admin_AddCourseSection2(View):
             return redirectAction
 
         course_id = request.session.get("selectedCourse", None)
-        # course_id = request.POST.get("course", None)
-        ctx = self.get_base_ctx(course_id)
-
 
         if (course_id is None):
             ret = redirect("/home_Admin/admin_AddCourseSection1.html")
         else:
+            ctx = self.get_base_ctx(course_id)
             ctx["course"] = Course.objects.get(id=course_id)
             ret = render(request, "admin_AddCourseSection2.html", ctx)
 
@@ -550,7 +549,7 @@ def validate_course(post: Type[QueryDict]) -> (bool, str, Course):
     return (True, None, c)
 
 def validate_section(post: Type[QueryDict], course_id) -> (bool, str, Section):
-    fields = {"number": None, "teachingAssistant": None}
+    fields = {"number": None, "teacher": None}
 
     for field_key in fields.keys():
         fields[field_key] = post.get(field_key, '').strip()
@@ -560,7 +559,7 @@ def validate_section(post: Type[QueryDict], course_id) -> (bool, str, Section):
 
     s = Section(
         number=fields["number"],
-        teachingAssistant_id=fields["teachingAssistant"],
+        teacher_id=fields["teacher"],
         course=course_id,
     )
 
