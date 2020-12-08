@@ -347,6 +347,7 @@ class edit_information(View):
         return render(request,"edit_information.html", ctx)
 
     def post(self,request):
+
         return render(request,"edit_information.html",{})
 
 
@@ -407,6 +408,31 @@ def validate_user(post: Type[QueryDict]) -> (bool, str, MyUser):
 
     return (True, None, u)
 
+def validate_edit_user(post: Type[QueryDict]) -> (bool, str, MyUser):
+    fields = {"Name": None, "Username": None, "Password": None, "Access": None, "Office": None, "Phone Number": None,
+              "Email": None, "Office Hours": None, "Course": None}
+
+    for field_key in fields.keys():
+        fields[field_key] = post.get(field_key, '').strip()
+
+    u = MyUser(
+        name=fields["Name"],
+        username=fields["Username"],
+        password=fields["Password"],
+        access=fields["Access"],
+        office=fields["Office"],
+        phoneNum=fields["Phone Number"],
+        email=fields["Email"],
+        officeHours=fields["Office Hours"]
+    )
+
+    if ('' in fields.values()):
+        return (False, "all fields are required", u)
+
+    if (fields["Access"] not in ["a", "b", "c"]):
+        return (False, "invalid role", u)
+
+    return (True, None, u)
 
 def validate_course(post: Type[QueryDict]) -> (bool, str, Course):
     fields = {"name": None, "number": None, "department": None, "info": None, "Instructor": None}
