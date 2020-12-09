@@ -21,8 +21,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home.as_view()),
     path('home_Admin/', views.home_Admin.as_view()),
-    path('InstructorPage/', views.home_Instructor.as_view()),
-    path('TAPage/', views.home_TA.as_view()),
+    path('home_Instructor/', views.home_Instructor.as_view()),
+    path('home_TA/', views.home_TA.as_view()),
 
     path("home_Admin/admin_CreateNewUser.html", views.admin_CreateNewUser.as_view()),
     path("home_Admin/admin_EditUser1.html", views.admin_EditUser1.as_view()),
@@ -33,4 +33,7 @@ urlpatterns = [
     path("home_Admin/admin_EditCourse1.html", views.admin_EditCourse1.as_view()),
     path("home_Admin/admin_EditCourse2.html", views.admin_EditCourse2.as_view()),
     path("home_Admin/edit_information.html", views.edit_information.as_view()),
+    path("home_Instructor/edit_information.html", views.edit_information.as_view()),
+    path("home_TA/edit_information.html", views.edit_information.as_view()),
+
 ]

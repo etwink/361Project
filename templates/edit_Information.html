@@ -14,7 +14,7 @@
 </div>
 
 
-<form class="infoBoxes" method ="post">
+<form class="infoBoxes" method="post">
     {% csrf_token %}
         <label for="User's Name">User's Name:</label>
         <input type="text" value="{{ user.name }}" name="Name" id="Name">
@@ -47,9 +47,27 @@
         <br> <br> <br> <br> <br> <br>
     <input type="submit" value="Save Changes" class="saveButton">
 </form>
+    <button class="backButton">Back</button>
+
+{% if user.access ==  "a"%}
+<form>
 <a href="/home_Admin/">
     <button class="backButton">Back</button>
 </a>
+{% endif %}
+
+{% if user.access ==  "b"%}
+<a href="/home_Instructor/">
+    <button class="backButton">Back</button>
+</a>
+{% endif %}
+
+{% if user.access ==  "c"%}
+<a href="/home_TA/">
+    <button class="backButton">Back</button>
+</a>
+{% endif %}
+
 <a href="/">
     <button class="logoutButton">Logout</button>
 </a>
