@@ -19,17 +19,7 @@
     {% csrf_token %}
     <p style="color:red">{{ error }}</p>
     <div class="center">
-{#        <label for="Courses" class=fontsize>Pick A Course:</label>#}
-{#        <select name="course_id" class="wideDropDown">#}
-{#            <option value="">-- SELECT --</option>#}
-{##}
-{#            {% for course in courses %}#}
-{##}
-{#                <option value="{{ course.id }}">{{ course.name }} {{ course.number }}</option>#}
-{##}
-{#            {% endfor %}#}
-{##}
-{#        </select>#}
+
         <label for="Choose Course" class="fontsize">Pick a Course:</label>
         <select name="course_id" class="wideDropDown">
             <option value="">-- SELECT --</option>

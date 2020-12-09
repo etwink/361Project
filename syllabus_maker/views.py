@@ -35,7 +35,8 @@ class home_Admin(View):
         if not request.session.get("Uname"):
             return redirect('/')
         Username = request.session.get("name")
-        return render(request, "home_Admin.html", {"home_Admin": home_Admin, "Username": Username})
+        Name = MyUser.objects.get(username=Username).name
+        return render(request, "home_Admin.html", {"home_Admin": home_Admin, "Username": Username, "Name": Name})
 
     def post(self,request):
         position = request.POST.get('position')
