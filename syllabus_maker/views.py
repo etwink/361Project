@@ -31,20 +31,12 @@ class home(View):
 
 class home_Admin(View):
     def get(self,request):
-        (validReq, _, redirectAction) = verify_request(request, "a")
-        if (not validReq):
-            return redirectAction
-
         if not request.session.get("Uname"):
             return redirect('/')
         Username = request.session.get("name")
         return render(request, "home_Admin.html", {"home_Admin": home_Admin, "Username": Username})
 
     def post(self,request):
-        (validReq, _, redirectAction) = verify_request(request, "a")
-        if (not validReq):
-            return redirectAction
-
         position = request.POST.get('position')
         name = request.POST.get('name')
         if name != '':
@@ -60,38 +52,22 @@ class home_Admin(View):
 
 class home_Instructor(View):
     def get(self,request):
-        (validReq, _, redirectAction) = verify_request(request, "b")
-        if (not validReq):
-            return redirectAction
-
         if not request.session.get("Uname"):
             return redirect('/')
-        Username = request.session.get("name")
-        return render(request, "home_Instructor.html", {"home_Instructor": home_Instructor, "Username": Username})
+        return render(request, "home_Instructor.html", {"home_Instructor": home_Instructor})
 
     def post(self,request):
-        (validReq, _, redirectAction) = verify_request(request, "b")
-        if (not validReq):
-            return redirectAction
 
         return render(request, "home_Instructor.html", {"home_Instructor": home_Instructor})
 
 
 class home_TA(View):
     def get(self,request):
-        (validReq, _, redirectAction) = verify_request(request, "c")
-        if (not validReq):
-            return redirectAction
-
         if not request.session.get("Uname"):
             return redirect('/')
-        Username = request.session.get("name")
-        return render(request, "home_TA.html", {"home_TA": home_TA, "Username": Username})
+        return render(request, "home_TA.html", {"home_TA": home_TA})
 
     def post(self,request):
-        (validReq, _, redirectAction) = verify_request(request, "c")
-        if (not validReq):
-            return redirectAction
 
         return render(request, "home_TA.html", {"home_TA": home_TA})
 
@@ -359,6 +335,7 @@ class edit_information(View):
         return {"courses": Course.objects.all(), "error": "", "user": MyUser(), }
 
     def get(self, request: HttpRequest) -> HttpResponse:
+
         (validReq, user, redirectAction) = verify_request(request, "abc")
         if (not validReq):
             return redirectAction
@@ -370,7 +347,8 @@ class edit_information(View):
         return render(request,"edit_information.html", ctx)
 
     def post(self, request: HttpRequest) -> HttpResponse:
-        (validReq, _, redirectAction) = verify_request(request, "abc")
+
+        (validReq, _, redirectAction) = verify_request(request, "a")
         if (not validReq):
             return redirectAction
 
@@ -413,9 +391,9 @@ def home_page(access: str) -> str:
     if (access == "a"):
         ret += "home_Admin"
     elif (access == "b"):
-        ret += "home_Instructor"
+        ret += "InstructorPage"
     elif (access == "c"):
-        ret += "home_TA"
+        ret += "TAPage"
 
     return ret
 

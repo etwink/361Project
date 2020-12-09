@@ -21,22 +21,22 @@
         Course Name<span style="color: red">*</span>: <input value="{{ course.name }}" type="text" name="name"/><br><br/>
         Course Number<span style="color: red">*</span>: <input value="{{ course.number }}" type="number" name="number"/><br><br/>
         Department<span style="color: red">*</span>: <input  value="{{ course.department }}" type="text" name="department"/><br><br/>
-        <label for="Assign Course">Assign A Instructor:<span style="color: red">*</span>:</label>
-        <label>
-        <select name="Instructor" class="wideDropDown">
-            <option value="">-- SELECT --</option>
-
-            {% for instructor in instructors %}
-
-                <option value="{{ instructor.id }}">{{ instructor.name }} {{ instructor.number }}</option>
-
-            {% endfor %}
-        </select>
-        </label><br><br/>
+{#        <label for="Assign Course">Assign A Instructor:<span style="color: red">*</span>:</label>#}
+{#        <label>#}
+{#        <select name="Instructor" class="wideDropDown">#}
+{#            <option value="">-- SELECT --</option>#}
+{##}
+{#            {% for instructor in instructors %}#}
+{##}
+{#                <option value="{{ instructor.id }}">{{ instructor.name }} {{ instructor.number }}</option>#}
+{##}
+{#            {% endfor %}#}
+{#        </select>#}
+{#        </label><br><br/>#}
         <label for="info">Info<span style="color: red">*</span>:</label>
         <input type="text" id="info" name="info" size="100"><br><br/>
         <span style="color: red">Mandatory Information*</span><br><br/>
-        <a href='admin_AddCourseSection.html'>
+        <a href='admin_AddCourseSection2.html'>
         <button class="saveButton">Add Section(s)</button>
         </a><br><br/><br><br/><br><br/>
 
