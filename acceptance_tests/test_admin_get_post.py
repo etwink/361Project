@@ -8,9 +8,9 @@ class TestTracker(TestCase):
         self.admin1 = MyUser.objects.create(name = 'admin', username = 'admin', password = 'admin', access = 'a',
                                             office = '', phoneNum = '', email = '', officeHours = '')
         self.user1 = MyUser.objects.create(name = 'John Doe', username = 'jdoe', password = 'password123', access = 'b',
-                                            office = 'EMS 500', phoneNum = '1234567890', email = 'jdoe@uwm.edu', officeHours = 'MW 2-4')
+                                           office = 'EMS 500', phoneNum = '1234567890', email = 'jdoe@uwm.edu', officeHours = 'MW 2-4')
         self.user2 = MyUser.objects.create(name = 'Jane Smith', username = 'jsmith', password = 'password', access = 'c',
-                                            office = 'EMS 232', phoneNum = '5555555555', email = 'jsmith@uwm.edu', officeHours = 'TR 11AM-1PM')
+                                           office = 'EMS 232', phoneNum = '5555555555', email = 'jsmith@uwm.edu', officeHours = 'TR 11AM-1PM')
         self.course1 = Course.objects.create(name = 'test_course', number = 100, info = 'test course 1', instructor = self.user1)
         self.section1 = Section.objects.create(number = 801, course = self.course1, teachingAssistant = self.user2)
 
@@ -65,7 +65,7 @@ class TestTracker(TestCase):
         session['Uname'] = self.admin1.username
         session.save()
         response = self.client.post('/home_Admin/admin_CreateNewUser.html', {'name': '', 'username': '', 'password': '', 'role': '', 'office': '',
-                                                    'phoneNum': '', 'email': '', 'officeHours': '', 'course': ''})
+                                                                             'phoneNum': '', 'email': '', 'officeHours': '', 'course': ''})
         self.assertEqual(response.status_code, 200)
 
     def test_create_new_user_good_post(self):
@@ -73,9 +73,9 @@ class TestTracker(TestCase):
         session['Uname'] = self.admin1.username
         session.save()
         response = self.client.post('/home_Admin/admin_CreateNewUser.html', {"User's Name": 'Carl Weezer', "Username": 'cweezer', "Password": 'llamas',
-                                                     "User's Role": 'Admin', "Office": 'EMS 100',
-                                                     "Phone Number": '1111111111', "Email": 'cweezer@uwm.edu',
-                                                     "Office Hours": 'MW 3:00-5:00', "Course": self.course1})
+                                                                             "User's Role": 'Admin', "Office": 'EMS 100',
+                                                                             "Phone Number": '1111111111', "Email": 'cweezer@uwm.edu',
+                                                                             "Office Hours": 'MW 3:00-5:00', "Course": self.course1})
         self.assertEqual(response.status_code, 200)
 
     def test_create_new_user_back(self):
@@ -173,72 +173,101 @@ class TestTracker(TestCase):
         # response = self.client.post('/home_Admin/admin_EditUser2.html', {'logoutButton': 'Logout'})
         # self.assertEqual(response.status_code, 200)
 
-    def test_create_course_bad_post(self):
+    # def test_create_course_bad_post(self):
+    #     session = self.client.session
+    #     session['Uname'] = self.admin1.username
+    #     session.save()
+    #     response = self.client.post('/home_Admin/admin_CreateCourse.html', {'name': '', 'number': '', 'department': '', 'info': ''})
+    #     self.assertEqual(response.status_code, 200)
+    #
+    # #need to update html to not include instructor_id
+    # def test_create_course_good_post(self):
+    #     pass
+    #     # session = self.client.session
+    #     # session['Uname'] = self.admin1.username
+    #     # session.save()
+    #     # response = self.client.post('/home_Admin/admin_CreateCourse.html', {"name": 'History of Llamas', "number": '720',
+    #     #                                                 "department": 'History', "instructor": self.user1, "info": 'Brief history of llamas'})
+    #     # self.assertEqual(response.status_code, 200)
+    #
+    # def test_create_course_back(self):
+    #     session = self.client.session
+    #     session['Uname'] = self.admin1.username
+    #     session.save()
+    #     response = self.client.post('/home_Admin/admin_CreateCourse.html/', {'backButton': 'Back'})
+    #     self.assertEqual(response.status_code, 200)
+    #
+    # def test_create_course_logout(self):
+    #     session = self.client.session
+    #     session['Uname'] = self.admin1.username
+    #     session.save()
+    #     response = self.client.post('/home_Admin/admin_CreateCourse.html', {'logoutButton': 'Logout'})
+    #     self.assertEqual(response.status_code, 200)
+
+    # unimplemented -- for sprint 2
+    def test_create_add_course_sections1_bad_post(self):
         session = self.client.session
         session['Uname'] = self.admin1.username
         session.save()
-        response = self.client.post('/home_Admin/admin_CreateCourse.html', {'name': '', 'number': '', 'department': '', 'info': ''})
+        response = self.client.post('/home_Admin/admin_AddCourseSection1.html', {'number': ''})
         self.assertEqual(response.status_code, 200)
 
-    #need to update html to not include instructor_id
-    def test_create_course_good_post(self):
-        pass
-        # session = self.client.session
-        # session['Uname'] = self.admin1.username
-        # session.save()
-        # response = self.client.post('/home_Admin/admin_CreateCourse.html', {"name": 'History of Llamas', "number": '720',
-        #                                                 "department": 'History', "instructor": self.user1, "info": 'Brief history of llamas'})
-        # self.assertEqual(response.status_code, 200)
-
-    def test_create_course_back(self):
+    # unimplemented -- for sprint 2
+    def test_create_add_course_sections1_good_post(self):
         session = self.client.session
         session['Uname'] = self.admin1.username
         session.save()
-        response = self.client.post('/home_Admin/admin_CreateCourse.html', {'backButton': 'Back'})
+        response = self.client.post('/home_Admin/admin_AddCourseSection1.html', {'number': 804})
         self.assertEqual(response.status_code, 200)
 
-    def test_create_course_logout(self):
+    # unimplemented -- for sprint 2
+    def test_create_add_course_sections1_back(self):
         session = self.client.session
         session['Uname'] = self.admin1.username
         session.save()
-        response = self.client.post('/home_Admin/admin_CreateCourse.html', {'logoutButton': 'Logout'})
+        response = self.client.post('/home_Admin/admin_AddCourseSection1.html', {'backButton': 'Back'})
         self.assertEqual(response.status_code, 200)
 
     # unimplemented -- for sprint 2
-    def test_create_add_course_sections_bad_post(self):
-        pass
-        # session = self.client.session
-        # session['Uname'] = self.admin1.username
-        # session.save()
-        # response = self.client.post('/home_Admin/admin_AddCourseSection.html', {'number': ''})
-        # self.assertEqual(response.status_code, 200)
+    def test_create_add_course_sections1_logout(self):
+        session = self.client.session
+        session['Uname'] = self.admin1.username
+        session.save()
+        response = self.client.post('/home_Admin/admin_AddCourseSection1.html', {'logoutButton': 'Logout'})
+        self.assertEqual(response.status_code, 200)
 
     # unimplemented -- for sprint 2
-    def test_create_add_course_sections_good_post(self):
-        pass
-        # session = self.client.session
-        # session['Uname'] = self.admin1.username
-        # session.save()
-        # response = self.client.post('/home_Admin/admin_AddCourseSection.html', {'number': 804})
-        # self.assertEqual(response.status_code, 200)
+    def test_create_add_course_sections2_bad_post(self):
+        session = self.client.session
+        session['Uname'] = self.admin1.username
+        session.save()
+        response = self.client.post('/home_Admin/admin_AddCourseSection2.html', {'number': ''})
+        self.assertEqual(response.status_code, 200)
 
     # unimplemented -- for sprint 2
-    def test_create_add_course_sections_back(self):
-        pass
-        # session = self.client.session
-        # session['Uname'] = self.admin1.username
-        # session.save()
-        # response = self.client.post('/home_Admin/admin_AddCourseSection.html', {'backButton': 'Back'})
-        # self.assertEqual(response.status_code, 200)
+    def test_create_add_course_sections2_good_post(self):
+        session = self.client.session
+        session['Uname'] = self.admin1.username
+        session.save()
+        response = self.client.post('/home_Admin/admin_AddCourseSection2.html', {'number': 804})
+        self.assertEqual(response.status_code, 200)
 
     # unimplemented -- for sprint 2
-    def test_create_add_course_sections_logout(self):
-        pass
-        # session = self.client.session
-        # session['Uname'] = self.admin1.username
-        # session.save()
-        # response = self.client.post('/home_Admin/admin_AddCourseSection.html', {'logoutButton': 'Logout'})
-        # self.assertEqual(response.status_code, 200)
+    def test_create_add_course_sections2_back(self):
+        session = self.client.session
+        session['Uname'] = self.admin1.username
+        session.save()
+        response = self.client.post('/home_Admin/admin_AddCourseSection2.html', {'backButton': 'Back'})
+        self.assertEqual(response.status_code, 200)
+
+    # unimplemented -- for sprint 2
+    def test_create_add_course_sections2_logout(self):
+        session = self.client.session
+        session['Uname'] = self.admin1.username
+        session.save()
+        response = self.client.post('/home_Admin/admin_AddCourseSection2.html', {'logoutButton': 'Logout'})
+        self.assertEqual(response.status_code, 200)
+
 
     def test_edit_course_page1(self):
         pass
