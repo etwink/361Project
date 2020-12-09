@@ -407,7 +407,7 @@ class edit_information(View):
 
     def get(self, request: HttpRequest) -> HttpResponse:
 
-        (validReq, user, redirectAction) = verify_request(request, "abc")
+        (validReq, user, redirectAction) = verify_request(request, "a")
         if (not validReq):
             return redirectAction
 
@@ -417,8 +417,27 @@ class edit_information(View):
 
         return render(request,"edit_information.html", ctx)
 
-    def post(self,request):
-        return render(request,"edit_information.html",{})
+    def post(self, request: HttpRequest) -> HttpResponse:
+
+        (validReq, c, redirectAction) = verify_request(request, "a")
+        if (not validReq):
+            return redirectAction
+
+        ctx = self.get_base_ctx()
+
+        (validUser, error, user) = validate_edit_user(request.POST)
+        if (validUser):
+            user.id = c.id
+            user.save()
+            ctx["user"] = user
+            ret = render(request, "edit_Information.html", ctx)
+        else:
+            ctx["error"] = error
+            ctx["user"] = user
+            print(ctx)
+            ret = render(request, "edit_Information.html", ctx)
+
+        return ret
 
 
 # --- HELPER METHODS ---
@@ -450,6 +469,30 @@ def home_page(access: str) -> str:
         ret += "TAPage"
 
     return ret
+
+def validate_edit_user(post: Type[QueryDict]) -> (bool, str, MyUser):
+    fields = {"Name": None, "Username": None, "Password": None, "Office": None, "Phone Number": None,
+              "Email": None, "Office Hours": None,}
+
+    for field_key in fields.keys():
+        fields[field_key] = post.get(field_key, '').strip()
+
+
+
+    u = MyUser(
+        name=fields["Name"],
+        username=fields["Username"],
+        password=fields["Password"],
+        office=fields["Office"],
+        phoneNum=fields["Phone Number"],
+        email=fields["Email"],
+        officeHours=fields["Office Hours"],
+    )
+
+    if ('' in fields.values()):
+        return (False, "all fields are required", u)
+
+    return (True, None, u)
 
 
 def validate_user(post: Type[QueryDict]) -> (bool, str, MyUser):

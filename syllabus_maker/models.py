@@ -5,7 +5,7 @@ class MyUser(models.Model):
     name = models.CharField(max_length=20)
     username = models.CharField(max_length=20)
     password = models.CharField(max_length=20)
-    # access level a = admin,  b = instructor, c = TA
+    # access level
     access = models.CharField(max_length=1)
     office = models.CharField(max_length=20)
     phoneNum = models.CharField(max_length=20)
@@ -22,7 +22,7 @@ class Course(models.Model):
     # For holding course info
     info = models.CharField(max_length=300)
     # Each course has one instructor, but instructors can have multiple courses.
-    # instructor = models.ForeignKey(MyUser, on_delete=models.CASCADE, blank=True, null=True)
+    instructor = models.ForeignKey(MyUser, on_delete=models.CASCADE, blank=True, null=True)
     # Instructor should be assigned to sections not courses
     #   (e.g. 361-401:Lecture:Instructor: Rock       361-803:Lab:Instructor: Apoorv)
 
@@ -33,11 +33,11 @@ class Course(models.Model):
 
 
 class Section(models.Model):
-    number = models.IntegerField()
+    number = models.IntegerField(unique=True)
     # Each section has one course, but courses can have multiple sections.
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     # Each section has one TA, but TA's can have multiple sections.
-    teacher = models.ForeignKey(MyUser, on_delete=models.CASCADE)
+    teachingAssistant = models.ForeignKey(MyUser, on_delete=models.CASCADE)
     # Rename teachingAssistant to Instructor as sections are both for labs and lectures
     #   (e.g. 337-401:Lecture 333-801:Lab)
 
