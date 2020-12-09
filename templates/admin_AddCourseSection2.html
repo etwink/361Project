@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Add Course Section</title>
+    <link href="/static/stylesheet.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<label class="nameDisplay">Add a Course Section for: {{ course.name }} {{ course.number }}
+</label>
+
+<div>
+    <img class="uwmLogoBottom" src="/static/UWM-logo.jpg" alt="UWM Logo">
+</div>
+<form action="" method="post">
+    {% csrf_token %}
+    <p style="color: red">{{ error }}</p>
+    <div class="infoBoxes">
+        <label for="Sections" >Sections for this class:</label>
+        <ul>
+            {% for section in sections %}
+
+                <li class="fontsize">{{ course.name }} {{ course.number }}-{{ section.number }}
+                    {% if section.teacher.access == "b" %}&emsp;Instructor:
+                    {% else %}&emsp;TA:
+                    {% endif %}
+                    {{ section.teacher }} </li>
+
+            {% endfor %}
+        </ul>
+
+        <label for="sectionNumber" >Add a Course Section Number<span style="color: red">*</span>: </label>
+        <input type="text" name="number" id="SectionNumber" placeholder="(e.g. 803)"><br><br/>
+        <label for="Assign Course">Assign an Instructor:<span style="color: red">*</span>:</label>
+        <label>
+        <select name="teacher" class="wideDropDown">
+            <option value="">-- SELECT --</option>
+
+            {% for TA in teachingAssistants %}
+
+                <option value="{{ TA.id }}">{{ TA.name }} {{ TA.number }} - TA </option>
+
+            {% endfor %}
+            {% for instructor in instructors %}
+
+                <option value="{{ instructor.id }}">{{ instructor.name }} {{ instructor.number }} - Instructor </option>
+
+            {% endfor %}
+
+        </select>
+        </label><br><br/>
+        <span style="color: red">Mandatory Information*</span><br><br/>
+        </a><br><br/><br><br/><br><br/>
+
+        <input type="submit" value="Add Course Section" class="saveButton">
+    </div>
+</form>
+{#<form>#}
+{#    <div class="center">#}
+{#        <label for="SectionNumber" class=fontsize>Course Section Number: </label>#}
+{#        <input type="text" name="SectionNumber" id="SectionNumber" placeholder="(e.g. 803)">#}
+{##}
+{#    </div>#}
+{#    <input type="submit" value="Add Course" class="saveButton">#}
+{#</form>#}
+
+<a href="admin_AddCourseSection1.html">
+    <button class="backButton">Back</button>
+</a>
+<a href="home.html">
+    <button class="logoutButton">Logout</button>
+</a>
+</body>
+</html>
+

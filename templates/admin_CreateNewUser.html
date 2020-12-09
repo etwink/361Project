@@ -59,16 +59,6 @@
         <input type="text" value="{{ user.officeHours }}" name="Office Hours" id="Office Hours">
         <br>
 
-        <label for="Assign Course">Assign A Course:<span style="color: red">*</span>:</label>
-        <select name="Course" class="wideDropDown">
-            <option value="">-- SELECT --</option>
-
-            {% for course in courses %}
-
-                <option value="{{ course.id }}">{{ course.name }} {{ course.number }}</option>
-
-            {% endfor %}
-        </select>
 
     </div>
 

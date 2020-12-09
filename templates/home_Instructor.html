@@ -6,7 +6,7 @@
     <link href="/static/stylesheet.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-<label class="welcomeMessage">Welcome:
+<label class="welcomeMessage">Welcome  {{ Username }}:
 </label>
 
 <div>
@@ -14,10 +14,15 @@
 </div>
 
 <div class= center>
-    <button class="adminButton">Edit Personal Information</button>
-    <button class="adminButton">Classes</button>
-    <button class="adminButton">Create Syllabus</button>
-    <button class="adminButton">Edit Syllabus</button>
+    <a href='edit_information.html' style="text-decoration: none">
+        <button class="adminButton">Edit Personal Information</button>
+    </a>
+    <a href='/home_instructor/' style="text-decoration: none">
+        <button class="adminButton">Create Syllabus(WIP)</button>
+    </a>
+    <a href='/home_instructor/' style="text-decoration: none">
+        <button class="adminButton">View Syllabus(WIP)</button>
+    </a>
 </div>
 
 <a href="/" style="text-decoration: none;">
