@@ -407,7 +407,7 @@ class edit_information(View):
 
     def get(self, request: HttpRequest) -> HttpResponse:
 
-        (validReq, user, redirectAction) = verify_request(request, "a")
+        (validReq, user, redirectAction) = verify_request(request, "abc")
         if (not validReq):
             return redirectAction
 
@@ -419,7 +419,7 @@ class edit_information(View):
 
     def post(self, request: HttpRequest) -> HttpResponse:
 
-        (validReq, c, redirectAction) = verify_request(request, "a")
+        (validReq, c, redirectAction) = verify_request(request, "abc")
         if (not validReq):
             return redirectAction
 
@@ -497,7 +497,7 @@ def validate_edit_user(post: Type[QueryDict]) -> (bool, str, MyUser):
 
 def validate_user(post: Type[QueryDict]) -> (bool, str, MyUser):
     fields = {"Name": None, "Username": None, "Password": None, "Access": None, "Office": None, "Phone Number": None,
-              "Email": None, "Office Hours": None, "Course": None}
+              "Email": None, "Office Hours": None}
 
     for field_key in fields.keys():
         fields[field_key] = post.get(field_key, '').strip()
