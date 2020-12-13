@@ -22,29 +22,19 @@
             {% for section in sections %}
 
                 <li class="fontsize">{{ course.name }} {{ course.number }}-{{ section.number }}
-                    {% if section.teachingAssistant.access == "b" %}&emsp;Instructor:
+                    {% if section.teacher.access == "b" %}&emsp;Instructor:
                     {% else %}&emsp;TA:
                     {% endif %}
-                    {{ section.teachingAssistant }} </li>
+                    {{ section.teacher }} </li>
 
             {% endfor %}
         </ul>
 
-{#        <select name ="Section" class ="wideDropDown">#}
-{#            <option value="">{{ course.name }} {{ course.number }}'s Sections:</option>#}
-{##}
-{#            {% for section in sections %}#}
-{##}
-{#                <option value="{{ section.id }}">{{ section.course }}-{{ section.number }} Instructor/TA: {{ section.teachingAssistant }} </option>#}
-{##}
-{#            {% endfor %}#}
-{##}
-{#        </select><br><br/>#}
         <label for="sectionNumber" >Add a Course Section Number<span style="color: red">*</span>: </label>
         <input type="text" name="number" id="SectionNumber" placeholder="(e.g. 803)"><br><br/>
         <label for="Assign Course">Assign an Instructor:<span style="color: red">*</span>:</label>
         <label>
-        <select name="teachingAssistant" class="wideDropDown">
+        <select name="teacher" class="wideDropDown">
             <option value="">-- SELECT --</option>
 
             {% for TA in teachingAssistants %}
