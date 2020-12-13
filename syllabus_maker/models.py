@@ -44,8 +44,9 @@ class Syllabus(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     year = models.IntegerField()
 
+#probably redundant, might just want to apply Grade directly to Syllabus
 class GradingScale(models.Model):
-    Syllabus = models.OneToOneField(Syllabus, on_delete=models.CASCADE)
+    Syllabus = models.OneToOneField(Syllabus, on_delete=models.CASCADE, blank=True, null=True)
 
 class Grade(models.Model):
     gradingScale = models.ForeignKey(GradingScale, on_delete=models.CASCADE)
@@ -54,6 +55,11 @@ class Grade(models.Model):
     upperBound = models.DecimalField(unique=True, max_digits=5, decimal_places=2)
     #lower bound of letter grade with 2 decimal places (i.e. 89.99 or 100.00)
     lowerBound = models.IntegerField(unique=True, max_digits=5, decimal_places=2)
+
+class WeightedAssessment(models.Model):
+    syllabus = models.ForeignKey(Syllabus, on_delete=models.CASCADE)
+    weight = models.IntegerField()
+    description = models.CharField(max_length=20)
 
 class CalendarEntry(models.Model):
     syllabus = models.ForeignKey(Syllabus, on_delete=models.CASCADE, blank=True, null=True)
