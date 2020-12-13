@@ -37,3 +37,9 @@ class Section(models.Model):
 
     def __str__(self):
         return self.name
+
+class Syllabus(models.Model):
+    #Each syllabus should only have one course
+    course = models.OneToOneField(Course, on_delete=models.CASCADE)
+
+
