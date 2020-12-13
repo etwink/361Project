@@ -40,6 +40,15 @@ class Section(models.Model):
 
 class Syllabus(models.Model):
     #Each syllabus should only have one course
-    course = models.OneToOneField(Course, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    year = models.IntegerField
+    #gradingScale = models.
+    #weightedAssessment = models.
+
+class CalendarEntry(models.Model):
+    syllabus = models.ForeignKey(Syllabus, on_delete=models.CASCADE, blank=True, null=True)
+    calendarDate = models.DateField()
+    calendarTopic = models.CharField(max_length=300)
+    calendarActivity = models.CharField(max_length=300)
 
 
