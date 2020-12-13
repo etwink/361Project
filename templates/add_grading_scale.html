@@ -6,6 +6,26 @@
 </head>
 <body>
 
+<form action="" method="post">
+    {% csrf_token %}
+    <p style="color: red">{{ error }}</p>
+    <div class="infoBoxes">
+        Enter the lowest grade score for the bracket below. Highest Grade score is based on higher grade, with A automatically given 100.
+        (EX: A is given 90, B's highest is 89 by default now.)
+
+        A<span style="color: red">*</span>: <input value="{{ course.number }}" type="number" name="number"/><br><br/>
+        B<span style="color: red">*</span>: <input value="{{ course.number }}" type="number" name="number"/><br><br/>
+        C<span style="color: red">*</span>: <input value="{{ course.number }}" type="number" name="number"/><br><br/>
+        D<span style="color: red">*</span>: <input value="{{ course.number }}" type="number" name="number"/><br><br/>
+        E<span style="color: red">*</span>: <input value="{{ course.number }}" type="number" name="number"/><br><br/>
+        F<span style="color: red">*</span>: <input value="{{ course.number }}" type="number" name="number"/><br><br/>
+
+
+        </a><br><br/><br><br/><br><br/>
+
+        <input type="submit" value="Create" class="saveButton">
+    </div>
+</form>
 
     <a href="/home_instructor/">
         <button class="backButton">Back</button>
