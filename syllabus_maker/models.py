@@ -34,6 +34,7 @@ class Section(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     # Each section has one TA, but TA's can have multiple sections.
     teachingAssistant = models.ForeignKey(MyUser, on_delete=models.CASCADE)
+    syllabus = models.ForeignKey("Syllabus", on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
@@ -41,14 +42,23 @@ class Section(models.Model):
 class Syllabus(models.Model):
     #Each syllabus should only have one course
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
-    year = models.IntegerField
-    #gradingScale = models.
-    #weightedAssessment = models.
+    year = models.IntegerField()
+
+class GradingScale(models.Model):
+    Syllabus = models.OneToOneField(Syllabus, on_delete=models.CASCADE)
+
+class Grade(models.Model):
+    gradingScale = models.ForeignKey(GradingScale, on_delete=models.CASCADE)
+    letter = models.CharField(max_length=1)
+    #upper bound of letter grade with 2 decimal places (i.e. 89.99 or 100.00)
+    upperBound = models.DecimalField(unique=True, max_digits=5, decimal_places=2)
+    #lower bound of letter grade with 2 decimal places (i.e. 89.99 or 100.00)
+    lowerBound = models.IntegerField(unique=True, max_digits=5, decimal_places=2)
 
 class CalendarEntry(models.Model):
     syllabus = models.ForeignKey(Syllabus, on_delete=models.CASCADE, blank=True, null=True)
     calendarDate = models.DateField()
-    calendarTopic = models.CharField(max_length=300)
+    calendarTopic = models.CharField(max_length=20)
     calendarActivity = models.CharField(max_length=300)
 
 
