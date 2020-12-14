@@ -36,6 +36,9 @@ urlpatterns = [
    path("home_Instructor/edit_information.html", views.edit_information.as_view()),
    path("home_TA/edit_information.html", views.edit_information.as_view()),
    path("home_Instructor/add_syllabus_pick_class.html", views.add_syllabus_pick_class.as_view()),
-   path("home_Instructor/add_syllabus_subscreen.html", views.add_syllabus_subscreen.as_view()),
+   path("home_Instructor/add_syllabus_pick_class/add_syllabus_subscreen.html", views.add_syllabus_subscreen.as_view()),
+   path("home_Instructor/add_syllabus_pick_class/add_syllabus_subscreen/add_calendar_entries.html", views.add_calendar_entries.as_view()),
+   path("home_Instructor/add_syllabus_pick_class/add_syllabus_subscreen/add_grading_scale.html", views.add_grading_scale.as_view()),
+   path("home_Instructor/add_syllabus_pick_class/add_syllabus_subscreen/add_weighted_assessment.html", views.add_weighted_assessment.as_view()),
 
 ]

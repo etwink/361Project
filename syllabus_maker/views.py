@@ -63,7 +63,7 @@ class home_Instructor(View):
        return render(request, "home_Instructor.html", {"home_Instructor": home_Instructor})
 
 
-
+#TODO
 class add_syllabus_pick_class(View):
    def get_base_ctx(self) -> Dict[str, any]:
        return {"courses": Course.objects.all(), "error": ""}
@@ -97,7 +97,7 @@ class add_syllabus_pick_class(View):
 
        return ret
 
-
+#TODO
 class add_syllabus_subscreen(View):
    def get_base_ctx(self) -> Dict[str, any]:
        return {"courses": Course.objects.all(), "error": ""}
@@ -121,6 +121,48 @@ class add_syllabus_subscreen(View):
 
    def post(self, request: HttpRequest) -> HttpResponse:
        return render(request, "add_syllabus_subscreen.html")
+
+
+#TODO
+
+class add_grading_scale(View):
+    def get(self, request: HttpRequest) -> HttpResponse:
+
+        (validReq, _, redirectAction) = verify_request(request, "b")
+        if (not validReq):
+            return redirectAction
+
+
+        return render(request, "add_grading_scale.html")
+
+    def post(self, request: HttpRequest) -> HttpResponse:
+        return render(request, "add_grading_scale.html")
+
+#TODO
+
+class add_weighted_assessment(View):
+    def get(self, request: HttpRequest) -> HttpResponse:
+        (validReq, _, redirectAction) = verify_request(request, "b")
+        if (not validReq):
+            return redirectAction
+
+        return render(request, "add_weighted_assessment.html")
+
+    def post(self, request: HttpRequest) -> HttpResponse:
+        return render(request, "add_weighted_assessment.html")
+
+#TODO
+
+class add_calendar_entries(View):
+    def get(self, request: HttpRequest) -> HttpResponse:
+        (validReq, _, redirectAction) = verify_request(request, "b")
+        if (not validReq):
+            return redirectAction
+
+        return render(request, "add_calendar_entries.html")
+
+    def post(self, request: HttpRequest) -> HttpResponse:
+        return render(request, "add_calendar_entries.html")
 
 
 class home_TA(View):

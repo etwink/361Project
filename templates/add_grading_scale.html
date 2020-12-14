@@ -3,9 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Add Grading Scale</title>
+    <link href="/static/stylesheet.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-
+<div>
+   <img class="uwmLogo" src="/static/UWM-logo.jpg" alt="UWM Logo">
+</div>
 <form action="" method="post">
     {% csrf_token %}
     <p style="color: red">{{ error }}</p>
