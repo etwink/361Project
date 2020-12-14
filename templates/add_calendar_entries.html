@@ -10,6 +10,23 @@
    <img class="uwmLogo" src="/static/UWM-logo.jpg" alt="UWM Logo">
 </div>
 
+<form action="" method="post">
+    {% csrf_token %}
+    <p style="color: red">{{ error }}</p>
+    <div class="infoBoxes">
+        Create a new calendar entry.
+        You can add as many as you'd like.
+        Each entry needs a date and what is happening on that day
+
+        Date<span style="color: red">*</span>: <input value="{{ calendar.date }}" type="date" name="date"/><br><br/>
+        Description<span style="color: red">*</span>: <input value="{{ calendar.description }}" name="description"/><br><br/>
+        </a><br><br/><br><br/><br><br/>
+
+        <input type="submit" value="Create" class="saveButton">
+    </div>
+</form>
+
+
     <a href="/home_instructor/add_syllabus_subscreen/">
         <button class="backButton">Back</button>
     </a>
