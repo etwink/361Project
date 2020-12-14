@@ -403,7 +403,7 @@ class admin_EditCourse2(View):
 
 class edit_information(View):
     def get_base_ctx(self) -> Dict[str, any]:
-        return {"courses": Course.objects.all(), "error": "", "user": MyUser(), }
+        return {"courses": Course.objects.all(), "error": "", "user": MyUser(), "Password": MyUser.password }
 
     def get(self, request: HttpRequest) -> HttpResponse:
 

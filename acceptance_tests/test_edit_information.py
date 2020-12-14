@@ -64,10 +64,10 @@ class TestEditUser(TestCase):
                                                                           "Phone Number": '1234567890',
                                                                           "Email": 'jdoe@uwm.edu',
                                                                           "Office Hours": 'MW 2-4'})
-        
+        response1 = self.client.post('/home_Admin/edit_information.html', {'submitButton': 'Submit Changes'})
 
         #session.save()
-        #self.assertEqual('llamas', response1)
+        self.assertEqual('llamas',  MyUser.objects.get(username='jdoe').password)
         self.assertEqual(response.status_code, 200)
 
     def test_admin_home_editUser_invalid_access_level(self):
