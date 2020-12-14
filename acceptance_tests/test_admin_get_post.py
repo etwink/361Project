@@ -205,40 +205,7 @@ class TestTracker(TestCase):
         self.assertEqual(response.status_code, 200)
 
     # unimplemented -- for sprint 2
-    def test_create_add_course_sections_bad_post(self):
-        pass
-        # session = self.client.session
-        # session['Uname'] = self.admin1.username
-        # session.save()
-        # response = self.client.post('/home_Admin/admin_AddCourseSection2.html', {'number': ''})
-        # self.assertEqual(response.status_code, 200)
 
-    # unimplemented -- for sprint 2
-    def test_create_add_course_sections_good_post(self):
-        pass
-        # session = self.client.session
-        # session['Uname'] = self.admin1.username
-        # session.save()
-        # response = self.client.post('/home_Admin/admin_AddCourseSection2.html', {'number': 804})
-        # self.assertEqual(response.status_code, 200)
-
-    # unimplemented -- for sprint 2
-    def test_create_add_course_sections_back(self):
-        pass
-        # session = self.client.session
-        # session['Uname'] = self.admin1.username
-        # session.save()
-        # response = self.client.post('/home_Admin/admin_AddCourseSection2.html', {'backButton': 'Back'})
-        # self.assertEqual(response.status_code, 200)
-
-    # unimplemented -- for sprint 2
-    def test_create_add_course_sections_logout(self):
-        pass
-        # session = self.client.session
-        # session['Uname'] = self.admin1.username
-        # session.save()
-        # response = self.client.post('/home_Admin/admin_AddCourseSection2.html', {'logoutButton': 'Logout'})
-        # self.assertEqual(response.status_code, 200)
 
     def test_edit_course_page1(self):
         pass
