@@ -2,9 +2,18 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>View Syllabus</title>
+    <title>Create Course</title>
+    <link href="/static/stylesheet.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
+
+<label class="nameDisplay"> View Syllabus
+</label>
+
+<div>
+    <img class="uwmLogo" src="/static/UWM-logo.jpg" alt="UWM Logo">
+</div>
+
 <form method="post">
     {% csrf_token %}
     <p style="color:red">{{ error }}</p>
@@ -25,28 +34,12 @@
     <input type="submit" value="Go" class="goButton">
 </form>
 
-{% if user.access ==  "a"%}
-<form>
-<a href="/home_Admin/">
-    <button class="backButton">Back</button>
-</a>
-{% endif %}
-
-{% if user.access ==  "b"%}
 <a href="/home_Instructor/">
     <button class="backButton">Back</button>
 </a>
-{% endif %}
-
-{% if user.access ==  "c"%}
-<a href="/home_TA/">
-    <button class="backButton">Back</button>
-</a>
-{% endif %}
-
 <a href="/">
     <button class="logoutButton">Logout</button>
 </a>
 
 </body>
-</html>
+</html>>
