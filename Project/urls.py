@@ -35,5 +35,9 @@ urlpatterns = [
     path("home_Admin/edit_information.html", views.edit_information.as_view()),
     path("home_Instructor/edit_information.html", views.edit_information.as_view()),
     path("home_TA/edit_information.html", views.edit_information.as_view()),
+    path("home_Instructor/create_SyllabusSelect.html", views.create_SyllabusSelect.as_view()),
+    path("home_Instructor/create_SyllabusGetInfo.html", views.create_SyllabusGetInfo.as_view()),
+    path("home_Instructor/view_Syllabus.html", views.view_Syllabus.as_view()),
+    path("home_Instructor/display_Syllabus.html", views.display_Syllabus.as_view()),
 
 ]

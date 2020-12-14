@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Grading Scale</title>
+</head>
+<body>
+
+<form action="" method="post">
+    {% csrf_token %}
+    <p style="color: red">{{ error }}</p>
+    <div class="infoBoxes">
+        Enter the lowest grade score for the bracket below. Highest Grade score is based on higher grade, with A automatically given 100.
+        (EX: A is given 90, B's highest is 89 by default now.)
+
+        A<span style="color: red">*</span>: <input value="{{ grading_scale.a }}" type="number" name="number"/><br><br/>
+        B<span style="color: red">*</span>: <input value="{{ grading_scale.b }}" type="number" name="number"/><br><br/>
+        C<span style="color: red">*</span>: <input value="{{ grading_scale.c }}" type="number" name="number"/><br><br/>
+        D<span style="color: red">*</span>: <input value="{{ grading_scale.d }}" type="number" name="number"/><br><br/>
+        F<span style="color: red">*</span>: <input value="{{ grading_scale.f }}" type="number" name="number"/><br><br/>
+
+
+        </a><br><br/><br><br/><br><br/>
+
+        <input type="submit" value="Create" class="saveButton">
+    </div>
+</form>
+
+    <a href="/home_instructor/add_syllabus_subscreen/">
+        <button class="backButton">Back</button>
+    </a>
+    <a href="/">
+        <button class="logoutButton">Logout</button>
+    </a>
+</body>
+</html>

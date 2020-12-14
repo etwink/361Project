@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View Syllabus</title>
+</head>
+<body>
+<form method="post">
+    {% csrf_token %}
+    <p style="color:red">{{ error }}</p>
+    <div class="center">
+        <label for="Courses" class=fontsize>Pick A Course:</label>
+        <select name="course_id" class="wideDropDown">
+            <option value="">-- SELECT --</option>
+
+            {% for course in courses %}
+
+                <option value="{{ course.id }}">{{ course.name }} {{ course.number }}</option>
+
+            {% endfor %}
+
+        </select>
+
+    </div>
+    <input type="submit" value="Go" class="goButton">
+</form>
+
+{% if user.access ==  "a"%}
+<form>
+<a href="/home_Admin/">
+    <button class="backButton">Back</button>
+</a>
+{% endif %}
+
+{% if user.access ==  "b"%}
+<a href="/home_Instructor/">
+    <button class="backButton">Back</button>
+</a>
+{% endif %}
+
+{% if user.access ==  "c"%}
+<a href="/home_TA/">
+    <button class="backButton">Back</button>
+</a>
+{% endif %}
+
+<a href="/">
+    <button class="logoutButton">Logout</button>
+</a>
+
+</body>
+</html>

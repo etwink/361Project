@@ -404,7 +404,7 @@ class admin_EditCourse2(View):
 
 class edit_information(View):
     def get_base_ctx(self) -> Dict[str, any]:
-        return {"courses": Course.objects.all(), "error": "", "user": MyUser(), }
+        return {"courses": Course.objects.all(), "error": "", "user": MyUser(), "Password": MyUser.password }
 
     def get(self, request: HttpRequest) -> HttpResponse:
 
@@ -437,6 +437,155 @@ class edit_information(View):
             ctx["user"] = user
             print(ctx)
             ret = render(request, "edit_Information.html", ctx)
+
+        return ret
+
+class create_SyllabusSelect(View):
+    def get_base_ctx(self) -> Dict[str, any]:
+        return {"courses": Course.objects.all(), "error": ""}
+
+    def get_two_ctx(self, course_id) -> Dict[str, any]:
+        return {"course": Course.objects.get(id=course_id)}
+
+    def get(self, request: HttpRequest) -> HttpResponse:
+
+        (validReq, _, redirectAction) = verify_request(request, "b")
+        if (not validReq):
+            return redirectAction
+
+        ctx = self.get_base_ctx()
+
+        return render(request, "create_SyllabusSelect.html", ctx)
+
+    def post(self, request: HttpRequest) -> HttpResponse:
+
+        (validReq, _, redirectAction) = verify_request(request, "b")
+        if (not validReq):
+            return redirectAction
+
+        course_id = request.POST["course_id"]
+        ctx = self.get_base_ctx()
+        if (course_id == ''):
+            ctx["error"] = "please select a course"
+            ret = render(request, "create_SyllabusSelect.html", ctx)
+        else:
+            request.session["selectedCourse"] = course_id
+            ret = redirect("create_SyllabusGetInfo.html")
+            # ret = render(request, "admin_AddCourseSection2.html", {"course":course_id})
+
+        return ret
+
+class create_SyllabusGetInfo(View):
+    def get_base_ctx(self) -> Dict[str, any]:
+        return {"courses": Course.objects.all(), "error": ""}
+
+    def get(self, request: HttpRequest) -> HttpResponse:
+
+        (validReq, _, redirectAction) = verify_request(request, "b")
+        if (not validReq):
+            return redirectAction
+
+        ctx = self.get_base_ctx()
+
+        return render(request, "create_SyllabusGetInfo.html", ctx)
+
+    def post(self, request: HttpRequest) -> HttpResponse:
+
+        (validReq, _, redirectAction) = verify_request(request, "b")
+        if (not validReq):
+            return redirectAction
+
+        course_id = request.POST["course_id"]
+        ctx = self.get_base_ctx()
+        if (course_id == ''):
+            ctx["error"] = "please select a course"
+            ret = render(request, "create_SyllabusSelect.html", ctx)
+        else:
+            request.session["selectedCourse"] = course_id
+            ret = redirect("create_SyllabusGetInfo.html")
+            # ret = render(request, "admin_AddCourseSection2.html", {"course":course_id})
+
+        return ret
+
+class view_Syllabus(View):
+    def get_base_ctx(self) -> Dict[str, any]:
+        return {"courses": Course.objects.all(), "error": ""}
+
+    def get_two_ctx(self, course_id) -> Dict[str, any]:
+        return {"course": Course.objects.get(id=course_id)}
+
+    def get(self, request: HttpRequest) -> HttpResponse:
+
+        (validReq, _, redirectAction) = verify_request(request, "b")
+        if (not validReq):
+            return redirectAction
+
+        ctx = self.get_base_ctx()
+
+        return render(request, "view_Syllabus.html", ctx)
+
+    def post(self, request: HttpRequest) -> HttpResponse:
+
+        (validReq, _, redirectAction) = verify_request(request, "b")
+        if (not validReq):
+            return redirectAction
+
+        course_id = request.POST["course_id"]
+        ctx = self.get_base_ctx()
+        if (course_id == ''):
+            ctx["error"] = "please select a course"
+            ret = render(request, "view_Syllabus.html", ctx)
+        else:
+            request.session["selectedCourse"] = course_id
+            ret = redirect("/home_Instructor/display_Syllabus.html")
+            # ret = render(request, "admin_AddCourseSection2.html", {"course":course_id})
+
+        return ret
+
+class display_Syllabus(View):
+    def get_base_ctx(self, course_id) -> Dict[str, any]:
+        return {"course": "", "section": Section(), "teachingAssistants": MyUser.objects.filter(access="c"),
+                "instructors": MyUser.objects.filter(access="b"), "sections": Section.objects.filter(course=course_id), "error": ""}
+
+    def get(self, request: HttpRequest) -> HttpResponse:
+
+        (validReq, _, redirectAction) = verify_request(request, "b")
+        if (not validReq):
+            return redirectAction
+
+        course_id = request.session.get("selectedCourse", None)
+
+        if (course_id is None):
+            ret = redirect("/home_Admin/admin_AddCourseSection1.html")
+        else:
+            ctx = self.get_base_ctx(course_id)
+            ctx["course"] = Course.objects.get(id=course_id)
+            ret = render(request, "display_Syllabus.html", ctx)
+
+        return ret
+
+    def post(self, request: HttpRequest) -> HttpResponse:
+
+        (validReq, _, redirectAction) = verify_request(request, "b")
+        if (not validReq):
+            return redirectAction
+
+        course_id = request.session.get("selectedCourse", None)
+        ctx = self.get_base_ctx(course_id)
+        course = Course.objects.get(id=course_id)
+
+        (validSection, error, section) = validate_section(request.POST, course)
+        if (validSection):
+            section.save()
+            request.session["selectedCourse"] = course_id
+            ret = redirect("/home_Instructor/display_Syllabus.html")
+
+        else:
+
+            ctx["error"] = error
+            ctx["course"] = course
+            ret = render(request, "view_Syllabus.html", ctx)
+
 
         return ret
 

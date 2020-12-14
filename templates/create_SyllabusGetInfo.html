@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Get Syllabus Info</title>
+    <link href="/static/stylesheet.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<label class="nameDisplay"> Syllabus Information
+</label>
+
+<div>
+    <img class="uwmLogo" src="/static/UWM-logo.jpg" alt="UWM Logo">
+</div>
+
+<form action="" method="post">
+    {% csrf_token %}
+    <p style="color: red">{{ error }}</p>
+    <div class="infoBoxes">
+
+        <label for="info">Info<span style="color: red">*</span>:</label>
+        <input type="text" id="info" name="info" size="100"><br><br/>
+
+        <button class="saveButton">Add Section(s)</button>
+        </a><br><br/><br><br/><br><br/>
+
+        <input type="submit" value="Create" class="saveButton">
+    </div>
+</form>
+
+<a href="/home_Instructor/create_SyllabusSelect.html">
+    <button class="backButton">Back</button>
+</a>
+<a href="/">
+    <button class="logoutButton">Logout</button>
+</a>
+
+</body>
+</html>>
