@@ -39,6 +39,7 @@ class Section(models.Model):
     teacher = models.ForeignKey(MyUser, on_delete=models.CASCADE)
     # Rename teachingAssistant to Instructor as sections are both for labs and lectures
     #   (e.g. 337-401:Lecture 333-801:Lab)
+    # Each section has one
 
     def __str__(self):
         return self.course.name
