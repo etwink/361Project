@@ -10,6 +10,23 @@
    <img class="uwmLogo" src="/static/UWM-logo.jpg" alt="UWM Logo">
 </div>
 
+<form action="" method="post">
+    {% csrf_token %}
+    <p style="color: red">{{ error }}</p>
+    <div class="infoBoxes">
+        Each section is part of the total of your grade.
+        A full class is out of 100.
+        Please add a description so we know what that section is in reference too.
+
+        Grade Percentage<span style="color: red">*</span>: <input value="{{ WeightedAssessment.percentage }}" type="number" name="percentage"/><br><br/>
+        Description<span style="color: red">*</span>: <input value="{{ WeightedAssessment.grade }}" name="grade"/><br><br/>
+        </a><br><br/><br><br/><br><br/>
+
+        <input type="submit" value="Create" class="saveButton">
+    </div>
+</form>
+
+
     <a href="/home_instructor/add_syllabus_subscreen/">
         <button class="backButton">Back</button>
     </a>
