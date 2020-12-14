@@ -25,9 +25,25 @@
     <input type="submit" value="Go" class="goButton">
 </form>
 
-<a href="/home_instructor/">
+{% if user.access ==  "a"%}
+<form>
+<a href="/home_Admin/">
     <button class="backButton">Back</button>
 </a>
+{% endif %}
+
+{% if user.access ==  "b"%}
+<a href="/home_Instructor/">
+    <button class="backButton">Back</button>
+</a>
+{% endif %}
+
+{% if user.access ==  "c"%}
+<a href="/home_TA/">
+    <button class="backButton">Back</button>
+</a>
+{% endif %}
+
 <a href="/">
     <button class="logoutButton">Logout</button>
 </a>
