@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Display Syllabus</title>
+    <link href="/static/stylesheet.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+    <img class="uwmLogoBottom" src="/static/UWM-logo.jpg" alt="UWM Logo">
+</div>
+
+<form action="" method="post">
+    <p style="color: red">{{ error }}</p>
+    <div class="infoBoxes">
+        <label for="Sections" >Section:</label>
+        <ul>
+            {% for section in sections %}
+
+                <li class="fontsize">{{ course.name }} {{ course.number }}-{{ section.number }}
+                    {% if section.teacher.access == "b" %}&emsp;Instructor:
+                    {% else %}&emsp;TA:
+                    {% endif %}
+                    {{ section.teacher }} </li>
+
+            {% endfor %}
+        </ul>
+
+
+            {% for TA in teachingAssistants %}
+
+                <option value="{{ TA.id }}">{{ TA.name }} {{ TA.number }} - TA </option>
+
+            {% endfor %}
+            {% for instructor in instructors %}
+
+                <option value="{{ instructor.id }}">{{ instructor.name }} {{ instructor.number }} - Instructor </option>
+
+            {% endfor %}
+
+
+    </div>
+</form>
+
+<a href="view_Syllabus.html">
+    <button class="backButton">Back</button>
+</a>
+<a href="/">
+    <button class="logoutButton">Logout</button>
+</a>
+</body>
+</html>
