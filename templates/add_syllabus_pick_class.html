@@ -1,35 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Add Syllabus Pick Class</title>
+   <meta charset="UTF-8">
+   <title>Add Syllabus Pick Class</title>
+   <link href="/static/stylesheet.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
+
+<label class="nameDisplay">Add a Course Syllabus
+</label>
+
 <form method="post">
-    {% csrf_token %}
-    <p style="color:red">{{ error }}</p>
-    <div class="center">
-        <label for="Courses" class=fontsize>Pick A Course:</label>
-        <select name="course_id" class="wideDropDown">
-            <option value="">-- SELECT --</option>
+   {% csrf_token %}
+   <p style="color:red">{{ error }}</p>
+   <div class="center">
+       <label for="Courses" class=fontsize>Pick A Course:</label>
+       <select name="course_id" class="wideDropDown">
+           <option value="">-- SELECT --</option>
 
-            {% for course in courses %}
+           {% for course in courses %}
 
-                <option value="{{ course.id }}">{{ course.name }} {{ course.number }}</option>
+               <option value="{{ course.id }}">{{ course.name }} {{ course.number }}</option>
 
-            {% endfor %}
+           {% endfor %}
 
-        </select>
+       </select>
 
-    </div>
-    <input type="submit" value="Go" class="goButton">
+   </div>
+   <input type="submit" value="Go" class="goButton">
 </form>
 
 <a href="/home_instructor/">
-    <button class="backButton">Back</button>
+   <button class="backButton">Back</button>
 </a>
-<a href="/">
-    <button class="logoutButton">Logout</button>
+<a href="/add_syllabus_subscreen/">
+   <button class="logoutButton">Logout</button>
 </a>
 
 </body>
