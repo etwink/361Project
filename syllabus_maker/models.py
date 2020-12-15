@@ -46,6 +46,7 @@ class Section(models.Model):
 class Syllabus(models.Model):
     # Each syllabus has one course, but courses can have multiple syllabi.
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    policy = models.CharField(max_length=256)
     year = models.IntegerField()
     semester = models.CharField(max_length=10)
     gradingScale = models.ForeignKey("GradingScale", on_delete=models.CASCADE)
