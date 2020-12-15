@@ -21,6 +21,7 @@ class Course(models.Model):
     number = models.IntegerField()
     # For holding course info
     info = models.CharField(max_length=300)
+    department = models.CharField(max_length=20)
     # Each course has one instructor, but instructors can have multiple courses.
     # Instructor should be assigned to sections not courses
     #   (e.g. 361-401:Lecture:Instructor: Rock       361-803:Lab:Instructor: Apoorv)
@@ -43,6 +44,7 @@ class Section(models.Model):
     def __str__(self):
         return self.course.name
 
+
 class Syllabus(models.Model):
     # Each syllabus has one course, but courses can have multiple syllabi.
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
@@ -50,9 +52,11 @@ class Syllabus(models.Model):
     year = models.IntegerField()
     semester = models.CharField(max_length=10)
     gradingScale = models.ForeignKey("GradingScale", on_delete=models.CASCADE)
-
+    def __str__(self):
+        return self.course.name
 #probably redundant, might just want to apply Grade directly to Syllabus
 #A set of (integer between 0 and 100, letter grade) pairs
+
 
 class GradingScale(models.Model):
     # Each grade has one grading scale, but grading scales can have multiple grades.
@@ -66,7 +70,8 @@ class GradingScale(models.Model):
     cLowerBound = models.IntegerField()
     dLowerBound = models.IntegerField()
     fLowerBound = models.IntegerField()
-
+    def __str__(self):
+        pass
 
 #A set of (integer between 0 and 100, description) pairs.
 class WeightedAssessment(models.Model):
@@ -76,6 +81,8 @@ class WeightedAssessment(models.Model):
     weight = models.IntegerField()
     #Description may include html markup which should be rendered as normal.
     description = models.CharField(max_length=20)
+    def __str__(self):
+        pass
 
 #Each calendar entry is of (date, topic, activity)
 class CalendarEntry(models.Model):
@@ -87,5 +94,6 @@ class CalendarEntry(models.Model):
     calendarDate = models.DateField()
     calendarTopic = models.CharField(max_length=20)
     calendarActivity = models.CharField(max_length=300)
-
+    def __str__(self):
+        pass
 

@@ -175,6 +175,51 @@ class home_TA(View):
 
        return render(request, "home_TA.html", {"home_TA": home_TA})
 
+
+class view_syllabus_pick_course(View):
+    def get_base_ctx(self) -> Dict[str, any]:
+        return {"courses": Course.objects.all(), "error": ""}
+
+    def get(self, request: HttpRequest) -> HttpResponse:
+        ctx = self.get_base_ctx()
+
+        return render(request, "view_syllabus_pick_course.html", ctx)
+
+    def post(self, request: HttpRequest) -> HttpResponse:
+
+        course_id = request.POST["course_id"]
+        ctx = self.get_base_ctx()
+        if (course_id == ''):
+            ctx["error"] = "please select a course"
+            ret = render(request, "view_syllabus_pick_course.html", ctx)
+        else:
+            request.session["selectedCourse"] = course_id
+            ret = redirect("/view_syllabus_pick_course/view_syllabus.html")
+
+        return ret
+
+class view_syllabus(View):
+    def get_base_ctx(self, course_id) -> Dict[str, any]:
+        return {"courses": Course.objects.all(), "sections": Section.objects.filter(course=course_id), "assessmets": WeightedAssessment.objects.filter(syllabus.objects.filter(course=course_id)), "error": ""}
+
+    def get(self, request: HttpRequest) -> HttpResponse:
+
+        course_id = request.session.get("selectedCourse", None)
+
+        if (course_id is None):
+            ret = redirect("view_syllabus_pick_course.html/")
+        else:
+            ctx = self.get_base_ctx(course_id)
+            ctx["course"] = Course.objects.get(id=course_id)
+            ret = render(request, "view_syllabus_pick_course/view_syllabus.html", ctx)
+
+        return ret
+
+    def post(self, request: HttpRequest) -> HttpResponse:
+        return render(request, "add_syllabus_subscreen.html")
+
+
+
 class admin_CreateNewUser(View):
 
    def get_base_ctx(self) -> Dict[str, any]:
@@ -644,7 +689,7 @@ def validate_course(post: Type[QueryDict]) -> (bool, str, Course):
    c = Course(
        name=fields["name"],
        number=fields["number"],
-       # instructor_id=fields["Instructor"],
+       department=fields["department"],
        info=fields["info"],
    )
 

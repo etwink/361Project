@@ -23,6 +23,7 @@
 
         </dl>
     </p>
+
     <br><br/>
     <h1 class="fontsize">Assessment</h1>
     <br><br/>
@@ -56,28 +57,18 @@
     <p class="text">
         <dl>
             {% for cldentry in calendarentries %}
-                <dt>{{ cldentry.calendarDate }} </dt>
-                <dd>- {{ cldentry.calendarTopic }} | {{ cldentry.calendarActivity }}</dd>
+                <dt>{{ cldentry.calendarDate }}</dt>
+                <dd> - {{ cldentry.calendarTopic }} | {{ cldentry.calendarActivity }}</dd>
             {% endfor %}
 
         </dl>
     </p>
 </div>
 
-
-
 <div>
     <img class="uwmLogo" src="/static/UWM-logo.jpg" alt="UWM Logo">
 </div>
 
-
-
-{#<a href="/home_Instructor/">#}
-{#    <button class="backButton">Back</button>#}
-{#</a>#}
-{#<a href="/">#}
-{#    <button class="logoutButton">Logout</button>#}
-{#</a>#}
 
 </body>
 </html>>
