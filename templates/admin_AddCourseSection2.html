@@ -7,7 +7,7 @@
 </head>
 <body>
 
-<label class="nameDisplay">Add a Course Section for: {{ course.name }} {{ course.number }}
+<label class="nameDisplay">Add a Course Section for: {{ course.department }} {{ course.number }} {{ course.name }}
 </label>
 
 <div>
@@ -21,7 +21,7 @@
         <ul>
             {% for section in sections %}
 
-                <li class="fontsize">{{ course.name }} {{ course.number }}-{{ section.number }}
+                <li class="fontsize">{{ course.department }} {{ course.number }}-{{ section.number }}
                     {% if section.teacher.access == "b" %}&emsp;Instructor:
                     {% else %}&emsp;TA:
                     {% endif %}

@@ -644,7 +644,7 @@ def validate_course(post: Type[QueryDict]) -> (bool, str, Course):
    c = Course(
        name=fields["name"],
        number=fields["number"],
-       # instructor_id=fields["Instructor"],
+       department=fields["department"],
        info=fields["info"],
    )
 
