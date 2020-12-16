@@ -23,6 +23,8 @@ urlpatterns = [
    path('home_Admin/', views.home_Admin.as_view()),
    path('home_Instructor/', views.home_Instructor.as_view()),
    path('home_TA/', views.home_TA.as_view()),
+   path('view_syllabus_pick_course.html/', views.view_syllabus_pick_course.as_view()),
+   path('view_syllabus_pick_course/view_syllabus.html', views.view_syllabus.as_view()),
 
    path("home_Admin/admin_CreateNewUser.html", views.admin_CreateNewUser.as_view()),
    path("home_Admin/admin_EditUser1.html", views.admin_EditUser1.as_view()),
