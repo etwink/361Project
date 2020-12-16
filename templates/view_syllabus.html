@@ -2,19 +2,19 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Create Course</title>
-    <link href="/static/stylesheet.css" rel="stylesheet" type="text/css" />
+    <title>{{ course.department }} {{ course.number }} {{ course.name }} {{ syllabus.semester }} {{ syllabus.year }}</title>
+    <link href="/static/stylesheet.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 
-<label class="nameDisplay"> {{ course.department }} {{ course.number }} {{ course.name }} {{ syllabus.semester }} {{ syllabus.year }}
+<label class="nameDisplay">{{ course.department }} {{ course.number }} {{ course.name }} {{ syllabus.semester }} {{ syllabus.year }}
 </label>
 
 <div class="center">
     <p class="text">
         <dl>
             {% for section in sections %}
-                <dt>{{ section.teacher.namer }} : </dt>
+                <dt>{{ section.teacher.name }} : </dt>
                 <dd>{{ section.teacher.email }} | {{ section.teacher.phoneNum }} | {{ section.course.department }} {{ section.course.number }}-{{ section.number }}
                 <br><br/>
                 Office Hours: {{ section.teacher.officeHours }}

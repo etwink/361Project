@@ -51,6 +51,7 @@ class Syllabus(models.Model):
     year = models.IntegerField()
     semester = models.CharField(max_length=10)
     gradingScale = models.ForeignKey("GradingScale", on_delete=models.CASCADE)
+    policy = models.CharField(max_length=1000)
 
 #probably redundant, might just want to apply Grade directly to Syllabus
 #A set of (integer between 0 and 100, letter grade) pairs
