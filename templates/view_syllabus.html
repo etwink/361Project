@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ course.department }} {{ course.number }} {{ course.name }} {{ syllabus.semester }} {{ syllabus.year }}</title>
+    <link href="/static/stylesheet.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+
+<label class="nameDisplay">{{ course.department }} {{ course.number }} {{ course.name }} {{ syllabus.semester }} {{ syllabus.year }}
+</label>
+
+<div class="center">
+    <p class="text">
+        <dl>
+            {% for section in sections %}
+                <dt>{{ section.teacher.name }} : </dt>
+                <dd>{{ section.teacher.email }} | {{ section.teacher.phoneNum }} | {{ section.course.department }} {{ section.course.number }}-{{ section.number }}
+                <br><br/>
+                Office Hours: {{ section.teacher.officeHours }}
+                </dd>
+            {% endfor %}
+
+        </dl>
+    </p>
+
+    <br><br/>
+    <h1 class="fontsize">Assessment</h1>
+    <br><br/>
+    <p class="text">
+        <dl>
+            {% for assessment in assessments %}
+                <dt>{{ assessment.description }} </dt>
+                <dd>- {{ assessment.weight }}</dd>
+            {% endfor %}
+
+        </dl>
+    </p>
+    <br><br/>
+    <h1 class="fontsize">Grading Scale</h1>
+    <br><br/>
+    <p class="text">
+        {% for gradescale in gradescales %}
+            A: {{ gradescale.aLowerBound }} | B: {{ gradescale.bLowerBound }} | C: {{ gradescale.cLowerBound }} | D: {{ gradescale.dLowerBound }} | F: {{ gradescale.fLowerBound }}
+        {% endfor %}
+    </p>
+    <br><br/>
+    <h1 class="fontsize">Policy</h1>
+    <br><br/>
+    <p class ="text">
+        {{ syllabus.policy }}
+    </p>
+
+    <br><br/>
+    <h1 class="fontsize">Schedule</h1>
+    <br><br/>
+    <p class="text">
+        <dl>
+            {% for cldentry in calendarentries %}
+                <dt>{{ cldentry.calendarDate }}</dt>
+                <dd> - {{ cldentry.calendarTopic }} | {{ cldentry.calendarActivity }}</dd>
+            {% endfor %}
+
+        </dl>
+    </p>
+</div>
+
+<div>
+    <img class="uwmLogo" src="/static/UWM-logo.jpg" alt="UWM Logo">
+</div>
+
+
+</body>
+</html>>
