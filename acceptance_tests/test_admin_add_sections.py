@@ -55,7 +55,7 @@ class TestAddCourseSection(TestCase):
         session = self.client.session
         session['Uname'] = self.admin1.username
         session.save()
-        response = self.client.post('/home_Admin/admin_AddCourseSection2.html', {'course_id': ''})
+        response = self.client.post('/home_Admin/admin_AddCourseSection2.html', {'number': ''})
         self.assertEqual(response.status_code, 200)
 
     # unimplemented -- for sprint 2
