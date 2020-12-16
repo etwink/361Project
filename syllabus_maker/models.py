@@ -49,6 +49,8 @@ class Syllabus(models.Model):
     year = models.IntegerField()
     semester = models.CharField(max_length=10)
     gradingScale = models.ForeignKey("GradingScale", on_delete=models.CASCADE)
+    # used for storing calendar objects
+    calendarArray = []
 
 #probably redundant, might just want to apply Grade directly to Syllabus
 #A set of (integer between 0 and 100, letter grade) pairs
@@ -80,8 +82,6 @@ class WeightedAssessment(models.Model):
 class CalendarEntry(models.Model):
     # Each calendar entry has one syllabus, but syllabi can have multiple calendar entries.
     syllabus = models.ForeignKey(Syllabus, on_delete=models.CASCADE, blank=True, null=True)
-    #used for storing calendar objects
-    calendarArray = []
     #The dates in a calendar can be updated by changing the start date and keeping all offsets between dates, or by editing dates of individual entries.
     calendarDate = models.DateField()
     calendarTopic = models.CharField(max_length=20)

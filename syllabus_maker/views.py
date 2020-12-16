@@ -1,9 +1,12 @@
+import datetime
+
 from django.shortcuts import render, redirect
 from django.views import View
-from .models import MyUser, Course, Section
+from .models import MyUser, Course, Section, Syllabus, CalendarEntry, GradingScale, WeightedAssessment
 from typing import Dict, Type
 from django.http import QueryDict, HttpRequest, HttpResponse
 from django.core.exceptions import ObjectDoesNotExist
+from datetime import date, time
 
 
 class home(View):
@@ -154,6 +157,8 @@ class add_weighted_assessment(View):
 #TODO
 
 class add_calendar_entries(View):
+    def get_base_ctx(self) -> Dict[str, any]:
+        return {"date": date.today(), "description" : "", "error": ""}
     def get(self, request: HttpRequest) -> HttpResponse:
         (validReq, _, redirectAction) = verify_request(request, "b")
         if (not validReq):
@@ -162,7 +167,23 @@ class add_calendar_entries(View):
         return render(request, "add_calendar_entries.html")
 
     def post(self, request: HttpRequest) -> HttpResponse:
-        return render(request, "add_calendar_entries.html")
+        date = datetime.strptime(request.POST["date"], '%Y-%m-%dT')
+        description = request.POST["description"]
+        ctx = self.get_base_ctx()
+        ctx["description"] = description
+        ctx["date"] = date
+        if(date == None) :
+            ctx["error"] = "please enter in a date for the calendar entry"
+            return render(request, "add_calendar_entries.html", ctx)
+        else :
+            entry = CalendarEntry(
+                calendarDate=date,
+                calendarActivity=description,
+                calendarTopic = "",
+                syllabus=None,
+            )
+            entry.save()
+            return redirect("add_calendar_entries.html")
 
 
 class home_TA(View):
