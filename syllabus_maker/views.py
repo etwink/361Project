@@ -144,6 +144,8 @@ class add_grading_scale(View):
 #TODO
 
 class add_weighted_assessment(View):
+    def get_base_ctx(self) -> Dict[str, any]:
+        return {"percentage": 0, "grade" : "", "error": ""}
     def get(self, request: HttpRequest) -> HttpResponse:
         (validReq, _, redirectAction) = verify_request(request, "b")
         if (not validReq):
@@ -152,7 +154,28 @@ class add_weighted_assessment(View):
         return render(request, "add_weighted_assessment.html")
 
     def post(self, request: HttpRequest) -> HttpResponse:
-        return render(request, "add_weighted_assessment.html")
+        percentage = request.POST["percentage"]
+        grade = request.POST["grade"]
+        ctx = self.get_base_ctx()
+        ctx["percentage"] = percentage
+        ctx["grade"] = grade
+        syllabus = None #needs to be updated so that the page picks up the syllabus
+        list = WeightedAssessment.objects.filter(syllabus)
+        total_percentage = 0
+        for assessment in list :
+            total_percentage += assessment.weight
+
+        if(total_percentage + percentage > 100 or percentage < 0):
+            ctx["error"] = "total percent of weighted assessments exceeds 100% or is less than zero"
+            return render(request, "add_weighted_assessment.html", ctx)
+        else :
+            a = WeightedAssessment(
+                syllabus = None,
+                weight = percentage,
+                description=grade,
+            )
+            a.save()
+            return redirect("add_weighted_assessment.html")
 
 #TODO
 
