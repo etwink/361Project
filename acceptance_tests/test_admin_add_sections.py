@@ -23,7 +23,7 @@ class TestAddCourseSection(TestCase):
         session = self.client.session
         session['Uname'] = self.admin1.username
         session.save()
-        response = self.client.post('/home_Admin/admin_AddCourseSection1.html', {'number': ''})
+        response = self.client.post('/home_Admin/admin_AddCourseSection1.html', {'course_id': ''})
         self.assertEqual(response.status_code, 200)
 
     # unimplemented -- for sprint 2
@@ -31,15 +31,15 @@ class TestAddCourseSection(TestCase):
         session = self.client.session
         session['Uname'] = self.admin1.username
         session.save()
-        response = self.client.post('/admin_AddCourseSection1.html', {'number': 100})
-        self.assertEqual(response.status_code, 200)
+        response = self.client.post('/home_Admin/admin_AddCourseSection1.html', {'course_id': 100})
+        self.assertEqual(response.status_code, 302)
 
     # unimplemented -- for sprint 2
     def test_create_add_course_sections1_back(self):
         session = self.client.session
         session['Uname'] = self.admin1.username
         session.save()
-        response = self.client.post('/admin_AddCourseSection1.html/', {'backButton': 'Back'})
+        response = self.client.post('/home_Admin/admin_AddCourseSection1.html', {'course_id': '', 'backButton': 'Back'})
         self.assertEqual(response.status_code, 200)
 
     # unimplemented -- for sprint 2
@@ -47,7 +47,7 @@ class TestAddCourseSection(TestCase):
         session = self.client.session
         session['Uname'] = self.admin1.username
         session.save()
-        response = self.client.post('/admin_AddCourseSection2.html/', {'logoutButton': 'Logout'})
+        response = self.client.post('/home_Admin/admin_AddCourseSection1.html', {'course_id': '', 'logoutButton': 'Logout'})
         self.assertEqual(response.status_code, 200)
 
 
@@ -55,7 +55,7 @@ class TestAddCourseSection(TestCase):
         session = self.client.session
         session['Uname'] = self.admin1.username
         session.save()
-        response = self.client.post('/admin_AddCourseSection2.html', {'number': ''})
+        response = self.client.post('/home_Admin/admin_AddCourseSection2.html', {'course_id': ''})
         self.assertEqual(response.status_code, 200)
 
     # unimplemented -- for sprint 2
