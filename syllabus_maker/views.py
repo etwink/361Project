@@ -65,18 +65,18 @@ class home_Instructor(View):
 
 #TODO
 class add_syllabus_pick_class(View):
-   def get_base_ctx(self) -> Dict[str, any]:
-       return {"courses": Course.objects.all(), "error": ""}
+   def get_base_ctx(self, user) -> Dict[str, any]:
+       return {"courses": Course.objects.filter(section__teacher_id=user), "error": ""}
 
 
    def get(self, request: HttpRequest) -> HttpResponse:
 
-       (validReq, _, redirectAction) = verify_request(request, "b")
+       (validReq, user , redirectAction) = verify_request(request, "b")
        if (not validReq):
            return redirectAction
 
 
-       ctx = self.get_base_ctx()
+       ctx = self.get_base_ctx(user)
 
        return render(request, "add_syllabus_pick_class.html", ctx)
 
