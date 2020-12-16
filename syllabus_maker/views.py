@@ -129,6 +129,8 @@ class add_syllabus_subscreen(View):
 #TODO
 
 class add_grading_scale(View):
+    def get_base_ctx(self) -> Dict[str, any]:
+        return {"a": 0, "b" : 0, "c" : 0, "d" : 0, "error": ""}
     def get(self, request: HttpRequest) -> HttpResponse:
 
         (validReq, _, redirectAction) = verify_request(request, "b")
@@ -139,7 +141,26 @@ class add_grading_scale(View):
         return render(request, "add_grading_scale.html")
 
     def post(self, request: HttpRequest) -> HttpResponse:
-        return render(request, "add_grading_scale.html")
+        a = request.POST["number"]
+        b = request.POST["number"]
+        c = request.POST["number"]
+        d = request.POST["number"]
+        ctx = self.get_base_ctx()
+        if(a == None or b == None or c == None or d == None):
+            ctx['error'] = "Please fill out all fields"
+            return render(request, "add_grading_scale.html", ctx)
+        else :
+            g = GradingScale(
+                aLowerBound=a,
+                bLowerBound=b,
+                cLowerBound=c,
+                dLowerBound=d,
+                fLowerBound=0,
+            )
+            g.save()
+            syllabus = Syllabus()
+            syllabus.gradingScale = g
+            return redirect("add_grading_scale.html")
 
 #TODO
 
