@@ -6,22 +6,24 @@
     <link href="/static/stylesheet.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-<div>
-   <img class="uwmLogo" src="/static/UWM-logo.jpg" alt="UWM Logo">
-</div>
+
 <form action="" method="post">
     {% csrf_token %}
     <p style="color: red">{{ error }}</p>
     <div class="infoBoxes">
-        <p class="fontsize">Enter the lowest grade score for the bracket below. Highest Grade score is based on higher grade, with A automatically given 100.
-            (EX: A is given 90, B's highest is 89 by default now.)</p>
+        <p class="fontsize">Enter the lower bound for each grade letter. The upper bound for a letter grade will start just after the former letter's lower bound.
+            <br></br>
+            (EX: if A's lower bound is 90, then B's upper bound will be 89.99 B: (A's lower bound, B's lower bound] )
+            <br></br>
+            A's upper bound is 100, F's lower bound is 0.
+        </p>
         <br><br/>
 
-        A<span style="color: red">*</span>: <input value="{{ grading_scale.a }}" type="number" name="number"/><br><br/>
-        B<span style="color: red">*</span>: <input value="{{ grading_scale.b }}" type="number" name="number"/><br><br/>
-        C<span style="color: red">*</span>: <input value="{{ grading_scale.c }}" type="number" name="number"/><br><br/>
-        D<span style="color: red">*</span>: <input value="{{ grading_scale.d }}" type="number" name="number"/><br><br/>
-        <br><br/>
+        A [100, : <span style="color: red">*</span> <input value="{{ grading_scale.a }}" type="number" name="number"/> ]<br><br/>
+        B (A's lower bound, <span style="color: red">*</span> <input value="{{ grading_scale.b }}" type="number" name="number"/> ]<br><br/>
+        C (B's lower bound, <span style="color: red">*</span> <input value="{{ grading_scale.c }}" type="number" name="number"/> ]<br><br/>
+        D (C's lower bound, <span style="color: red">*</span> <input value="{{ grading_scale.d }}" type="number" name="number"/> ]<br><br/>
+        F (D's lower bound, 0 ]<br><br/>
 
 
         </a><br><br/><br><br/><br><br/>
@@ -30,7 +32,7 @@
     </div>
 </form>
 
-    <a href="/home_instructor/add_syllabus_subscreen/">
+    <a href="/home_instructor/">
         <button class="backButton">Back</button>
     </a>
     <a href="/">
