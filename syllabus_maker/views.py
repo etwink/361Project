@@ -97,10 +97,56 @@ class add_syllabus_pick_class(View):
 
        return ret
 
+
+class add_syllabus_create(View):
+    def get_base_ctx(self) -> Dict[str, any]:
+        return {"syllabus": Syllabus(), "course": "", "error": ""}
+
+    def get(self, request: HttpRequest) -> HttpResponse:
+
+        (validReq, _, redirectAction) = verify_request(request, "b")
+        if (not validReq):
+            return redirectAction
+
+        course_id = request.session.get("selectedCourse", None)
+
+        if (course_id is None):
+            ret = redirect("/home_Instructor/add_syllabus_pick_class.html")
+        else:
+            ctx = self.get_base_ctx()
+            ctx["course"] = Course.objects.get(id=course_id)
+            ret = render(request, "add_syllabus_create.html", ctx)
+
+        return ret
+
+    def post(self, request: HttpRequest) -> HttpResponse:
+        course_id = request.session.get("selectedCourse", None)
+        ctx = self.get_base_ctx()
+        course = Course.objects.get(id=course_id)
+
+        (validSyllabus, error, syllabus) = validate_syllabus(request.POST, course)
+        if (validSyllabus):
+            syllabus.save()
+            request.session["selectedCourse"] = course_id
+            request.session["syllabus"] = syllabus
+            ret = redirect("/home_Instructor/add_syllabus_pick_class/add_syllabus_create/add_syllabus_subscreen.html")
+
+        else:
+
+            ctx["error"] = error
+            ctx["course"] = course
+            ctx["syllabus"] = syllabus
+
+            ret = render(request, "add_syllabus_create.html", ctx)
+
+
+        return ret
+
+
 #TODO
 class add_syllabus_subscreen(View):
-   def get_base_ctx(self) -> Dict[str, any]:
-       return {"courses": Course.objects.all(), "error": ""}
+   def get_base_ctx(self, syllabus) -> Dict[str, any]:
+       return {"courses": Course.objects.all(), "error": "", "syllabus": syllabus()}
 
    def get(self, request: HttpRequest) -> HttpResponse:
 
@@ -109,11 +155,13 @@ class add_syllabus_subscreen(View):
            return redirectAction
 
        course_id = request.session.get("selectedCourse", None)
+       syllabus_id = request.session.get("selectedCourse", None)
+       syllabus = Syllabus.objects.get(course=course_id)
 
        if (course_id is None):
            ret = redirect("/home_Instructor/add_syllabus_pick_class.html")
        else:
-           ctx = self.get_base_ctx()
+           ctx = self.get_base_ctx(syllabus)
            ctx["course"] = Course.objects.get(id=course_id)
            ret = render(request, "add_syllabus_subscreen.html", ctx)
 
@@ -200,49 +248,7 @@ class view_syllabus_pick_course(View):
         return ret
 
 
-class add_syllabus_create(View):
-    def get_base_ctx(self) -> Dict[str, any]:
-        return {"syllabus": Syllabus(), "course": "", "error": ""}
 
-    def get(self, request: HttpRequest) -> HttpResponse:
-
-        (validReq, _, redirectAction) = verify_request(request, "b")
-        if (not validReq):
-            return redirectAction
-
-        course_id = request.session.get("selectedCourse", None)
-
-        if (course_id is None):
-            ret = redirect("/home_Instructor/add_syllabus_pick_class.html")
-        else:
-            ctx = self.get_base_ctx()
-            ctx["course"] = Course.objects.get(id=course_id)
-            ret = render(request, "add_syllabus_create.html", ctx)
-
-        return ret
-
-    def post(self, request: HttpRequest) -> HttpResponse:
-        course_id = request.session.get("selectedCourse", None)
-        ctx = self.get_base_ctx()
-        course = Course.objects.get(id=course_id)
-
-        (validSyllabus, error, syllabus) = validate_syllabus(request.POST, course)
-        if (validSyllabus):
-            syllabus.save()
-            request.session["selectedCourse"] = course_id
-            ctx["syllabus"] = syllabus
-            ret = redirect("/home_Instructor/add_syllabus_pick_class/add_syllabus_create/add_syllabus_subscreen.html")
-
-        else:
-
-            ctx["error"] = error
-            ctx["course"] = course
-            ctx["syllabus"] = syllabus
-
-            ret = render(request, "home_Instructor/add_syllabus_pick_class/add_syllabus_create.html", ctx)
-
-
-        return ret
 
 
 
@@ -782,10 +788,17 @@ def validate_syllabus(post: Type[QueryDict], course_id) -> (bool, str, Section):
    if ('' in fields.values()):
        return (False, "all fields are required", None)
 
+   try:
+       Syllabus.objects.get(course=course_id, year=fields["year"], semester=fields["semester"])
+       return (False, "This semseter of syllabus already exists", None)
+   except ObjectDoesNotExist:
+       pass
+
    s = Syllabus(
        year=fields["year"],
        semester=fields["semester"],
        course=course_id,
    )
+
 
    return (True, None, s)
