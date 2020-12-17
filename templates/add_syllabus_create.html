@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <title>Create Syllabus</title>
+   <link href="/static/stylesheet.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<label class="nameDisplay">Create a Syllabus for: {{ course.department }} {{ course.number }} {{ course.name }}
+</label>
+
+<div>
+   <img class="uwmLogo" src="/static/UWM-logo.jpg" alt="UWM Logo">
+</div>
+
+
+<form action="" method="post">
+    {% csrf_token %}
+    <p style="color: red">{{ error }}</p>
+    <div class="infoBoxes">
+        <label for="User's Name">Year<span style="color: red">*</span>:</label>
+        <input type="number" value="{{ syllabus.year }}" name="year" id="year">
+
+
+        <br><br/>
+        <label for="Semesters">Pick A Semester<span style="color: red">*</span>:</label>
+        <select name="semester" class="wideDropDown">
+            <option value="">-- SELECT --</option>
+            <option value="Spring" type="text">Spring</option>
+            <option value="Fall" type="text">Fall</option>
+        </select>
+        <br><br/>
+<br><br/><br><br/><br><br/><br><br/><br><br/><br><br/><br><br/><br><br/><br><br/>
+
+
+        <input type="submit" value="Create" class="saveButton">
+    </div>
+</form>
+
+
+</div>
+
+   <a href="/home_Instructor/add_syllabus_pick_class.html">
+       <button class="backButton">Back</button>
+   </a>
+   <a href="/">
+       <button class="logoutButton">Logout</button>
+   </a>
+</body>
+</html>

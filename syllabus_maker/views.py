@@ -93,7 +93,7 @@ class add_syllabus_pick_class(View):
            ret = render(request, "add_syllabus_pick_class.html", ctx)
        else:
            request.session["selectedCourse"] = course_id
-           ret = redirect("/home_Instructor/add_syllabus_pick_class/add_syllabus_subscreen.html")
+           ret = redirect("/home_Instructor/add_syllabus_pick_class/add_syllabus_create.html")
 
        return ret
 
@@ -198,6 +198,53 @@ class view_syllabus_pick_course(View):
             ret = redirect("/view_syllabus_pick_course/view_syllabus.html")
 
         return ret
+
+
+class add_syllabus_create(View):
+    def get_base_ctx(self) -> Dict[str, any]:
+        return {"syllabus": Syllabus(), "course": "", "error": ""}
+
+    def get(self, request: HttpRequest) -> HttpResponse:
+
+        (validReq, _, redirectAction) = verify_request(request, "b")
+        if (not validReq):
+            return redirectAction
+
+        course_id = request.session.get("selectedCourse", None)
+
+        if (course_id is None):
+            ret = redirect("/home_Instructor/add_syllabus_pick_class.html")
+        else:
+            ctx = self.get_base_ctx()
+            ctx["course"] = Course.objects.get(id=course_id)
+            ret = render(request, "add_syllabus_create.html", ctx)
+
+        return ret
+
+    def post(self, request: HttpRequest) -> HttpResponse:
+        course_id = request.session.get("selectedCourse", None)
+        ctx = self.get_base_ctx()
+        course = Course.objects.get(id=course_id)
+
+        (validSyllabus, error, syllabus) = validate_syllabus(request.POST, course)
+        if (validSyllabus):
+            syllabus.save()
+            request.session["selectedCourse"] = course_id
+            ctx["syllabus"] = syllabus
+            ret = redirect("/home_Instructor/add_syllabus_pick_class/add_syllabus_create/add_syllabus_subscreen.html")
+
+        else:
+
+            ctx["error"] = error
+            ctx["course"] = course
+            ctx["syllabus"] = syllabus
+
+            ret = render(request, "home_Instructor/add_syllabus_pick_class/add_syllabus_create.html", ctx)
+
+
+        return ret
+
+
 
 class view_syllabus(View):
     def get_base_ctx(self, course_id) -> Dict[str, any]:
@@ -727,7 +774,7 @@ def validate_section(post: Type[QueryDict], course_id) -> (bool, str, Section):
 
 
 def validate_syllabus(post: Type[QueryDict], course_id) -> (bool, str, Section):
-   fields = {"number": None, "teacher": None}
+   fields = {"year": None, "semester": None}
 
    for field_key in fields.keys():
        fields[field_key] = post.get(field_key, '').strip()
@@ -735,9 +782,9 @@ def validate_syllabus(post: Type[QueryDict], course_id) -> (bool, str, Section):
    if ('' in fields.values()):
        return (False, "all fields are required", None)
 
-   s = Section(
-       number=fields["number"],
-       teacher_id=fields["teacher"],
+   s = Syllabus(
+       year=fields["year"],
+       semester=fields["semester"],
        course=course_id,
    )
 

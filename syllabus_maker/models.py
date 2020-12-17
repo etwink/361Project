@@ -10,10 +10,10 @@ class MyUser(models.Model):
     office = models.CharField(max_length=20, blank=True, null=True)
     phoneNum = models.CharField(max_length=20, blank=True, null=True)
     email = models.CharField(max_length=30, blank=True, null=True)
-    officeHours = models.CharField(max_length=20, blank=True, null=True)
+    officeHours = models.CharField(max_length=50, blank=True, null=True)
 
     def __str__(self):
-        return self.name
+        return self.name + " access: " + self.access
 
 
 class Course(models.Model):
@@ -29,7 +29,7 @@ class Course(models.Model):
     # Sections should be assigned to Courses, (e.g. 337-401, 361-401)
 
     def __str__(self):
-        return self.name
+        return self.department + " " + str(self.number) + " " + self.name
 
 
 class Section(models.Model):
@@ -43,15 +43,18 @@ class Section(models.Model):
     #   (e.g. 337-401:Lecture 333-801:Lab)
 
     def __str__(self):
-        return self.course.name
+        return self.course.department + " " + str(self.course.number) + "-" + str(self.number)
 
 class Syllabus(models.Model):
     # Each syllabus has one course, but courses can have multiple syllabi.
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     year = models.IntegerField()
     semester = models.CharField(max_length=10)
-    gradingScale = models.ForeignKey("GradingScale", on_delete=models.CASCADE)
-    policy = models.CharField(max_length=1000)
+    gradingScale = models.ForeignKey("GradingScale", on_delete=models.CASCADE, blank=True, null=True)
+    policy = models.CharField(max_length=1000, blank=True, null=True)
+
+    def __str__(self):
+        return self.course.department + " " + str(self.course.number) + "-" + self.semester + " " + str(self.year)
 
 #probably redundant, might just want to apply Grade directly to Syllabus
 #A set of (integer between 0 and 100, letter grade) pairs
@@ -68,6 +71,11 @@ class GradingScale(models.Model):
     cLowerBound = models.IntegerField()
     dLowerBound = models.IntegerField()
     fLowerBound = models.IntegerField()
+    def __str__(self):
+        return self.syllabus_set.filter(gradingScale=self).course.department + " " + \
+               str(self.syllabus_set.filter(gradingScale=self).course.number) + "-" + \
+               self.syllabus_set.filter(gradingScale=self).semester + " " + \
+               str(self.syllabus_set.filter(gradingScale=self).year)
 
 
 #A set of (integer between 0 and 100, description) pairs.
@@ -78,6 +86,8 @@ class WeightedAssessment(models.Model):
     weight = models.IntegerField()
     #Description may include html markup which should be rendered as normal.
     description = models.CharField(max_length=20)
+    def __str__(self):
+        return self.syllabus.course.department + " " + str(self.syllabus.course.number) + "-" + self.syllabus.semester + " " + str(self.syllabus.year) + ": " + self.description
 
 #Each calendar entry is of (date, topic, activity)
 class CalendarEntry(models.Model):
@@ -89,5 +99,7 @@ class CalendarEntry(models.Model):
     calendarDate = models.DateField()
     calendarTopic = models.CharField(max_length=20)
     calendarActivity = models.CharField(max_length=300)
+    def __str__(self):
+        return self.syllabus.course.department + " " + str(self.syllabus.course.number) + "-" + self.syllabus.semester + " " + str(self.syllabus.year) + ": " + str(self.calendarDate)
 
 
