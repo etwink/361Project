@@ -163,6 +163,8 @@ class add_syllabus_subscreen(View):
            ret = redirect("/home_Instructor/add_syllabus_pick_class.html")
        else:
            ctx = self.get_base_ctx(course_id, syllabus)
+           request.session["selectedCourse"] = course_id
+           request.session["syllabus"] = syllabus
            ctx["course"] = Course.objects.get(id=course_id)
            ret = render(request, "add_syllabus_subscreen.html", ctx)
 
@@ -247,15 +249,45 @@ class add_grading_scale(View):
 #TODO
 
 class add_weighted_assessment(View):
+    def get_base_ctx(self, course_id, syllabus_id) -> Dict[str, any]:
+        return {"course": Course.objects.get(id = course_id), "syllabus": Syllabus.objects.get(id=syllabus_id),
+                "weightedAssessments": WeightedAssessment.objects.filter(syllabus=syllabus_id),
+                "error": ""}
     def get(self, request: HttpRequest) -> HttpResponse:
+
         (validReq, _, redirectAction) = verify_request(request, "b")
         if (not validReq):
             return redirectAction
+        syllabus_id = request.session.get("syllabus")
+        course_id = request.session.get("selectedCourse")
+        ctx = self.get_base_ctx(course_id, syllabus_id)
+        return render(request, "add_weighted_assessment.html", ctx)
 
-        return render(request, "add_weighted_assessment.html")
+
 
     def post(self, request: HttpRequest) -> HttpResponse:
-        return render(request, "add_weighted_assessment.html")
+        syllabus_id = request.session.get("syllabus")
+        course_id = request.session.get("selectedCourse")
+        ctx = self.get_base_ctx(course_id, syllabus_id)
+
+        (validWA, error, wA) = validate_weighted_assessment(request.POST, syllabus_id)
+        if (validWA):
+            wA.save()
+
+            request.session["selectedCourse"] = course_id
+            request.session["syllabus"] = syllabus_id
+            ret = redirect("/home_Instructor/add_syllabus_pick_class/add_syllabus_create/add_syllabus_subscreen/add_weighted_assessment.html")
+
+        else:
+
+            ctx["error"] = error
+            ctx["course"] = course_id
+            ctx["syllabus"] = syllabus_id
+
+            ret = render(request, "add_weighted_assessment.html", ctx)
+
+        return ret
+
 
 #TODO
 
@@ -315,7 +347,7 @@ class view_syllabus_pick_course(View):
 class view_syllabus(View):
     def get_base_ctx(self, course_id, syllabus_id) -> Dict[str, any]:
         return {"courses": Course.objects.all(), "sections": Section.objects.filter(course=course_id),
-                "assessmets": WeightedAssessment.objects.filter(syllabus__course_id=course_id),
+                "assessmets": WeightedAssessment.objects.filter(syllabus = syllabus_id),
                 "gradingscales": GradingScale.objects.get(syllabus=syllabus_id),
                 "calendaryentries": CalendarEntry.objects.filter(syllabus__course_id=course_id),
                 "syllabus": Syllabus.objects.get(id=syllabus_id), "error": ""}
@@ -906,3 +938,22 @@ def validate_grading_scale(post: Type[QueryDict]) -> (bool, str, GradingScale):
 
 
    return (True, None, g)
+
+def validate_weighted_assessment(post: Type[QueryDict], syllabus_id) -> (bool, str, Syllabus):
+   fields = {"description": None, "percentage": None}
+
+   for field_key in fields.keys():
+       fields[field_key] = post.get(field_key, '').strip()
+
+   if ('' in fields.values()):
+       return (False, "all fields are required", None)
+
+
+   wa = WeightedAssessment(
+       description=fields["description"],
+       weight=fields["percentage"],
+       syllabus_id=syllabus_id,
+   )
+
+
+   return (True, None, wa)

@@ -9,20 +9,31 @@
 <div>
    <img class="uwmLogo" src="/static/UWM-logo.jpg" alt="UWM Logo">
 </div>
-
+<label class="nameDisplay">Add Weighted Assessments for: {{ course.department }} {{ course.number }} {{ course.name }}: {{ syllabus.semester }} {{ syllabus.year }}
+</label>
 <form action="" method="post">
     {% csrf_token %}
     <p style="color: red">{{ error }}</p>
     <div class="infoBoxes">
-        Each section is part of the total of your grade.
-        A full class is out of 100.
-        Please add a description so we know what that section is in reference too.
+        Add Assessments Description and Percentage of the Overall grade. Percentages must add up to 100
+        <br><br/>
+        Weighted Assessments:
+        <br><br/>
+        <ul>
+            {% for wa in weightedAssessments %}
 
+                <li class="fontsize">{{ wa.description }} {{ wa.weight }}%</li>
+
+            {% endfor %}
+        </ul>
+
+
+        Description<span style="color: red">*</span>: <input value="{{ WeightedAssessment.description }}" name="description"/><br><br/>
         Grade Percentage<span style="color: red">*</span>: <input value="{{ WeightedAssessment.percentage }}" type="number" name="percentage"/><br><br/>
-        Description<span style="color: red">*</span>: <input value="{{ WeightedAssessment.grade }}" name="grade"/><br><br/>
-        </a><br><br/><br><br/><br><br/>
 
-        <input type="submit" value="Create" class="saveButton">
+        <br><br/><br><br/><br><br/>
+
+        <input type="submit" value="Add Assessment" class="saveButton">
     </div>
 </form>
 
