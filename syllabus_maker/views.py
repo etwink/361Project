@@ -175,6 +175,36 @@ class add_syllabus_subscreen(View):
 
 #TODO
 
+
+class add_syllabus_add_policy(View):
+    def get_base_ctx(self, course_id, syllabus_id) -> Dict[str, any]:
+        return {"course": Course.objects.get(id = course_id), "syllabus": Syllabus.objects.get(id=syllabus_id),
+                "error": ""}
+    def get(self, request: HttpRequest) -> HttpResponse:
+
+        (validReq, _, redirectAction) = verify_request(request, "b")
+        if (not validReq):
+            return redirectAction
+        syllabus_id = request.session.get("syllabus")
+        course_id = request.session.get("selectedCourse")
+        ctx = self.get_base_ctx(course_id, syllabus_id)
+        return render(request, "add_syllabus_add_policy.html", ctx)
+
+    def post(self, request: HttpRequest) -> HttpResponse:
+        syllabus_id = request.session.get("syllabus")
+        course_id = request.session.get("selectedCourse")
+        # ctx = self.get_base_ctx(course_id, syllabus_id)
+
+        policy = request.POST["policy"]
+
+        s = Syllabus.objects.get(id=syllabus_id)
+        s.policy = policy
+        s.save(update_fields=["policy"])
+        request.session["selectedCourse"] = course_id
+        request.session["syllabus"] = syllabus_id
+        ret = redirect("/home_Instructor/add_syllabus_pick_class/add_syllabus_create/add_syllabus_subscreen.html")
+        return ret
+
 class add_grading_scale(View):
     def get_base_ctx(self, course_id, syllabus_id) -> Dict[str, any]:
         return {"course": Course.objects.get(id = course_id), "syllabus": Syllabus.objects.get(id=syllabus_id),
@@ -193,22 +223,24 @@ class add_grading_scale(View):
         syllabus_id = request.session.get("syllabus")
         course_id = request.session.get("selectedCourse")
         ctx = self.get_base_ctx(course_id, syllabus_id)
-        return render(request, "add_grading_scale.html")
 
         (validGradingScale, error, gradingScale) = validate_grading_scale(request.POST)
         if (validGradingScale):
             gradingScale.save()
+            s = Syllabus.objects.get(id=syllabus_id)
+            s.gradingScale = gradingScale
+            s.save(update_fields=["gradingScale"])
             request.session["selectedCourse"] = course_id
-            request.session["syllabus"] = syllabus.id
+            request.session["syllabus"] = syllabus_id
             ret = redirect("/home_Instructor/add_syllabus_pick_class/add_syllabus_create/add_syllabus_subscreen.html")
 
         else:
 
             ctx["error"] = error
-            ctx["course"] = course
-            ctx["syllabus"] = syllabus
+            ctx["course"] = course_id
+            ctx["syllabus"] = syllabus_id
 
-            ret = render(request, "add_syllabus_create.html", ctx)
+            ret = render(request, "add_grading_scale.html", ctx)
 
         return ret
 
@@ -839,11 +871,28 @@ def validate_grading_scale(post: Type[QueryDict]) -> (bool, str, GradingScale):
    if ('' in fields.values()):
        return (False, "All fields are required", None)
 
-   try:
-       GradingScale.objects.get(aLowerBound = fields["aLowerBound"], bLowerBound = fields["bLowerBound"], cLowerBound = fields["cLowerBound"], dLowerBound = fields["dLowerBound"])
-       return (False, "This grading scale already exists", None)
-   except ObjectDoesNotExist:
-       pass
+   if (int(fields["aLowerBound"]) <= 0 | int(fields["bLowerBound"]) <= 0 | int(fields["cLowerBound"]) <= 0 | int(fields["dLowerBound"]) <= 0):
+       return (False, "All fields must be positive numbers", None)
+
+   if (int(fields["aLowerBound"]) >= 100):
+       return (False, "A's lower bound must be less than 100", None)
+
+   if(int(fields["aLowerBound"]) <= int(fields["bLowerBound"])):
+        return (False, "A's lower bound must be geater than B's lower bound", None)
+
+   if (int(fields["bLowerBound"]) <= int(fields["cLowerBound"])):
+       return (False, "B's lower bound must be geater than C's lower bound", None)
+
+   if (int(fields["cLowerBound"]) <= int(fields["dLowerBound"])):
+       return (False, "C's lower bound must be geater than D's lower bound", None)
+
+   if (int(fields["dLowerBound"]) <= 0):
+       return (False, "F's lower bound must be geater than 0", None)
+   # try:
+   #     GradingScale.objects.get(aLowerBound = fields["aLowerBound"], bLowerBound = fields["bLowerBound"], cLowerBound = fields["cLowerBound"], dLowerBound = fields["dLowerBound"])
+   #     return (False, "This grading scale already exists", None)
+   # except ObjectDoesNotExist:
+   #     pass
 
    g = GradingScale(
        aLowerBound=fields["aLowerBound"],

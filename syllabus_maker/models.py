@@ -71,10 +71,7 @@ class GradingScale(models.Model):
     cLowerBound = models.IntegerField()
     dLowerBound = models.IntegerField()
     def __str__(self):
-        return self.syllabus_set.filter(gradingScale=self).course.department + " " + \
-               str(self.syllabus_set.filter(gradingScale=self).course.number) + "-" + \
-               self.syllabus_set.filter(gradingScale=self).semester + " " + \
-               str(self.syllabus_set.filter(gradingScale=self).year)
+        return str(self.aLowerBound) + ", " + str(self.bLowerBound) + ", " + str(self.cLowerBound) + ", " + str(self.dLowerBound)
 
 
 #A set of (integer between 0 and 100, description) pairs.
