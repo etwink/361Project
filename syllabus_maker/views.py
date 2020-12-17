@@ -128,7 +128,7 @@ class add_syllabus_create(View):
         if (validSyllabus):
             syllabus.save()
             request.session["selectedCourse"] = course_id
-            request.session["syllabus"] = syllabus
+            request.session["syllabus"] = syllabus.id
             ret = redirect("/home_Instructor/add_syllabus_pick_class/add_syllabus_create/add_syllabus_subscreen.html")
 
         else:
@@ -146,7 +146,8 @@ class add_syllabus_create(View):
 #TODO
 class add_syllabus_subscreen(View):
    def get_base_ctx(self, course_id, syllabus) -> Dict[str, any]:
-       return {"course": Course.objects.get(id=course_id), "syllabus": Syllabus.objects.get(year=syllabus.year), "error": ""}
+       return {"course": Course.objects.get(id=course_id), "syllabus": Syllabus.objects.get(id=syllabus),
+               "error": ""}
 
    def get(self, request: HttpRequest) -> HttpResponse:
 
