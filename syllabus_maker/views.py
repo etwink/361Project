@@ -175,14 +175,18 @@ class add_syllabus_subscreen(View):
 #TODO
 
 class add_grading_scale(View):
+    def get_base_ctx(self, course_id, syllabus_id) -> Dict[str, any]:
+        return {"course": Course.objects.get(id = course_id), "syllabus": Syllabus.objects.get(id=syllabus_id),
+                "error": ""}
     def get(self, request: HttpRequest) -> HttpResponse:
 
         (validReq, _, redirectAction) = verify_request(request, "b")
         if (not validReq):
             return redirectAction
-
-
-        return render(request, "add_grading_scale.html")
+        syllabus_id = request.session.get("syllabus")
+        course_id = request.session.get("selectedCourse")
+        ctx = self.get_base_ctx(course_id, syllabus_id)
+        return render(request, "add_grading_scale.html", ctx)
 
     def post(self, request: HttpRequest) -> HttpResponse:
         return render(request, "add_grading_scale.html")

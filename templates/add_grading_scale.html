@@ -6,7 +6,8 @@
     <link href="/static/stylesheet.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-
+<label class="nameDisplay">Add a Grading Scale for: {{ course.department }} {{ course.number }} {{ course.name }}: {{ syllabus.semester }} {{ syllabus.year }}
+</label>
 <form action="" method="post">
     {% csrf_token %}
     <p style="color: red">{{ error }}</p>
