@@ -285,7 +285,7 @@ class add_syllabus_final(View):
 
 class view_syllabus_pick_course(View):
     def get_base_ctx(self) -> Dict[str, any]:
-        return {"courses": Course.objects.all(), "error": ""}
+        return {"courses": Syllabus.objects.all(), "error": ""}
 
     def get(self, request: HttpRequest) -> HttpResponse:
         ctx = self.get_base_ctx()
@@ -294,12 +294,14 @@ class view_syllabus_pick_course(View):
 
     def post(self, request: HttpRequest) -> HttpResponse:
 
-        course_id = request.POST["course_id"]
+        syllabus_id = request.POST["syllabus_id"]
+        course_id = Course.objects.get(syllabus=syllabus_id).id
         ctx = self.get_base_ctx()
         if (course_id == ''):
             ctx["error"] = "please select a course"
             ret = render(request, "view_syllabus_pick_course.html", ctx)
         else:
+            request.session["syllabus_id"] = syllabus_id
             request.session["selectedCourse"] = course_id
             ret = redirect("/view_syllabus_pick_course/view_syllabus.html")
 
@@ -311,20 +313,21 @@ class view_syllabus_pick_course(View):
 
 
 class view_syllabus(View):
-    def get_base_ctx(self, course_id) -> Dict[str, any]:
+    def get_base_ctx(self, course_id, syllabus_id) -> Dict[str, any]:
         return {"courses": Course.objects.all(), "sections": Section.objects.filter(course=course_id),
                 "assessmets": WeightedAssessment.objects.filter(syllabus__course_id=course_id),
-                "gradingscales": GradingScale.objects.filter(syllabus__course_id=course_id),
-                "calendaryentries": CalendarEntry.objects.filter(syllabus__course_id=course_id), "error": ""}
+                "gradingscales": GradingScale.objects.get(syllabus=syllabus_id),
+                "calendaryentries": CalendarEntry.objects.filter(syllabus__course_id=course_id),
+                "syllabus": Syllabus.objects.get(id=syllabus_id), "error": ""}
 
     def get(self, request: HttpRequest) -> HttpResponse:
 
         course_id = request.session.get("selectedCourse", None)
-
+        syllabus_id = request.session.get("syllabus_id", None)
         if (course_id is None):
             ret = redirect("view_syllabus_pick_course.html/")
         else:
-            ctx = self.get_base_ctx(course_id)
+            ctx = self.get_base_ctx(course_id, syllabus_id)
             ctx["course"] = Course.objects.get(id=course_id)
             ret = render(request, "view_syllabus.html", ctx)
 

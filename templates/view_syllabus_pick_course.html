@@ -19,12 +19,12 @@
     <p style="color:red">{{ error }}</p>
     <div class="center">
         <label for="Courses" class=fontsize>Pick A Course:</label>
-        <select name="course_id" class="wideDropDown">
+        <select name="syllabus_id" class="wideDropDown">
             <option value="">-- SELECT --</option>
 
-            {% for course in courses %}
+            {% for syllabus in courses %}
 
-                <option value="{{ course.id }}">{{ course.name }} {{ course.number }}</option>
+                <option value="{{ syllabus.id }}">{{ syllabus.course.department }} {{ syllabus.course.number }} {{ syllabus.semester }} {{ syllabus.year }}</option>
 
             {% endfor %}
 
@@ -42,4 +42,4 @@
 </a>
 
 </body>
-</html>>
+</html>

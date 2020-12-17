@@ -6,7 +6,9 @@
     <link href="/static/stylesheet.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
-
+<div>
+    <img class="uwmLogo" src="/static/UWM-logo.jpg" alt="UWM Logo">
+</div>
 <label class="nameDisplay">{{ course.department }} {{ course.number }} {{ course.name }} {{ syllabus.semester }} {{ syllabus.year }}
 </label>
 
@@ -40,9 +42,10 @@
     <h1 class="fontsize">Grading Scale</h1>
     <br><br/>
     <p class="text">
-        {% for gradescale in gradescales %}
-            A: {{ gradescale.aLowerBound }} | B: {{ gradescale.bLowerBound }} | C: {{ gradescale.cLowerBound }} | D: {{ gradescale.dLowerBound }} | F: {{ gradescale.fLowerBound }}
-        {% endfor %}
+
+            A: {{ gradingscales.aLowerBound }}%&emsp;|&emsp;B: {{ gradingscales.bLowerBound }}%&emsp;|&emsp;C:
+        {{ gradingscales.cLowerBound }}%&emsp;|&emsp;D: {{ gradingscales.dLowerBound }}%&emsp;|&emsp;F: 0%
+
     </p>
     <br><br/>
     <h1 class="fontsize">Policy</h1>
@@ -65,10 +68,8 @@
     </p>
 </div>
 
-<div>
-    <img class="uwmLogo" src="/static/UWM-logo.jpg" alt="UWM Logo">
-</div>
+
 
 
 </body>
-</html>>
+</html>
