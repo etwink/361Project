@@ -169,6 +169,7 @@ class add_syllabus_subscreen(View):
        return ret
 
    def post(self, request: HttpRequest) -> HttpResponse:
+
        return render(request, "add_syllabus_subscreen.html")
 
 
@@ -189,7 +190,27 @@ class add_grading_scale(View):
         return render(request, "add_grading_scale.html", ctx)
 
     def post(self, request: HttpRequest) -> HttpResponse:
+        syllabus_id = request.session.get("syllabus")
+        course_id = request.session.get("selectedCourse")
+        ctx = self.get_base_ctx(course_id, syllabus_id)
         return render(request, "add_grading_scale.html")
+
+        (validGradingScale, error, gradingScale) = validate_grading_scale(request.POST)
+        if (validGradingScale):
+            gradingScale.save()
+            request.session["selectedCourse"] = course_id
+            request.session["syllabus"] = syllabus.id
+            ret = redirect("/home_Instructor/add_syllabus_pick_class/add_syllabus_create/add_syllabus_subscreen.html")
+
+        else:
+
+            ctx["error"] = error
+            ctx["course"] = course
+            ctx["syllabus"] = syllabus
+
+            ret = render(request, "add_syllabus_create.html", ctx)
+
+        return ret
 
 #TODO
 
@@ -784,7 +805,7 @@ def validate_section(post: Type[QueryDict], course_id) -> (bool, str, Section):
    return (True, None, s)
 
 
-def validate_syllabus(post: Type[QueryDict], course_id) -> (bool, str, Section):
+def validate_syllabus(post: Type[QueryDict], course_id) -> (bool, str, Syllabus):
    fields = {"year": None, "semester": None}
 
    for field_key in fields.keys():
@@ -807,3 +828,29 @@ def validate_syllabus(post: Type[QueryDict], course_id) -> (bool, str, Section):
 
 
    return (True, None, s)
+
+
+def validate_grading_scale(post: Type[QueryDict]) -> (bool, str, GradingScale):
+   fields = {"aLowerBound": None, "bLowerBound": None, "cLowerBound": None, "dLowerBound": None}
+
+   for field_key in fields.keys():
+       fields[field_key] = post.get(field_key, '').strip()
+
+   if ('' in fields.values()):
+       return (False, "All fields are required", None)
+
+   try:
+       GradingScale.objects.get(aLowerBound = fields["aLowerBound"], bLowerBound = fields["bLowerBound"], cLowerBound = fields["cLowerBound"], dLowerBound = fields["dLowerBound"])
+       return (False, "This grading scale already exists", None)
+   except ObjectDoesNotExist:
+       pass
+
+   g = GradingScale(
+       aLowerBound=fields["aLowerBound"],
+       bLowerBound=fields["bLowerBound"],
+       cLowerBound=fields["cLowerBound"],
+       dLowerBound=fields["dLowerBound"],
+   )
+
+
+   return (True, None, g)
