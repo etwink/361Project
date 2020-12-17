@@ -724,3 +724,21 @@ def validate_section(post: Type[QueryDict], course_id) -> (bool, str, Section):
    )
 
    return (True, None, s)
+
+
+def validate_syllabus(post: Type[QueryDict], course_id) -> (bool, str, Section):
+   fields = {"number": None, "teacher": None}
+
+   for field_key in fields.keys():
+       fields[field_key] = post.get(field_key, '').strip()
+
+   if ('' in fields.values()):
+       return (False, "all fields are required", None)
+
+   s = Section(
+       number=fields["number"],
+       teacher_id=fields["teacher"],
+       course=course_id,
+   )
+
+   return (True, None, s)
